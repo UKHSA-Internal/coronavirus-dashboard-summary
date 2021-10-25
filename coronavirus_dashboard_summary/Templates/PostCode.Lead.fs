@@ -79,7 +79,7 @@ let private Vaccination getter =
                                     |> encodedText   
                                 ]
                                 span [ _itemprop "disambiguatingDescription"; _class "tooltiptext govuk-!-font-size-16" ] [
-                                    "Percentage of population aged 16+ vaccinated (first dose) reported on "
+                                    "Percentage of population aged 12+ vaccinated (first dose) reported on "
                                     + getter "cumVaccinationSecondDoseUptakeByVaccinationDatePercentage" "formattedDate"
                                     |> encodedText
                                 ]
