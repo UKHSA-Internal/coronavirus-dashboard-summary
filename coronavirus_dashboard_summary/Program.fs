@@ -19,6 +19,7 @@ let webApp =
             choose [
                 route "/" >=> HomePageView.HomePageHandler
                 route "/search" >=> PostCodeSearch.PostCodePageHandler
+                route "/healthcheck" >=> text "Healthy"
             ]
         RequestErrors.NOT_FOUND "Not Found" ]
 
