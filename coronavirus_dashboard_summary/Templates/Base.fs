@@ -184,15 +184,15 @@ module Base =
                         _href $"{Generic.UrlLocation}/assets/application.css?tm=2021-10-23T15:25:17.2716865Z"
                     ]
                     
-                    link [ _rel  "stylesheet"; _type "text/css"; _href "/main.css" ]
+//                    link [ _rel  "stylesheet"; _type "text/css"; _href "/main.css" ]
                    
-                    link [ _rel  "stylesheet"; _type "text/css"; _href "/css/application.css" ]
+                    link [ _rel  "stylesheet"; _type "text/css"; _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css" ]
                     
                     script [ _type "application/javascript"; _async; _src "https://www.googletagmanager.com/gtag/js?id=UA-161400643-2" ] []
                     script [ _type "application/javascript"; _async; _src "https://www.clarity.ms/eus-b/s/0.6.24/clarity.js" ] []
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/js/msai.js"] []
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/js/mscl.js"] []
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/js/gat.js"] []
+                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/msai.js"] []
+                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
+                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/gat.js"] []
                 ]
                 body [ _class "govuk-template__body" ] [
                     GovUKHeader
@@ -228,7 +228,7 @@ module Base =
                         ]
                     ]
                     MainFooter
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/js/cookies.js"] []
-                    script [ _type "application/javascript"; _defer; _src $"{Generic.UrlLocation}/public/assets/js/mobile_menu.js"] []
+                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
+                    script [ _type "application/javascript"; _defer; _src $"{Generic.UrlLocation}/public/assets/summary/js/mobile_menu.js"] []
                 ]
             ]        
