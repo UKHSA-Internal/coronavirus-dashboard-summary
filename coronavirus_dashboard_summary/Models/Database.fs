@@ -14,13 +14,10 @@ type PostCodeDataPayload =
         postcode: string
         priority: int
     }       
-   
-   
-type x = DateTime | String | Int64
-   
+
 type DateTransform() =
     interface ITypeTransform with
-        member this.targetType() = typeof<String> // typeof<x> //typeof<DateTime> 
+        member this.targetType() = typeof<String>
         
         member this.toTargetType obj =
             match obj with
