@@ -183,9 +183,7 @@ module Base =
                         _crossorigin
                         _href $"{Generic.UrlLocation}/assets/application.css?tm=2021-10-23T15:25:17.2716865Z"
                     ]
-                    
-//                    link [ _rel  "stylesheet"; _type "text/css"; _href "/main.css" ]
-                   
+                                                          
                     link [ _rel  "stylesheet"; _type "text/css"; _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css" ]
                     
                     script [ _type "application/javascript"; _async; _src "https://www.googletagmanager.com/gtag/js?id=UA-161400643-2" ] []
