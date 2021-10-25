@@ -30,7 +30,7 @@ type DateTransform() =
         member this.fromTargetType obj =
             match obj with
             | :? DateTime as s -> (Formatter.toIsoDate (unbox<DateTime> s)) :> obj 
-            | :? int64 as s -> DateTimeOffset.FromUnixTimeSeconds(s) :> obj // (Formatter.toIsoDate (unbox<DateTime> s)) :> obj 
+            | :? int64 as s -> DateTimeOffset.FromUnixTimeSeconds(s) :> obj
             | :? string as s -> s :> obj
             | _ -> raise (ArgumentException())
             
