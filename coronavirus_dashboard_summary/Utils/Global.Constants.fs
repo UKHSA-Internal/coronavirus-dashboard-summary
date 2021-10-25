@@ -29,8 +29,13 @@ module AreaTypes =
 
     
 module Generic =
-    let private IsDev = Environment.GetEnvironmentVariable "IS_DEV"
     let private Location = Environment.GetEnvironmentVariable "URL_LOCATION"
+    let IsDev =
+        match Environment.GetEnvironmentVariable "IS_DEV" with
+        | "1" -> true
+        | _ -> false
+        
+    let Environment = (Environment.GetEnvironmentVariable "API_ENV").ToUpper()
     
     [<Literal>]
     let NotAvailable = "N/A"
@@ -46,5 +51,5 @@ module Generic =
 
     let UrlLocation =
         match IsDev with
-        | "1" -> ""
-        | _ -> $"https://{Location}"
+        | true -> ""
+        | false -> $"https://{Location}"
