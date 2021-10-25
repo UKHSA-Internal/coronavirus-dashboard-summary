@@ -1,9 +1,10 @@
 module coronavirus_dashboard_summary.Models.DB
 
 open System
-open coronavirus_dashboard_summary.Utils
-open Npgsql.FSharp
 open FSharp.Json
+open Npgsql.FSharp
+open coronavirus_dashboard_summary.Utils
+open coronavirus_dashboard_summary.Utils.Constants
 
 [<Struct>]
 type PostCodeDataPayload =
@@ -70,7 +71,9 @@ let private DBConnection =
         |> Sql.database (Environment.GetEnvironmentVariable "POSTGRES_DATABASE")
         |> Sql.username (Environment.GetEnvironmentVariable "POSTGRES_USER")
         |> Sql.password (Environment.GetEnvironmentVariable "POSTGRES_PASSWORD")
-        |> Sql.requireSslMode
+        |> (fun h -> match Generic.IsDev with
+                     | true -> h |> Sql.requireSslMode
+                     | _ -> h)
         |> Sql.trustServerCertificate true
         |> Sql.formatConnectionString
     
