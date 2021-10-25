@@ -3,6 +3,7 @@ module coronavirus_dashboard_summary.Templates.ChangeValue
 open Giraffe.ViewEngine
 open Giraffe.ViewEngine.Accessibility
 open coronavirus_dashboard_summary.Utils.Attrs
+open coronavirus_dashboard_summary.Utils.Constants
 
 type Payload =
     {
@@ -17,9 +18,9 @@ type Payload =
 type Payload with
     member private this.colour: (string * string) =
          match this.change.Substring(0, 1) with
-         | "" | "0" | "N/A" -> ("neutral", "images/arrow-up-grey.png")
-         | "-" -> ("good", "images/arrow-up-green.png")
-         | _ -> ("bad", "images/arrow-up-red.png")
+         | "" | "0" | "N/A" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
+         | "-" -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
+         | _ -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
          
          
     member private this.directionText: string =
