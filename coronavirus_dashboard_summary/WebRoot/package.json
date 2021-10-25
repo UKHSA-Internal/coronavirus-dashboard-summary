@@ -1,0 +1,20 @@
+{
+  "name": "covid-styles",
+  "version": "3.0.0",
+  "private": true,
+  "homepage": "https://coronavirus.data.gov.uk/",
+  "rootDir": ".",
+  "scripts": {
+    "watch": "sass --watch ./css/index.scss:./css/application.css",
+    "build": "bash ./build.sh",
+    "postbuild": "bash ./postbuild.sh"
+  },
+  "devDependencies": {
+    "sass": "^1.29.0",
+    "govuk-frontend": "^3.10.0",
+    "postcss": "^8.1.2",
+    "postcss-cli": "^8.1.0",
+    "autoprefixer": "^10.0.1",
+    "uglifycss": "^0.0.29"
+  }
+}

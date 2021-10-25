@@ -1,0 +1,270 @@
+.vaccinations {
+  display: grid;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border: 1px #f3f2f1 solid;
+  flex: 1 1 100%;
+  
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr repeat(3, auto);
+  grid-auto-flow: row;
+  grid-row-gap: 1rem;
+  grid-column-gap: 1rem;
+
+  & > ul {
+    padding: unset;
+  }
+  
+  @include govuk-media-query($from: 650px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+
+  @include govuk-media-query($from: 1100px) {
+    display: flex;
+    justify-content: space-between;
+    //grid-template-columns: auto 1fr auto;
+    //justify-content: stretch;
+    //grid-row-gap: .5rem;
+    //grid-template-rows: auto repeat(2, 1fr);
+    //grid-template-columns: repeat(5, 20%);
+    //grid-auto-flow: column;
+  }
+}
+
+.vaccinations > .topic {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  grid-template-rows: auto auto 1fr auto;
+
+  @include govuk-media-query($from: 1100px) {
+    grid-column: 1;
+    grid-row: 1 / -1;
+  }
+}
+
+//.vaccinations > .vax-doses {
+//  display: flex;
+//  justify-content: space-evenly;
+//  grid-row: 1 / -1;
+//  
+//  & > * {
+//    display: flex;
+//    padding: 0;
+//    justify-content: space-evenly;
+//  }
+//  
+//  & > * > * {
+//    display: flex;
+//    padding: 0;
+//    flex-direction: column;
+//    justify-content: space-evenly;
+//    align-content: space-evenly;
+//    padding-right: 1rem;
+//  }
+//}
+
+.vaccinations > .first,
+.vaccinations > .second,
+.vaccinations > .booster {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: .5rem;
+  align-items: end;
+  //width: 200px;
+  //flex: 1 4 30%;
+
+  @include govuk-media-query($from: 1100px) {
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    grid-row: 1 / -1;
+    //flex: 1 4 20%;
+  }
+}
+
+.vaccinations > .first {
+  grid-column: 1;
+  grid-row: 2;
+
+  @include govuk-media-query($from: 1100px) {
+    grid-column: 2;
+    grid-row: 1 / -1 !important;
+  }
+}
+
+.vaccinations > .second {
+  grid-column: 1;
+  grid-row: 3;
+
+  @include govuk-media-query($from: 1100px) {
+    grid-column: 3;
+    grid-row: 1 / -1 !important;
+  }
+}
+
+.vaccinations > .booster {
+  grid-column: 1;
+  grid-row: 4;
+
+  @include govuk-media-query($from: 1100px) {
+    grid-column: 4;
+    grid-row: 1 / -1 !important;
+  }
+}
+
+
+.vaccinations > .visaulisation {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1rem 1fr 1fr 1fr;
+  margin: 0;
+  grid-column-gap: 1rem;
+  grid-row-gap: .5rem;
+  grid-row: 5;
+  grid-column: 1;
+
+  @include govuk-media-query($from: 650px) {
+    grid-row: 2/5;
+    grid-column: 2;
+  }
+
+  @include govuk-media-query($from: 1100px) {
+    grid-column: 4;
+    grid-row: 1 / -1;
+  }
+
+  & > .main-caption {
+    display: grid;
+    grid-column: 1/-1;
+    grid-row: 1;
+    justify-self: end;
+
+    //@include govuk-media-query($from: 1100px) {
+    //  display: none !important;
+    //}
+    //@include govuk-media-query($from: 520px) {
+    //  display: grid;
+    //}
+  }
+
+  //& > .main-caption {
+  //  grid-row: 1;
+  //  display: block;
+  //  align-self: start;
+  //  grid-column: 1/-1;
+  //  text-align: right;
+  //
+  //  @include govuk-media-query($from: 1100px) {
+  //    grid-column: 1 !important;
+  //  }
+  //}
+  
+  & #vaccination-vis-lab {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    height: 1rem;
+  }
+  
+  & > figcaption {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    justify-items: right;
+    align-items: start;
+    text-align: right !important;
+    grid-row-gap: .3rem;
+    grid-row: 2/-1;
+    grid-column: 1;
+    
+    @include govuk-media-query($from: 1100px) {
+      //grid-template-rows: auto 1fr 1fr !important;
+      grid-row: 1/-1;
+    }
+
+    @include govuk-media-query($from: 650px) {
+      grid-template-rows: auto 1fr;
+    }
+
+    & > ul {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-row: 2/-1;
+      padding: unset;
+      justify-self: stretch;
+      justify-content: end;
+      grid-row-gap: 1rem;
+      align-self: flex-end;
+      
+      & > li {
+        display: grid;
+        grid-column: 1;
+        grid-auto-flow: row;
+        justify-items: right;
+        justify-self: end;
+        align-self: end;
+        min-width: 120px;
+      }
+    }
+  }
+
+  & > .graph {
+    display: grid;
+    grid-column: 2;
+    justify-items: start;
+    align-items: start;
+    grid-row: 2 / -1;
+
+    @include govuk-media-query($from: 1100px) {
+      grid-row: 2/-1;
+    }
+
+    & > a {
+      align-self: start;
+    }
+    
+    & > a > img {
+      grid-row: 2/-1;
+      max-width: 160px;
+
+      @include govuk-media-query($from: 1100px) {
+        max-width: 200px;
+      }
+    }
+
+  }
+}
+
+.square {
+  display: inline-block;
+  width: 12px !important;
+  height: 12px !important;
+  margin-bottom: -1px;
+
+  &.lightgreen {
+    background-color: #54B3AB;
+  }
+
+  &.darkgreen {
+    background-color: #017168;
+  }
+}
+
+
+.ext-link {
+  display: none;
+
+  @include govuk-media-query($from: 650px) {
+    display: block;
+  }
+}
+
+.mob-link {
+  display: block;
+
+  @include govuk-media-query($from: 650px) {
+    display: none;
+  }
+}

@@ -1,0 +1,11 @@
+/* Tooltip */
+
+
+.tooltip {
+    width: 150px;
+    padding: 8px 10px;
+    @include govuk-font(16);
+    z-index: 999999999;
+    font-weight: normal;
+    line-height: 1.3rem;
+}

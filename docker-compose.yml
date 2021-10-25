@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  covid19-summary:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5250:80
+      - 5251:443
+    restart: on-failure:5
+    env_file:
+      - .env

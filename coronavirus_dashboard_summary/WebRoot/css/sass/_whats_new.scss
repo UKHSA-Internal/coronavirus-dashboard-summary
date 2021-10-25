@@ -1,0 +1,16 @@
+.change-logs {
+    margin-top: -10px;
+}
+
+.change-log-banner {
+    display: grid;
+    padding: 0.7rem;
+    justify-content: center;
+    background-color: #1d70b8;
+    margin-bottom: 1px;
+
+    &, & * {
+        color: #fff !important;
+        line-height: 25px;
+    }
+}

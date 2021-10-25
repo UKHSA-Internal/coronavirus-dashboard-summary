@@ -1,0 +1,48 @@
+/* GOVUK Extensions
+*/
+
+svg.back-to-top {
+    display: inline-block;
+    width: .8em;
+    height: 1em;
+    margin-top: -5px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+
+.govuk-table__cell--date {
+    font-variant-numeric: tabular-nums;
+}
+
+.govuk-main-wrapper {
+    padding-top: 0;
+    width: 100%;
+}
+
+
+.mobile-menu-button {
+    position: absolute !important;
+    right: -4px !important;
+    width: max-content !important;
+    top: 7px !important;
+    color: #fff !important;
+    background-color: rgba(0,0,0,0);
+    border: 2px solid white !important;
+    box-shadow: unset !important;
+    padding: .3rem .5rem !important;
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .mobile-menu-button {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+
+#mobile-navigation {
+    display: none;
+    position: sticky;
+}

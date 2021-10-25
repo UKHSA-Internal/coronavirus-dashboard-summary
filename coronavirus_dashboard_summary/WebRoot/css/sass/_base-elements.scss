@@ -1,0 +1,78 @@
+/* Base elements
+*/
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-ononesx-font-smoothing: grayscale;
+
+    & .govuk-header {
+        border-color: #1d70b8;
+    }
+}
+
+pre,
+code {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 10pt;
+}
+
+dl {
+    display: flex;
+    flex-wrap: wrap;
+    & > * {
+        margin-bottom: 1rem;
+    }
+
+    & dt {
+        font-size: smaller !important;
+        display: inline-flex;
+        flex: 1 2 30%;
+        justify-content: flex-end;
+        align-self: flex-start;
+
+        & > * {
+            font-size: smaller !important;
+        }
+    }
+
+    & dd {
+        font-size: smaller !important;
+        display: inline-flex;
+        flex: 1 4 50%;
+        max-width: 50%;
+        margin-left: 1rem;
+
+        & > * {
+            font-size: smaller !important;
+        }
+    }
+}
+
+button {
+    overflow: visible;
+    width: auto;
+    padding: 0;
+    border: none;
+    margin: 0;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    appearance: none;
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Remove excess padding and border in Firefox 4+ */
+    &::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+    }
+}
