@@ -52,4 +52,4 @@ module Generic =
     let UrlLocation =
         match IsDev with
         | true -> ""
-        | false -> $"https://{Location}"
+        | false -> $"https://{Location.TrimEnd('/')}"
