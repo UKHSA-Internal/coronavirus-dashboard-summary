@@ -68,8 +68,7 @@ let configureServices (services : IServiceCollection) =
     services .AddCors()
              .AddResponseCaching(fun (options: ResponseCachingOptions) ->
                  options.MaximumBodySize <- int64 1024;
-                 options.UseCaseSensitivePaths <- true
-                 
+                 options.UseCaseSensitivePaths <- true  
              )
              .AddGiraffe()
              .AddScoped<Redis.Client>() |> ignore
