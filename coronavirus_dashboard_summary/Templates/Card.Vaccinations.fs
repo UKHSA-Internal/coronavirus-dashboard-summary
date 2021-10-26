@@ -112,9 +112,12 @@ type private NumberItem with
                                     _class "tooltiptext govuk-!-font-size-16"
                                     _itemprop "disambiguatingDescription"
                                 ] [
-                                    encodedText
-                                        ($"Number of people vaccinated ({this.label.ToLower()}) reported " +
-                                        $"""on { getter this.metric "formattedDate" }""")
+                                    match this.periodLabel with
+                                    | "Total" -> "Total number "
+                                    | _ -> "Number "
+                                    + $"of people vaccinated ({this.label.ToLower()}) reported on "
+                                    + getter this.metric "formattedDate"
+                                    |> encodedText
                                 ]
                             ]
                         ]
