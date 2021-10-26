@@ -8,7 +8,7 @@ open coronavirus_dashboard_summary.Templates
 let Render (postcode: string): XmlNode =
     section [ _class "mini-card"; _itemtype "https://schema.org/WebSite"; _itemscope ] [
         meta [ _itemprop "https://schema.org/WebSite"; _content "https://coronavirus.data.gov.uk/" ]
-        meta [ _itemprop "name"; _content "Search by postcode" ]
+        meta [ _itemprop "url"; _content "https://coronavirus.data.gov.uk/" ]
         h3 [ _class "govuk-heading-m govuk-!-margin-bottom-2" ] [
             encodedText "Search by postcode"
             small [ _class "govuk-caption-m govuk-!-margin-top-1"; _itemprop "description" ] [
@@ -27,6 +27,7 @@ let Render (postcode: string): XmlNode =
             _enctype "application/x-www-form-urlencoded"
         ] [
             meta [ _itemprop "target"; _content "https://coronavirus.data.gov.uk/search?postcode={postcode}" ]
+            meta [ _itemprop "name"; _content "Search by postcode" ]
             div [
                 "govuk-form-group govuk-!-margin-bottom-0"
                 + match postcode with
