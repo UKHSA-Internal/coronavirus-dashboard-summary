@@ -7,6 +7,7 @@ open Giraffe
 open Giraffe.ViewEngine
 open FSharp.Json
 open coronavirus_dashboard_summary.Models.ChangeLogModel
+open Microsoft.AspNetCore.ResponseCaching
 open coronavirus_dashboard_summary.Models.AnnouncementModel
 open coronavirus_dashboard_summary.Templates
 open coronavirus_dashboard_summary.Templates.Base
@@ -140,6 +141,12 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
 let PostCodePageHandler: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
+            let responseCachingFeature = ctx.Features.Get<IResponseCachingFeature>();
+
+            match responseCachingFeature with
+            | null -> null |> ignore
+            | _ -> responseCachingFeature.VaryByQueryKeys <- [| "postcode" |]
+            
             let postcode =
                 ctx.TryGetQueryStringValue "postcode"
                 |> Option.defaultValue ""

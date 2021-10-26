@@ -5,6 +5,7 @@ open System.IO
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.ResponseCaching
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
@@ -65,7 +66,11 @@ let configureApp (app : IApplicationBuilder) =
 
 let configureServices (services : IServiceCollection) =
     services .AddCors()
-             .AddResponseCaching()
+             .AddResponseCaching(fun (options: ResponseCachingOptions) ->
+                 options.MaximumBodySize <- int64 1024;
+                 options.UseCaseSensitivePaths <- true
+                 
+             )
              .AddGiraffe()
              .AddScoped<Redis.Client>() |> ignore
 
