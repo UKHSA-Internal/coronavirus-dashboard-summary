@@ -86,9 +86,7 @@ let changeLogBanners redis date =
     |> Async.RunSynchronously
     |> ChangeLogBanners.Render
     
-let index (date: Release) (redis: Redis.Client): XmlNode List =
-//    let dbResp = HomePageModel.Data date HomePageMetrics redis |> Async.RunSynchronously
-    
+let index (date: Release) (redis: Redis.Client): XmlNode List =    
     let dbResp =
         redis.GetAllAsync [|$"area-{date.isoDate}-UK"|]
         |> Async.RunSynchronously
@@ -119,9 +117,8 @@ let HomePageHandler =
                     changeLogs    = changeLogs
                     title         = "UK Summary"
                     postcode      = null
-//                    postcodeError = false
                 }
-            // date (PostCodeSearch.Render null) changeLogs
+
             return!
                 index date redis
                 |> layout.Render
