@@ -208,11 +208,32 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                        
         li [ _class "vaccinations"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
             meta [ _itemprop "datePosted"; _content this.release.isoTimestamp ]
+            meta [ _itemprop "category"; _content "https://www.wikidata.org/wiki/Q81068910" ]
             meta [
                 _itemprop "expires"
                 (this.release.AddDays 1)
                 |> Formatter.toIsoString
                 |> _content
+            ]
+            span [
+                _style "grid-column: -1; display: none"
+                _itemscope
+                _itemprop "spatialCoverage"
+                
+                "http://schema.org/"
+                + match getter headingMetric "area_name" with
+                  | "United Kingdom" -> "Country"
+                  | _ -> "AdministrativeArea"
+                |> _itemtype 
+            ] [
+                meta [ _itemprop "name"; getter headingMetric "area_name" |> _content ]
+                meta [
+                    _itemprop "sameAs"
+                    
+                    "https://en.wikipedia.org/wiki/"
+                    + getter headingMetric "area_name"
+                    |> _content
+                ]
             ]
             meta [
                 _itemprop "mainEntityOfPage"
@@ -228,6 +249,34 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 $"{ Generic.UrlLocation }/downloads/homepage/{ release.isoDate }/vaccinations/{ areaType.ToLower() }/"
                 + getter this.metadata.metric "area_code"
                 + "_thumbnail.svg"
+                |> _content
+            ]
+            meta [
+                _itemprop "text"
+                "Vaccines are given in doses to people aged 12 and over. By the end of "
+                + getter (snd contentMetadata.[0]).[0].metric "formattedDate"
+                + ", "
+                + getter (snd contentMetadata.[0]).[0].metric "formattedValue"
+                + " people aged 12+ had been given a first dose, "
+                + getter (snd contentMetadata.[1]).[0].metric "formattedValue"
+                + " "
+                + "a second dose, and "
+                + getter (snd contentMetadata.[2]).[0].metric "formattedValue"
+                + " a booster or a third dose. In total, as of "
+                + getter (snd contentMetadata.[0]).[1].metric "formattedDate"
+                + ", "
+                + getter (snd contentMetadata.[0]).[1].metric "formattedValue"
+                + " ("
+                + getter (snd contentMetadata.[0]).[1].percentage "formattedValue"
+                + "%) of people aged 12+ have received a first dose, "
+                + getter (snd contentMetadata.[1]).[1].metric "formattedValue"
+                + " ("
+                + getter (snd contentMetadata.[1]).[1].percentage "formattedValue"
+                + "%) a second dose, and "
+                + getter (snd contentMetadata.[2]).[1].metric "formattedValue"
+                + " ("
+                + getter (snd contentMetadata.[2]).[1].percentage "formattedValue"
+                + "%) a booster or a third dose of a vaccine."
                 |> _content
             ]
             div [ _class "topic" ] [
