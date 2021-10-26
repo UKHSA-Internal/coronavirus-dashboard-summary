@@ -184,7 +184,15 @@ module Base =
                         _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css"
                     ]
                                                           
-                    link [ _rel  "stylesheet"; _type "text/css"; _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css" ]
+                    link [
+                        _rel  "stylesheet"
+                        _type "text/css"
+                        
+                        match Generic.IsDev with
+                        | false -> $"{Generic.UrlLocation}/public/assets/summary/css/application.css"
+                        | true -> "css/application.css"
+                        |> _href 
+                    ]
                     
                     script [ _type "application/javascript"; _async; _src "https://www.googletagmanager.com/gtag/js?id=UA-161400643-2" ] []
                     script [ _type "application/javascript"; _async; _src "https://www.clarity.ms/eus-b/s/0.6.24/clarity.js" ] []
