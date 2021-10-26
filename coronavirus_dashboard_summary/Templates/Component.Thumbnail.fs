@@ -3,6 +3,8 @@ module coronavirus_dashboard_summary.Templates.Thumbnail
 open Giraffe.ViewEngine
 open Giraffe.ViewEngine.Accessibility
 open coronavirus_dashboard_summary.Utils
+open coronavirus_dashboard_summary.Utils.Attrs
+open coronavirus_dashboard_summary.Utils.Constants
 
 [<Struct>]
 type Payload =
@@ -27,6 +29,18 @@ type Payload with
                 _class "govuk-link govuk-link--no-visited-state bottom-aligned"
                 _style "text-decoration: none;"
             ] [
+                meta [
+                    _itemprop "thumbnailUrl"
+                    $"{ Generic.UrlLocation }/downloads/homepage/"
+                    + $"{this.date.isoDate}/thumbnail_{this.metric}.svg"
+                    |> _content
+                ]
+                meta [
+                    _itemprop "image"
+                    $"{ Generic.UrlLocation }/downloads/homepage/"
+                    + $"{this.date.isoDate}/thumbnail_{this.metric}.svg"
+                    |> _content
+                ]
                 figure [ _class "graph mini-card-figure" ] [
                     img [
                         "https://coronavirus.data.gov.uk/downloads/homepage/"
