@@ -20,3 +20,13 @@ let toLongAreaType (areaType: string): string =
     | AreaTypes.NHSRegion -> "healthcare region"
     | AreaTypes.NHSTrust -> "healthcare trust"
     | _ -> null
+
+let pluralise (value: int32) single multi zero: string =
+    if value = 1 then single
+    elif value > 1 then multi
+    else zero
+    
+let comparisonVerb (value: int32) up down same: string =
+    if value > 0 then up
+    elif value < 0 then down
+    else same
