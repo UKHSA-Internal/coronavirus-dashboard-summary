@@ -1,20 +1,20 @@
 namespace coronavirus_dashboard_summary.Templates
 
 open System
-open System.Text.RegularExpressions
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Utils.Metrics
 open coronavirus_dashboard_summary.Utils.Attrs
+open coronavirus_dashboard_summary.Utils.Constants
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Templates
 
 [<AutoOpen>]
-module Card = 
+module Card =
     type MetaData.ContentMetadata with
         member private this.dailySection getter =
 
-            li [ _class "data-metric2" ] [
+            li [ _class "data-metric2"; _itemprop "Observation"; _itemtype "https://schema.org/Observation"; _itemscope ] [
                 div [] [
                     meta [ _itemprop "name"; _content $"{this.heading} - daily" ]
                     meta [ _itemprop "observationDate"; getter this.metric "date" |> _content ]
@@ -109,6 +109,49 @@ module Card =
                 
                 changePayload.Render getter
             ]
+            
+        member private this.CardMetaText (getter: string -> string -> string) =
+            meta [
+                _itemprop "text"
+                
+                match this.caption with
+                | "Cases" ->
+                    "A confirmed case is someone who has tested positive for coronavirus. There were "
+                | "Deaths" ->
+                    "There " + Formatter.pluralise (getter this.metric "value" |> int) "was " "were " "were "
+                | "Healthcare" ->
+                    "Some people with coronavirus have to go into hospital. There "
+                    + Formatter.pluralise (getter this.metric "value" |> int) "was " "were " "were "
+                | "Testing" ->
+                    "Testing is where we do a test to see who has coronavirus. Some people are tested more than once. There "
+                    + Formatter.pluralise (getter this.metric "value" |> int) "was " "were " "were "
+                | _ -> ""
+                + getter this.metric "formattedValue"
+                + " new "
+                + match this.caption with
+                  | "Cases" ->
+                       Formatter.pluralise (getter this.metric "value" |> int) "person" "people" "people"
+                       + " with a confirmed positive test result for coronavirus on "
+                  | "Deaths" ->
+                        "death" + Formatter.pluralise (getter this.metric "value" |> int) "" "s" "s"
+                        + " within 28 days of a positive test for coronavirus reported on "
+                  | "Healthcare" ->
+                       Formatter.pluralise (getter this.metric "value" |> int) "person" "people" "people"
+                        + " people with coronavirus who were admitted into hospital on "
+                  | "Testing" ->
+                      "test" + Formatter.pluralise (getter this.metric "value" |> int) "" "s" "s"
+                      + " reported on "
+                  | _ -> ""
+                + getter this.metric "formattedDate"
+                + ", and "
+                + getter $"{this.metric}RollingSum" "formattedValue"
+                + Formatter.pluralise (getter $"{this.metric}RollingSum" "value" |> int) " person" " people" " people"
+                + " in the last 7 days. This shows "
+                + Formatter.comparisonVerb (getter $"{this.metric}Change" "value" |> int) "an increase" "a decrease" "no change"
+                + " of " + (getter $"{this.metric}Change" "formattedValue").TrimStart('-')
+                + " compared to the previous 7 days."
+                |> _content
+            ]
 
         member private this.normalCard (date: TimeStamp.Release) (isPostcode: bool) getter =
             let metricData = getter this.metric
@@ -127,6 +170,44 @@ module Card =
                        | _ -> " in " 
 
             li [ _class "mini-card"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
+                meta [ _itemprop "datePosted"; _content date.isoTimestamp ]
+                meta [
+                    _itemprop "expires"
+                    (date.AddDays 1)
+                    |> Formatter.toIsoString
+                    |> _content
+                ]
+                meta [ _itemprop "category"; _content "https://www.wikidata.org/wiki/Q81068910" ]
+                meta [
+                    _itemprop "mainEntityOfPage"
+                    
+                    $"{ Generic.UrlLocation }/details/{ this.caption.ToLower() }"
+                    + match metricData "area_name" with
+                      | AreaTypes.Overview -> ""
+                      | _ -> "?areaType=" + metricData "area_type" + "&areaName=" + metricData "area_name"
+                    |> _content
+                ]
+                this.CardMetaText getter
+                span [
+                    _style "grid-column: -1; display: none"
+                    _itemscope
+                    _itemprop "spatialCoverage"
+                    
+                    "http://schema.org/"
+                    + match metricData "area_name" with
+                      | "United Kingdom" -> "Country"
+                      | _ -> "AdministrativeArea"
+                    |> _itemtype 
+                ] [
+                    meta [ _itemprop "name"; metricData "area_name" |> _content ]
+                    meta [
+                        _itemprop "sameAs"
+                        
+                        "https://en.wikipedia.org/wiki/"
+                        + metricData "area_name"
+                        |> _content
+                    ]
+                ]
                 strong [
                     _class "govuk-caption-m govuk-!-font-weight-regular"
                     _itemprop "name"
