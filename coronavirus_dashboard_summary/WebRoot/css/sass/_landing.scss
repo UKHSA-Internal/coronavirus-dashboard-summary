@@ -23,8 +23,8 @@ main {
   grid-template-columns: 1fr;
   grid-template-rows:  auto 1fr;
 
-  & * {
-    grid-row: 1 / -1;  
+  & a {
+    max-width: 10rem;
   }
   
   .map-img {
@@ -36,6 +36,7 @@ main {
     grid-template-rows: auto 1fr;
     .map-img {
       max-height: 380px;
+      grid-auto-flow: column;
     }
   }
 
@@ -44,6 +45,9 @@ main {
     grid-template-rows: 1fr;
     .map-img {
       max-height: 380px;
+    }
+    & * {
+      grid-row: 1 / -1;
     }
   }
 
