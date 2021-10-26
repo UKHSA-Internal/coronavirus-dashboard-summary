@@ -131,7 +131,7 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
                 ul [ _class "govuk-list card-container" ] [
                     yield!
                         CardMetadata
-                        |> Array.map (fun metadata -> metadata.Card date dbResp postcode)
+                        |> Array.Parallel.map (fun metadata -> metadata.Card date dbResp postcode)
                         |> List.concat
                 ]
             ]
