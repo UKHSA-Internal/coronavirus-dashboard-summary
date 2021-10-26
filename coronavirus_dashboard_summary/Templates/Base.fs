@@ -203,15 +203,18 @@ module Base =
                 ]
                 body [ _class "govuk-template__body" ] [
                     GovUKHeader
+                    
                     Navigation.RenderMobile
+                    
                     this.changeLogs
+                    
                     div [ _class "govuk-width-container" ] [
                         div [ _class "govuk-!-margin-top-5 govuk-!-margin-bottom-5"; attr "role" "region"; _ariaLabelledBy "last-update"] [
                             p [ _class "govuk-body-s"; _id "last-update" ] [
                                 "Last updated on " |> encodedText
                                 time [ _datetime this.date.isoTimestamp ] [
                                     localDate.ToString(
-                                         @"d MMMM yyyy \a\t h:mmt\m",
+                                         @"dddd, d MMMM yyyy \a\t h:mmt\m",
                                          CultureInfo.CreateSpecificCulture("en-GB")
                                      ) |> encodedText
                                 ]
