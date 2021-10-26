@@ -17,8 +17,14 @@ let webApp =
     choose [
         GET >=>
             choose [
-                route "/" >=> HomePageView.HomePageHandler
-                route "/search" >=> PostCodeSearch.PostCodePageHandler
+                route "/"
+                >=> publicResponseCaching 60 None
+                >=> HomePageView.HomePageHandler
+                
+                route "/search"
+                >=> publicResponseCaching 120 None
+                >=> PostCodeSearch.PostCodePageHandler
+                
                 route "/healthcheck" >=> text "Healthy"
             ]
         RequestErrors.NOT_FOUND "Not Found" ]
@@ -52,14 +58,16 @@ let configureApp (app : IApplicationBuilder) =
     | false ->
         app .UseGiraffeErrorHandler(errorHandler)
             .UseHttpsRedirection())
-        .UseCors(configureCors)
-        .UseStaticFiles()
-        .UseGiraffe(webApp)
+            .UseCors(configureCors)
+            .UseStaticFiles()
+            .UseResponseCaching()
+            .UseGiraffe webApp
 
 let configureServices (services : IServiceCollection) =
-    services.AddCors()    |> ignore
-    services.AddGiraffe() |> ignore
-    services.AddScoped<Redis.Client>() |> ignore
+    services .AddCors()
+             .AddResponseCaching()
+             .AddGiraffe()
+             .AddScoped<Redis.Client>() |> ignore
 
 let configureLogging (builder : ILoggingBuilder) =
     builder.AddConsole()
