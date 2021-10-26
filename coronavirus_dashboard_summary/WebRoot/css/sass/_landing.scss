@@ -8,67 +8,6 @@ main {
   font-family: $govuk-font-family;
 }
 
-
-//.card-container {
-//  display: grid;
-//  grid-gap: 5px;
-//  margin-top: 1rem;
-//
-//  grid-template-columns: 1fr;
-//  grid-template-rows: 1fr;
-//
-//  list-style: none;
-//
-//  &.double-row {
-//    grid-template-columns: 1fr;
-//    grid-template-rows: auto 1fr;
-//    grid-gap: 10px;
-//  }
-//
-//  @include govuk-media-query($from: 400px) {
-//    grid-template-columns: repeat(2, minmax(45%, auto));
-//    grid-template-rows: auto 1fr;
-//  }
-//
-//  @include govuk-media-query($from: 1100px) {
-//    &.double-row {
-//      grid-template-columns: repeat(4, minmax(200px, 1fr));
-//      grid-template-rows: 1fr;
-//      grid-gap: 10px;
-//    }
-//  }
-//  @include govuk-media-query($from: mobile) {
-//    grid-template-columns: repeat(2, 1fr);
-//    grid-template-rows: 1fr;
-//
-//    &.double-row {
-//      grid-template-columns: auto auto;
-//      grid-template-rows: 1fr;
-//
-//      grid-gap: 5px;
-//
-//      & > * {
-//        min-width: 100px;
-//      }
-//    }
-//  }
-//
-//  @include govuk-media-query($from: 1150px) {
-//    grid-template-columns: repeat(4, minmax(20%, 1fr));
-//    grid-template-rows: 1fr;
-//    grid-gap: 10px;
-//    &.double-row {
-//      grid-template-columns: repeat(2, auto);
-//      grid-template-rows: 1fr;
-//      grid-gap: 10px;
-//
-//      & > * {
-//        min-width: 250px;
-//      }
-//    }
-//  }
-//}
-
 .mini-card {
   padding: 20px;
   background-color: #f8f8f8;
@@ -76,7 +15,6 @@ main {
   display: grid;
   grid-auto-flow: row;
   grid-template-rows: auto auto auto minmax(10px, auto) 1fr;
-  //grid-template-columns: auto;
   grid-row-gap: .5rem;
 }
 
@@ -118,7 +56,7 @@ main {
 
 #submit-postcode {
   background: #000;
-  background-image: url(/assets/images/icon-magnify.svg);
+  background-image: url(https://coronavirus.data.gov.uk/assets/images/icon-magnify.svg);
   background-repeat: no-repeat;
   background-size: 70% 70%;
   background-position: center center;
@@ -418,7 +356,7 @@ main {
     list-style: none;
   }
 
-  & > *:not(.postcode-lead,.more-details,.stand-alone-metric) {
+  & > *:not(.postcode-lead,.more-details,.stand-alone-metric,.simple-summary) {
     margin: 0.5em .5em 0.5em 0;
 
     &:not(.vaccinations) {
@@ -533,7 +471,7 @@ main {
   }
   
   & > li.content-size+li {
-    margin-left: -2rem;
+    margin-left: -3rem;
   }
 }
 

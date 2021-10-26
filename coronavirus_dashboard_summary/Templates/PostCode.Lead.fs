@@ -111,6 +111,22 @@ let private Vaccination getter =
             ]
         ]
     ]
+    
+    
+let private SimpleSummary (postcode: string) (getter: string -> string -> string) =
+    p [ _class "govuk-body-m govuk-!-margin-bottom-3" ] [
+        encodedText "See the "
+        a [
+            _class "govuk-link govuk-link--no-visited-state"
+            _href $"/easy_read?postcode={postcode}"
+        ] [ encodedText "simple summary" ]
+        " for "
+        + getter "newCasesBySpecimenDateRollingSum" "area_name"
+        + match getter "newCasesBySpecimenDateRollingSum" "area_type" with
+           | AreaTypes.MSOA -> ", " + getter "newCasesByPublishDate" "area_name"
+           | _ -> ""
+        |> encodedText
+    ]
 
 let Render postcode getter (release: TimeStamp.Release) =
     let baseMetric = "newCasesBySpecimenDateRollingSum"
@@ -121,6 +137,9 @@ let Render postcode getter (release: TimeStamp.Release) =
         }
     
     [
+        li [ _class "simple-summary" ] [
+            SimpleSummary postcode getter
+        ]
         li [ _class "postcode-lead" ] [
             figure [ _class "graph govuk-!-margin-bottom-2 postcode-thumbnail"; _ariaHidden "true" ] [
                 img [
@@ -205,24 +224,15 @@ let Render postcode getter (release: TimeStamp.Release) =
         li [ _class "more-details" ] [
             div [] [
                 h3 [ _class "govuk-!-margin-bottom-0 govuk-!-margin-top-5 govuk-heading-m" ] [
-                    encodedText $"Additional relevant data available for { postcode }"                      
+                    encodedText "Other data for your area"                      
                 ]
-                p [ _class "govuk-body-s govuk-!-margin-top-0 gray-text" ] [
-                    "Some data are not available at local levels - for example, "
-                    + "virus tests conducted is only available at nation level."
+                p [ _class "govuk-body-m govuk-!-margin-top-2 govuk-!-margin-bottom-1 gray-text" ] [
+                    "We show the most local data available for each area."
                     |> encodedText
                 ]
-                p [ _class "govuk-body-m govuk-!-margin-bottom-3" ] [
-                    encodedText "See the "
-                    a [
-                        _class "govuk-link govuk-link--no-visited-state"
-                        _href $"/easy_read?postcode={postcode}"
-                    ] [ encodedText "simple summary" ]
-                    " for "
-                    + getter "newCasesBySpecimenDateRollingSum" "area_name"
-                    + match getter "newCasesBySpecimenDateRollingSum" "area_type" with
-                       | AreaTypes.MSOA -> ", " + getter "newCasesByPublishDate" "area_name"
-                       | _ -> ""
+                p [ _class "govuk-body-m govuk-!-margin-top-0 gray-text" ] [
+                    "Some data are only available for larger areas. For example, deaths are only available at "
+                    + "local authority level."
                     |> encodedText
                 ]
             ]

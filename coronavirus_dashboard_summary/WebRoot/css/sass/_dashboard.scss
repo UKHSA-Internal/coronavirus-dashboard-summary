@@ -56,6 +56,20 @@
     }
 }
 
+.simple-summary {
+    display: flex !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-top: .8rem;
+    margin-bottom: 1.5rem !important;
+    min-width: 85%;
+    
+    &, & * {
+        background: none;
+        background-color: transparent;
+        margin-right: auto;
+    }
+}
 
 .developers-guide {
 

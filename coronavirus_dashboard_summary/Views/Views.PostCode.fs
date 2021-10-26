@@ -65,47 +65,15 @@ let inline validatePostcode (postcode: string): string =
         validated.Replace(" ", "").ToUpper()
     | _ -> ""
 
-let pageHeading =
+let PageHeading (postcode: string) =
     div [ _id "top" ] [
         div [ _class "sticky-header govuk-!-padding-top-3" ] [
             div [ _class "sticky-header govuk-grid-row govuk-!-margin-top-0" ] [
                 div [ _class "govuk-grid-column-one-half" ] [
-                    h1 [
-                        "govuk-heading-m title govuk-!-margin-bottom-0 "
-                        + "govuk-!-margin-top-0 panel-title-new"
-                        |> _class
-                    ] [
-                        encodedText "Daily update"
+                    h1 [ _class "govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-0" ] [
+                        encodedText $"Local summary for { postcode.ToUpper() }"
                     ]
                 ]
-            ]
-            div [ _class "govuk-grid-row govuk-!-margin-top-0" ] [
-                div [ _class "govuk-grid-column-full" ] [
-                    hr [
-                        "govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-0 "
-                        + "govuk-!-margin-left-0 govuk-!-padding-top-0 govuk-!-padding-left-0"
-                        |> _class
-                    ]
-                ]
-            ]
-        ]
-    ]
-    
-let pageHeader (postcodeData: DB.PostCodeDataPayload list) =
-    let smallestArea: DB.PostCodeDataPayload =
-        postcodeData
-        |> List.minBy (fun el -> el.priority)
-    
-    header [] [ 
-        div [ _class "local-intro govuk-!-margin-left-0 govuk-!-margin-bottom-0" ] [
-            h2 [
-                "govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-0 "
-                + "govuk-!-margin-left-0 govuk-!-padding-top-0 govuk-!-padding-left-0"
-                |> _class
-            ] [
-                encodedText smallestArea.postcode
-                rawText " &mdash; "
-                encodedText smallestArea.area_name
             ]
         ]
     ]
@@ -157,11 +125,9 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
             |> Json.deserialize<DB.Payload List>
 
         [
-            pageHeading
+            PageHeading postcode
             
-            article [] [
-                pageHeader postcodeData
-                
+            article [] [                
                 ul [ _class "govuk-list card-container" ] [
                     yield!
                         CardMetadata
