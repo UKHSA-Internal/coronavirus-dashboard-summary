@@ -173,9 +173,12 @@ type private NumberItem with
             div [ _class "govuk-body-s float govuk-!-margin-top-1 govuk-!-margin-bottom-0" ] [
                 span [
                     _ariaHidden "true"
-                    (match this.percentage.Contains "First" with
-                    | true -> "square lightgreen"
-                    | false -> "square darkgreen") |> _class
+                    match this.label with
+                    | "First dose" -> "square lightgreen"
+                    | "Second dose" -> "square darkgreen"
+                    | "Booster or third dose" -> "square darkergreen"
+                    | _ -> ""
+                    |> _class
                 ] []
                 strong [ _class "govuk-!-margin-left-1 govuk-!-font-weight-regular" ] [
                     encodedText this.label

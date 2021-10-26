@@ -44,27 +44,6 @@
   }
 }
 
-//.vaccinations > .vax-doses {
-//  display: flex;
-//  justify-content: space-evenly;
-//  grid-row: 1 / -1;
-//  
-//  & > * {
-//    display: flex;
-//    padding: 0;
-//    justify-content: space-evenly;
-//  }
-//  
-//  & > * > * {
-//    display: flex;
-//    padding: 0;
-//    flex-direction: column;
-//    justify-content: space-evenly;
-//    align-content: space-evenly;
-//    padding-right: 1rem;
-//  }
-//}
-
 .vaccinations > .first,
 .vaccinations > .second,
 .vaccinations > .booster {
@@ -74,14 +53,11 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: .5rem;
   align-items: end;
-  //width: 200px;
-  //flex: 1 4 30%;
 
   @include govuk-media-query($from: 1100px) {
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: 1fr;
     grid-row: 1 / -1;
-    //flex: 1 4 20%;
   }
 }
 
@@ -141,26 +117,7 @@
     grid-column: 1/-1;
     grid-row: 1;
     justify-self: end;
-
-    //@include govuk-media-query($from: 1100px) {
-    //  display: none !important;
-    //}
-    //@include govuk-media-query($from: 520px) {
-    //  display: grid;
-    //}
   }
-
-  //& > .main-caption {
-  //  grid-row: 1;
-  //  display: block;
-  //  align-self: start;
-  //  grid-column: 1/-1;
-  //  text-align: right;
-  //
-  //  @include govuk-media-query($from: 1100px) {
-  //    grid-column: 1 !important;
-  //  }
-  //}
   
   & #vaccination-vis-lab {
     display: grid;
@@ -180,7 +137,6 @@
     grid-column: 1;
     
     @include govuk-media-query($from: 1100px) {
-      //grid-template-rows: auto 1fr 1fr !important;
       grid-row: 1/-1;
     }
 
@@ -244,11 +200,15 @@
   margin-bottom: -1px;
 
   &.lightgreen {
-    background-color: #54B3AB;
+    background-color: #77C4BF;
   }
 
   &.darkgreen {
-    background-color: #017168;
+    background-color: #009C91;
+  }
+
+  &.darkergreen {
+    background-color: #00413D;
   }
 }
 
