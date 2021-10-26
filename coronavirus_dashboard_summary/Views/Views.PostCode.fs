@@ -114,9 +114,6 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
     
     let date = ReleaseTimestamp()
             
-    let releaseDate =
-        date.ToString().Split("T").[0]
-            
     let postcodeAreas =
         PostCode.Model(redis, date, validatePostcode postcode).PostCodeAreas
         |> Async.RunSynchronously
