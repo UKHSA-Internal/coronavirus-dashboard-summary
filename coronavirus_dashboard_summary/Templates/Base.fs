@@ -128,6 +128,7 @@ module Base =
                     meta [ _name "twitter:site"; _content "@PHE_uk" ]
                     meta [ _property "og:type"; _content "website" ]
                     meta [ _property "og:locale"; _content "en_GB" ]
+                    meta [ _name "instrumentation_key"; _content Generic.InstrumentationKey ]
                     baseTag [ _href Generic.UrlLocation ]
                     
                     yield! envMetaTags
