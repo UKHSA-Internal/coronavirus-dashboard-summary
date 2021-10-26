@@ -181,7 +181,7 @@ module Base =
                         _as "style"
                         _type "text/css"
                         _crossorigin
-                        _href $"{Generic.UrlLocation}/assets/application.css?tm=2021-10-23T15:25:17.2716865Z"
+                        _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css"
                     ]
                                                           
                     link [ _rel  "stylesheet"; _type "text/css"; _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css" ]
