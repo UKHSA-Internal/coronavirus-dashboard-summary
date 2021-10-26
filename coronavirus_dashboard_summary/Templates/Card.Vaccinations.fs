@@ -298,14 +298,14 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
                     a [
-                        $"/details/{ this.metadata.caption.ToLower() }?areaType={ areaType.ToLower() }"
+                        $"${Generic.UrlLocation}/details/{ this.metadata.caption.ToLower() }?areaType={ areaType.ToLower() }"
                         + "&areaName=" + (getter headingMetric "area_name").ToLower()
                         |> _href
                         
                         _class "govuk-link govuk-link--no-visited-state bottom-aligned"
                     ] [
                         img [
-                            $"https://coronavirus.data.gov.uk/downloads/homepage/{ release.isoDate }/vaccinations/"
+                            $"{Generic.UrlLocation}/downloads/homepage/{ release.isoDate }/vaccinations/"
                             + getter this.metadata.metric "area_type"
                             + "/" + getter this.metadata.metric "area_code"
                             + "_thumbnail.svg"
