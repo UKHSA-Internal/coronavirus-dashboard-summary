@@ -45,6 +45,7 @@ main {
     grid-template-rows: 1fr;
     .map-img {
       max-height: 380px;
+      grid-auto-flow: column;
     }
     & * {
       grid-row: 1 / -1;
