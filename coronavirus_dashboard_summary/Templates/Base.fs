@@ -168,14 +168,14 @@ module Base =
                         _as "font"
                         _type "font/woff2"
                         _crossorigin
-                        _href $"{Generic.UrlLocation}/assets/govuk-frontend/govuk/assets/fonts/light-94a07e06a1-v2.woff2"
+                        _href $"{Generic.UrlLocation}/public/assets/fonts/light-94a07e06a1-v2.woff2"
                     ]
                     link [
                         _rel "preload"
                         _as "font"
                         _type "font/woff2"
                         _crossorigin
-                        _href $"{Generic.UrlLocation}/assets/govuk-frontend/govuk/assets/fonts/bold-b542beb274-v2.woff2"
+                        _href $"{Generic.UrlLocation}/public/assets/fonts/bold-b542beb274-v2.woff2"
                     ]
                     link [
                         _rel "preload"
