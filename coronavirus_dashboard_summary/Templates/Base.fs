@@ -149,10 +149,10 @@ module Base =
                     meta [ _name "og:description"; _content PageDescription ]
                     meta [ _name "twitter:description"; _content PageDescription ]
                     
-                    meta [ _name "logo"; _content $"{Generic.UrlLocation}/assets/icon/favicon.png" ]
+                    meta [ _name "logo"; _content $"{Generic.UrlLocation}/public/assets/summary/icon/favicon.png" ]
                     
-                    link [ _rel "apple-touch-icon"; _href $"{Generic.UrlLocation}/favicon.png" ]
-                    link [ _rel "icon"; _href $"{Generic.UrlLocation}/favicon.ico" ]
+                    link [ _rel "apple-touch-icon"; _href $"{Generic.UrlLocation}/public/assets/summary/icon/favicon.png" ]
+                    link [ _rel "icon"; _href $"{Generic.UrlLocation}/public/assets/summary/icon/favicon.ico" ]
                     link [ _rel "manifest"; _href $"{Generic.UrlLocation}/manifest.json" ]
                     
                     meta [ _property "url"; _itemprop "url"; _content Generic.UrlLocation ]
