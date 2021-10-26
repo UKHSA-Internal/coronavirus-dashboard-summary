@@ -166,16 +166,16 @@ module Card =
                             _itemprop "url"
                             
                             $"/details/{this.caption.ToLower()}"
-                            + "?areaType=" + (metricData "area_type").ToLower()
-                            + "&areaName=" + (metricData "area_name").ToLower()
+                            + "?areaType=" + (metricData "area_type")
+                            + "&areaName=" + (metricData "area_name")
                             |> _content 
                         ]
                         a [
                             _class "govuk-link govuk-link--no-visited-state"
                             
                             $"/details/{this.caption.ToLower()}"
-                            + "?areaType=" + (metricData "area_type").ToLower()
-                            + "&areaName=" + (metricData "area_name").ToLower()
+                            + "?areaType=" + (metricData "area_type")
+                            + "&areaName=" + (metricData "area_name")
                             |> _href
                         ] [
                             strong [] [

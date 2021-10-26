@@ -248,14 +248,14 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             _itemprop "url"
                             
                             $"/details/{ this.metadata.caption.ToLower() }"
-                            + "?areaType=" + (getter headingMetric "area_type").ToLower()
-                            + "&areaName=" + (getter headingMetric "area_name").ToLower()
+                            + "?areaType=" + (getter headingMetric "area_type")
+                            + "&areaName=" + (getter headingMetric "area_name")
                             |> _content 
                         ]
                         a [
                             $"/details/{ this.metadata.caption.ToLower() }"
-                            + "?areaType=" + (getter headingMetric "area_type").ToLower()
-                            + "&areaName=" + (getter headingMetric "area_name").ToLower()
+                            + "?areaType=" + (getter headingMetric "area_type")
+                            + "&areaName=" + (getter headingMetric "area_name")
                             |> _href
                             
                             _class "govuk-link govuk-link--no-visited-state bottom-aligned govuk-!-margin-top-2 ext-link"
