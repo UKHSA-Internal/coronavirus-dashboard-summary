@@ -34,7 +34,7 @@ type private NavigationItem with
     member private this.content parent =
         [
             a [
-               _href $"{Generic.UrlLocation}/{this.uri}" 
+               _href $"{Generic.UrlLocation}{this.uri}" 
                match this.current with
                | true -> _ariaCurrent "page"; _class "govuk-link govuk-link--no-visited-state"
                | _ ->  _class "govuk-link govuk-link--no-visited-state"
