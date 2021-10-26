@@ -1,14 +1,14 @@
 // Global settings
-$govuk-assets-path: "https://coronavirus.data.gov.uk/public/assets/";
-$static-images: "https://coronavirus.data.gov.uk/public/assets/images/";
+$govuk-assets-path: "https://coronavirus.data.gov.uk/public/assets/summary/";
+$static-images: "https://coronavirus.data.gov.uk/public/assets/summary/images/";
 $govuk-page-width: 1920px;
 
 @font-face {
   font-family: "GDS Transport";
   font-style: normal;
   font-weight: normal;
-  src: url("https://coronavirus.data.gov.uk/public/assets/fonts/light-94a07e06a1-v2.woff2") format("woff2"),
-       url("https://coronavirus.data.gov.uk/public/assets/fonts/light-f591b13f7d-v2.woff") format("woff");
+  src: url("https://coronavirus.data.gov.uk/public/assets/summary/fonts/light-94a07e06a1-v2.woff2") format("woff2"),
+       url("https://coronavirus.data.gov.uk/public/assets/summary/fonts/light-f591b13f7d-v2.woff") format("woff");
   font-display: fallback;
 }
 
@@ -16,8 +16,8 @@ $govuk-page-width: 1920px;
   font-family: "GDS Transport";
   font-style: normal;
   font-weight: bold;
-  src: url("https://coronavirus.data.gov.uk/public/assets/fonts/bold-b542beb274-v2.woff2") format("woff2"),
-       url("https://coronavirus.data.gov.uk/public/assets/fonts/bold-affa96571d-v2.woff") format("woff");
+  src: url("https://coronavirus.data.gov.uk/public/assets/summary/fonts/bold-b542beb274-v2.woff2") format("woff2"),
+       url("https://coronavirus.data.gov.uk/public/assets/summary/fonts/bold-affa96571d-v2.woff") format("woff");
   font-display: fallback;
 }
 
