@@ -98,7 +98,7 @@ let index (date: Release) (redis: Redis.Client): XmlNode List =
             ul [ _class "card-container" ] [
                 yield!
                     MetaData.CardMetadata
-                    |> Array.Parallel.map (fun metadata -> metadata.Card date dbResp null)
+                    |> Array.map (fun metadata -> metadata.Card date dbResp null)
                     |> List.concat
             ]
         ]
