@@ -1,7 +1,5 @@
 namespace coronavirus_dashboard_summary.Utils.Constants
 
-open System
-
 module AreaTypes =
     [<Literal>]
     let Overview = "overview"
@@ -29,13 +27,17 @@ module AreaTypes =
 
     
 module Generic =
-    let private Location = Environment.GetEnvironmentVariable "URL_LOCATION"
+    let private Location = System.Environment.GetEnvironmentVariable "URL_LOCATION"
+    
     let IsDev =
-        match Environment.GetEnvironmentVariable "IS_DEV" with
+        match System.Environment.GetEnvironmentVariable "IS_DEV" with
         | "1" -> true
         | _ -> false
         
-    let Environment = (Environment.GetEnvironmentVariable "API_ENV").ToUpper()
+    let Environment = (System.Environment.GetEnvironmentVariable "API_ENV").ToUpper()
+    
+    let InstrumentationKey = System.Environment.GetEnvironmentVariable "APPINSIGHTS_INSTRUMENTATIONKEY"
+    
     
     [<Literal>]
     let NotAvailable = "N/A"
