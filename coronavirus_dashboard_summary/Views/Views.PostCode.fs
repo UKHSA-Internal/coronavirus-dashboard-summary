@@ -104,7 +104,7 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
                     {
                         date          = date
                         changeLogs    = this.changeLogBanners()
-                        title         = ""
+                        title         = $"Local summary for { postcode.ToUpper() }"
                         postcode      = match postcodeData.IsEmpty with
                                         | true -> postcode
                                         | _ -> null
