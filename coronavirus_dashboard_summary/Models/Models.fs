@@ -158,7 +158,7 @@ module BaseModel =
 
 
     type PostCodeDataPayload with        
-        member this.Data date metrics redis: Async<Payload List> =
+        member inline this.Data date metrics redis: Async<Payload List> =
             let fetcher =
                 match this.area_type with
                 | AreaTypes.MSOA -> MSOAData(redis, date, this, metrics) :> PostCodeData
