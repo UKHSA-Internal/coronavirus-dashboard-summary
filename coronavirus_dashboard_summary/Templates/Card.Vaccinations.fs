@@ -370,5 +370,32 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                     ]
                 ]
             ]
+            div [ _class "mob-link additional-info" ] [
+                hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
+                p [ _class "bottom-aligned govuk-!-margin-top-2 govuk-!-font-size-16 govuk-!-margin-bottom-0" ] [
+                    meta [
+                        _itemprop "url"
+                        
+                        $"/details/{ this.metadata.caption.ToLower() }"
+                        + "?areaType=" + (getter headingMetric "area_type")
+                        + "&areaName=" + (getter headingMetric "area_name")
+                        |> _content 
+                    ]
+                    a [
+                        $"/details/{ this.metadata.caption.ToLower() }"
+                        + "?areaType=" + (getter headingMetric "area_type")
+                        + "&areaName=" + (getter headingMetric "area_name")
+                        |> _href
+                        
+                        _class "govuk-link govuk-link--no-visited-state bottom-aligned govuk-!-margin-top-2"
+                    ] [
+                        strong [] [
+                            $"All { this.metadata.caption.ToLower() } data { areaNameConnector }"
+                            + getter headingMetric "trimmedAreaName"
+                            |> encodedText
+                        ]
+                    ]
+                ]
+            ]
         ]
 
