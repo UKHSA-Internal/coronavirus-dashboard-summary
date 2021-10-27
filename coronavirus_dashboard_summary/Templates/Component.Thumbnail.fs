@@ -24,7 +24,7 @@ type Payload with
             a [
                 $"{ Generic.UrlLocation }/details/{this.caption.ToLower()}?areaType="
                 + (this.metricData "area_type").ToLower()
-                + "&areaName=" + (this.metricData "area_name").ToLower()
+                + "&areaName=" + (this.metricData "area_name")
                 |> _href
                 _ariaHidden "true"
                 _class "govuk-link govuk-link--no-visited-state bottom-aligned"

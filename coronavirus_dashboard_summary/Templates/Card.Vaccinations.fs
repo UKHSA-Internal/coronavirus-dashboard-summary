@@ -349,7 +349,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                     a [
                         $"{ Generic.UrlLocation }/details/{ this.metadata.caption.ToLower() }"
                         + $"?areaType={ areaType.ToLower() }"
-                        + "&areaName=" + (getter headingMetric "area_name").ToLower()
+                        + "&areaName=" + (getter headingMetric "area_name")
                         |> _href
                         
                         _class "govuk-link govuk-link--no-visited-state bottom-aligned"
