@@ -63,13 +63,13 @@ let private contentMetadata =
         ])
     ] 
 
-let private Observation content =
+let inline private Observation content =
     li [ _itemprop "Observation"; _itemtype "https://schema.org/Observation"; _itemscope ]
         [ yield! content ]  
 
 
 type private NumberItem with
-    member this.Number areaType getter =
+    member inline this.Number areaType getter =
         let metricAreaType = getter this.metric "area_type"
         
         [
@@ -126,7 +126,7 @@ type private NumberItem with
             ]
         ] |> Observation
         
-    member this.Percentage areaType getter =
+    member inline this.Percentage areaType getter =
         let metricAreaType = getter this.percentage "area_type"
         
         [

@@ -4,7 +4,7 @@ open System
 open coronavirus_dashboard_summary.Models
 open Giraffe.ViewEngine
 
-let Render (metadata: MetaData.ContentMetadata) (getter: string -> string -> string): XmlNode List =
+let inline Render (metadata: MetaData.ContentMetadata) (getter: string -> string -> string): XmlNode List =
     match String.IsNullOrEmpty metadata.rate with
     | true -> []
     | _ -> 

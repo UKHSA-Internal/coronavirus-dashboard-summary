@@ -31,7 +31,7 @@ let private secondaryNavItems =
     ]        
 
 type private NavigationItem with
-    member private this.content parent =
+    member inline private this.content parent =
         [
             a [
                _href $"{Generic.UrlLocation}{this.uri}" 
@@ -41,14 +41,14 @@ type private NavigationItem with
             ] [ encodedText this.label ]
         ] |> parent
         
-    member this.PrimaryNavItem =
+    member inline this.PrimaryNavItem =
         li [ match this.current with
              | true -> "moj-side-navigation__item moj-side-navigation__item--active"
              | false -> "moj-side-navigation__item"
              |> _class
         ] |> this.content
         
-    member this.SecondaryNavItem (mobile: bool) =
+    member inline this.SecondaryNavItem (mobile: bool) =
         match mobile with
         | false -> li [ _class "govuk-!-padding-bottom-1" ] |> this.content
         | true -> li [ _class "moj-side-navigation__item mobile" ] |> this.content

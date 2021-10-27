@@ -30,7 +30,7 @@ type Client () =
     let cxp = ConnectionMultiplexerPoolFactory
                   .Create(RedisPoolSize, RedisConfig, null, ConnectionSelectionStrategy.RoundRobin)
       
-    member private _.QueryRedisAsync (op: IDatabase -> Async<'a>) =
+    member inline private _.QueryRedisAsync (op: IDatabase -> Async<'a>) =
         async {
             let! cx = cxp.GetAsync() |> Async.AwaitTask
             

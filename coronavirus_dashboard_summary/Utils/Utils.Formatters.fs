@@ -9,7 +9,7 @@ let toIsoString ( d: DateTime ) =
 let toIsoDate ( d: DateTime ) =
     d.ToString Generic.IsoDateStampFormat
 
-let toLongAreaType (areaType: string): string =
+let inline toLongAreaType (areaType: string): string =
     match areaType with
     | AreaTypes.Overview -> "United Kingdom"
     | AreaTypes.Nation
@@ -21,12 +21,12 @@ let toLongAreaType (areaType: string): string =
     | AreaTypes.NHSTrust -> "healthcare trust"
     | _ -> null
 
-let pluralise (value: int32) single multi zero: string =
+let inline pluralise (value: int32) single multi zero: string =
     if value = 1 then single
     elif value > 1 then multi
     else zero
     
-let comparisonVerb (value: int32) up down same: string =
+let inline comparisonVerb (value: int32) up down same: string =
     if value > 0 then up
     elif value < 0 then down
     else same

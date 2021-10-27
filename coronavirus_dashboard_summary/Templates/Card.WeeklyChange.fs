@@ -12,7 +12,7 @@ type Payload =
     }
 
 type Payload with
-    member this.Render (getter: string -> string -> string) =
+    member inline this.Render (getter: string -> string -> string) =
         let changeValuePayload: ChangeValue.Payload = 
             {
                 change              = getter $"{this.metric}Change" "value"

@@ -17,7 +17,7 @@ type Payload =
     }
     
 type Payload with
-    member private this.colour: (string * string) =
+    member inline private this.colour: (string * string) =
          match this.caption with
          | "Testing" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
          | _ ->         match this.change.Substring(0, 1) with
@@ -26,12 +26,12 @@ type Payload with
                         | _ -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
          
          
-    member private this.directionText: string =
+    member inline private this.directionText: string =
          match this.change.Substring(0, 1) with
          | "-" -> "a decrease"
          | _ -> "an increase"
     
-    member this.numberBox: XmlNode List =
+    member inline this.numberBox: XmlNode List =
         match this.change with
         | "0" ->
             [

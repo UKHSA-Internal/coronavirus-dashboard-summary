@@ -4,13 +4,13 @@ open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Constants
 
-let visuallyHidden (value: string) =
+let inline visuallyHidden (value: string) =
     span [ _class "govuk-visually-hidden" ] [
         value
         |> encodedText
     ]
 
-let areaTypeTag (areaType: string) =
+let inline areaTypeTag (areaType: string) =
     match areaType with
     | AreaTypes.Overview -> encodedText ""
     | _ ->

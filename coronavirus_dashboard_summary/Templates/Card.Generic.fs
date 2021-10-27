@@ -12,7 +12,7 @@ open coronavirus_dashboard_summary.Templates
 [<AutoOpen>]
 module Card =
     type MetaData.ContentMetadata with
-        member private this.dailySection getter =
+        member inline private this.dailySection getter =
 
             li [ _class "data-metric2"; _itemprop "Observation"; _itemtype "https://schema.org/Observation"; _itemscope ] [
                 div [] [
@@ -47,7 +47,7 @@ module Card =
                 ]
             ]
             
-        member private this.last7Days getter =
+        member inline private this.last7Days getter =
             let changePayload: WeeklyChange.Payload =
                 {
                     metric  = this.metric
@@ -111,7 +111,7 @@ module Card =
                 changePayload.Render getter
             ]
             
-        member private this.CardMetaText (getter: string -> string -> string) =
+        member inline private this.CardMetaText (getter: string -> string -> string) =
             meta [
                 _itemprop "text"
                 
@@ -154,7 +154,7 @@ module Card =
                 |> _content
             ]
 
-        member private this.normalCard (date: TimeStamp.Release) (isPostcode: bool) getter =
+        member inline private this.normalCard (date: TimeStamp.Release) (isPostcode: bool) getter =
             let metricData = getter this.metric
             let thumbnail: Thumbnail.Payload =
                 {

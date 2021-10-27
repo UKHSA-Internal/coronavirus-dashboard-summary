@@ -126,13 +126,13 @@ module BaseModel =
                 
 
     type Payload with
-        member private this.dateObj =
+        member inline private this.dateObj =
             match this.date :> obj with
             | :? DateTime as s -> unbox<DateTime> s
             | :? string as s -> DateTime.Parse s
             | _ -> raise (ArgumentException())
             
-        member this.getter (attribute: string) =
+        member inline this.getter (attribute: string) =
             match attribute with
             | "metric" -> this.metric
             | "date" -> this.dateObj |> Formatter.toIsoString
@@ -177,7 +177,7 @@ module BaseModel =
                        | _ -> []
             }
             
-        member this.Key date metrics redis: string =
+        member inline this.Key date metrics redis: string =
             let fetcher =
                 match this.area_type with
                 | AreaTypes.MSOA -> MSOAData(redis, date, this, metrics) :> PostCodeData

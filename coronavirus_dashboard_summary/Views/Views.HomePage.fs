@@ -49,10 +49,10 @@ let HomePageMetrics =
 
     |]
 
-let formatDate (d: DateTime) =
+let inline formatDate (d: DateTime) =
     d.ToString "d MMMM yyyy"
     
-let subtractFormatDate (d: DateTime) (n: float) =
+let inline subtractFormatDate (d: DateTime) (n: float) =
     d.AddDays n
     |> formatDate
     
@@ -81,12 +81,12 @@ let leadSection =
         ]
     ]
     
-let changeLogBanners redis date =
+let inline changeLogBanners redis date =
     ChangeLogModel.ChangeLog.Data redis date
     |> Async.RunSynchronously
     |> ChangeLogBanners.Render
     
-let index (date: Release) (redis: Redis.Client): XmlNode List =    
+let inline index (date: Release) (redis: Redis.Client): XmlNode List =    
     let dbResp =
         redis.GetAllAsync [|$"area-{date.isoDate}-UK"|]
         |> Async.RunSynchronously

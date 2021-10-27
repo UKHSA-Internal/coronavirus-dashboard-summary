@@ -5,7 +5,7 @@ open coronavirus_dashboard_summary.Templates.Components
 open coronavirus_dashboard_summary.Models
 open Giraffe.ViewEngine
 
-let Card (metadata: MetaData.ContentMetadata) getter =
+let inline Card (metadata: MetaData.ContentMetadata) getter =
     let transmissionMin = getter "transmissionRateMin"
     let transmissionMax = getter "transmissionRateMax"
 

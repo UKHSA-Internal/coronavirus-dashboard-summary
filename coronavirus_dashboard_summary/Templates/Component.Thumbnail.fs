@@ -17,7 +17,7 @@ type Payload =
     }
 
 type Payload with 
-    member this.Render =
+    member inline this.Render =
         match this.isPostcode with
         | true -> "" |> encodedText
         | _ -> 

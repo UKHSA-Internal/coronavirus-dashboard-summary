@@ -16,10 +16,10 @@ module TimeStamp =
     }
 
     type Release with
-        member this.AddDays (days: int) =
+        member inline this.AddDays (days: int) =
             this.timestamp.AddDays(float days)
             
-        member this.SubtractDays (days: int) =
+        member inline this.SubtractDays (days: int) =
             this.timestamp.AddDays(float -days)
     
     

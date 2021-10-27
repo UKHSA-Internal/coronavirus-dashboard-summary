@@ -6,7 +6,7 @@ open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Attrs
 open coronavirus_dashboard_summary.Utils.Constants
 
-let private Comparison postcode getter (release: TimeStamp.Release) =
+let inline private Comparison postcode getter (release: TimeStamp.Release) =
     
     match getter "newCasesBySpecimenDateRollingRate" "value" with
     | Generic.NotAvailable -> div [] [
@@ -48,7 +48,7 @@ let private Comparison postcode getter (release: TimeStamp.Release) =
                ] 
            ]
     
-let private Vaccination getter =
+let inline private Vaccination getter =
     let baseMetric = "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage"
     let secondaryMetric = "cumVaccinationSecondDoseUptakeByVaccinationDatePercentage"
     
@@ -114,7 +114,7 @@ let private Vaccination getter =
     ]
     
     
-let private SimpleSummary (postcode: string) (getter: string -> string -> string) =
+let inline private SimpleSummary (postcode: string) (getter: string -> string -> string) =
     p [ _class "govuk-body-m govuk-!-margin-bottom-3" ] [
         encodedText "See the "
         a [

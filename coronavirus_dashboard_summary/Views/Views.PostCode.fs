@@ -87,12 +87,12 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
         PostCode.Model(redis, date, validatePostcode postcode).PostCodeAreas
         |> Async.RunSynchronously
         
-    member private _.changeLogBanners() =
+    member inline private _.changeLogBanners() =
         ChangeLog.Data redis date
         |> Async.RunSynchronously
         |> ChangeLogBanners.Render
             
-    member private _.announcementBanners() =
+    member inline private _.announcementBanners() =
         div[] []            
     member _.postCodeFound
         with get() = not <| List.isEmpty postcodeAreas

@@ -4,7 +4,7 @@ open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Utils.Constants
 
 type MetricValue (payload: DB.Payload list) =
-    member private _.getData (data: DB.Payload list) =
+    member inline private _.getData (data: DB.Payload list) =
         fun metric ->
             let metricData =
                 data
