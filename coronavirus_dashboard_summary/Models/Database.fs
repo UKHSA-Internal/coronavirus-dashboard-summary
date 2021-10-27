@@ -44,7 +44,7 @@ type Payload =
         [<JsonField("date", Transform=typeof<DateTransform>)>]
         date: string
         metric: string
-        value: float32 option
+        value: double option
         priority: int
     }
     
@@ -114,7 +114,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                                 area_name = read.string "area_name"
                                 date = read.string "date"
                                 metric = read.string "metric"
-                                value = read.floatOrNone "value"
+                                value = read.doubleOrNone "value"
                                 priority = read.int "priority"
                             }
                         )
