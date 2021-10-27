@@ -347,7 +347,8 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
                     a [
-                        $"${Generic.UrlLocation}/details/{ this.metadata.caption.ToLower() }?areaType={ areaType.ToLower() }"
+                        $"{ Generic.UrlLocation }/details/{ this.metadata.caption.ToLower() }"
+                        + $"?areaType={ areaType.ToLower() }"
                         + "&areaName=" + (getter headingMetric "area_name").ToLower()
                         |> _href
                         

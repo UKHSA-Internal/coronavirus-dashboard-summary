@@ -22,7 +22,8 @@ type Payload with
         | true -> "" |> encodedText
         | _ -> 
             a [
-                $"/details/{this.caption.ToLower()}?areaType=" + (this.metricData "area_type").ToLower()
+                $"{ Generic.UrlLocation }/details/{this.caption.ToLower()}?areaType="
+                + (this.metricData "area_type").ToLower()
                 + "&areaName=" + (this.metricData "area_name").ToLower()
                 |> _href
                 _ariaHidden "true"
