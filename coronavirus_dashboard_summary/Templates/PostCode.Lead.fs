@@ -50,11 +50,12 @@ let private Comparison postcode getter (release: TimeStamp.Release) =
     
 let private Vaccination getter =
     let baseMetric = "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage"
+    let secondaryMetric = "cumVaccinationSecondDoseUptakeByVaccinationDatePercentage"
     
     li [ _class "govuk-!-margin-top-2" ] [
         h3 [ _class "govuk-!-font-size-24 title-mobile govuk-!-margin-bottom-0 govuk-!-margin-top-0" ] [
             "People vaccinated in "
-            + getter "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage" "area_name"
+            + getter baseMetric "area_name"
             |> encodedText
             small [ _class "govuk-caption-m govuk-!-font-size-14 govuk-!-font-weight-regular govuk-!-margin-top-1" ] [
                 getter baseMetric "area_type"
@@ -80,7 +81,7 @@ let private Vaccination getter =
                                 ]
                                 span [ _itemprop "disambiguatingDescription"; _class "tooltiptext govuk-!-font-size-16" ] [
                                     "Percentage of population aged 12+ vaccinated (first dose) reported on "
-                                    + getter "cumVaccinationSecondDoseUptakeByVaccinationDatePercentage" "formattedDate"
+                                    + getter baseMetric "formattedDate"
                                     |> encodedText
                                 ]
                             ]
@@ -95,13 +96,13 @@ let private Vaccination getter =
                         div [ _class "float tooltip" ] [
                             div [ _class "float govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2 govuk-!-font-weight-bold" ] [
                                 span [ _class "govuk-link--no-visited-state number-link number" ] [
-                                    getter "cumVaccinationSecondDoseUptakeByPublishDatePercentage" "formattedValue"
+                                    getter secondaryMetric "formattedValue"
                                     + "%"
                                     |> encodedText   
                                 ]
                                 span [ _itemprop "disambiguatingDescription"; _class "tooltiptext govuk-!-font-size-16" ] [
                                     "Percentage of population aged 12+ vaccinated (second dose) reported on "
-                                    + getter "cumVaccinationSecondDoseUptakeByPublishDatePercentage" "formattedDate"
+                                    + getter secondaryMetric "formattedDate"
                                     |> encodedText
                                 ]
                             ]
@@ -149,7 +150,7 @@ let Render postcode getter (release: TimeStamp.Release) =
                     + ".svg"
                     |> _src
                     attr "loading" "lazy"
-                    _alt "Thumbnail of the MSOA area on a map"
+                    _alt "Thumbnail of the area on a map"
                 ] 
             ]
             ul [ _class "postcode-lead-data" ] [
@@ -176,7 +177,9 @@ let Render postcode getter (release: TimeStamp.Release) =
                                     div [ _class "number-group" ] [
                                         div [ _class "number-container" ] [
                                             div [ _class "float tooltip" ] [
-                                                div [ _class "govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2 govuk-!-font-weight-bold" ] [
+                                                div [
+                                                    _class "govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2 govuk-!-font-weight-bold"
+                                                ] [
                                                     span [ _class "govuk-link--no-visited-state number-link number" ] [
                                                         getter "newCasesBySpecimenDateRollingSum" "formattedValue"
                                                         |> encodedText
@@ -197,7 +200,9 @@ let Render postcode getter (release: TimeStamp.Release) =
                                     div [ _class "number-group" ] [
                                         div [ _class "number-container" ] [
                                             div [ _class "float tooltip" ] [
-                                                div [ _class "govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2 govuk-!-font-weight-bold" ] [
+                                                div [
+                                                    _class "govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2 govuk-!-font-weight-bold"
+                                                ] [
                                                     span [ _class "govuk-link--no-visited-state number-link number" ] [
                                                         getter "newCasesBySpecimenDateRollingRate" "formattedValue"
                                                         |> encodedText
