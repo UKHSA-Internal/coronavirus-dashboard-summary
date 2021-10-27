@@ -66,7 +66,7 @@ let inline validatePostcode (postcode: string): string =
         validated.Replace(" ", "").ToUpper()
     | _ -> ""
 
-let PageHeading (postcode: string) =
+let inline PageHeading (postcode: string) =
     div [ _id "top" ] [
         div [ _class "sticky-header govuk-!-padding-top-3" ] [
             div [ _class "sticky-header govuk-grid-row govuk-!-margin-top-0" ] [
