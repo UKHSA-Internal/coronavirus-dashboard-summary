@@ -23,7 +23,7 @@ let private primaryNavItems =
 
 let private secondaryNavItems =
     [
-        {label = "Interactive maps"; uri = "/details/interactive-maps"; current = false}
+        {label = "Interactive maps"; uri = "/details/interactive-map"; current = false}
         {label = "About the data"; uri = "/details/about-data"; current = false}
         {label = "Download data"; uri = "/details/download"; current = false}
         {label = "What's new"; uri = "/details/whats-new"; current = false}
