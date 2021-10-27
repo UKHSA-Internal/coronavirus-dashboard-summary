@@ -7,20 +7,23 @@ open coronavirus_dashboard_summary.Utils.Constants
 
 type Payload =
     {
-        change: string
-        changeFormatted: string
-        changeDirection: string
+        change:              string
+        changeFormatted:     string
+        changeDirection:     string
         percentageFormatted: string
-        startDate: string
-        endDate: string
+        startDate:           string
+        endDate:             string
+        caption:             string
     }
     
 type Payload with
     member private this.colour: (string * string) =
-         match this.change.Substring(0, 1) with
-         | "" | "0" | "N/A" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
-         | "-" -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
-         | _ -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
+         match this.caption with
+         | "Testing" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
+         | _ ->         match this.change.Substring(0, 1) with
+                        | "" | "0" | "N/A" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
+                        | "-" -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
+                        | _ -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
          
          
     member private this.directionText: string =

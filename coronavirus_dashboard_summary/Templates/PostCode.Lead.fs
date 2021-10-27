@@ -134,6 +134,7 @@ let Render postcode getter (release: TimeStamp.Release) =
         {
             metric  = "newCasesBySpecimenDate"
             heading = "Total cases by date of specimen"
+            caption = null
         }
     
     [

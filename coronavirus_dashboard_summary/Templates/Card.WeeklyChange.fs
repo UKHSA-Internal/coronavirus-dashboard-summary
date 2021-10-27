@@ -6,8 +6,9 @@ open coronavirus_dashboard_summary.Templates
 
 type Payload =
     {
-        metric: string
+        metric:  string
         heading: string
+        caption: string
     }
 
 type Payload with
@@ -20,6 +21,7 @@ type Payload with
                 percentageFormatted = getter $"{this.metric}ChangePercentage" "formattedValue"
                 startDate           = getter $"{this.metric}ChangePercentage" "13DaysAgoFormatted"
                 endDate             = getter $"{this.metric}ChangePercentage" "7DaysAgoFormatted"
+                caption             = this.caption
             }
         
         li [ _itemprop "Observation"; _itemtype "https://schema.org/Observation"; _itemscope ] [

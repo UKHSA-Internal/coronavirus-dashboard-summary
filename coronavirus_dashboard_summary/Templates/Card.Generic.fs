@@ -50,8 +50,9 @@ module Card =
         member private this.last7Days getter =
             let changePayload: WeeklyChange.Payload =
                 {
-                    metric        = this.metric
-                    heading       = this.heading
+                    metric  = this.metric
+                    heading = this.heading
+                    caption = this.caption
                 }
                 
             li [ _class "data-metric2" ] [
