@@ -26,7 +26,8 @@ let webApp =
                 >=> publicResponseCaching 120 None
                 >=> PostCodeSearch.PostCodePageHandler
                 
-                route "/healthcheck" >=> text "Healthy"
+                route "/healthcheck"
+                >=> text "Healthy"
             ]
         RequestErrors.NOT_FOUND "Not Found" ]
 
@@ -36,7 +37,10 @@ let webApp =
 
 let errorHandler (ex : Exception) (logger : ILogger) =
     logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
-    clearResponse >=> setStatusCode 500 >=> text ex.Message
+    
+    clearResponse
+    >=> setStatusCode 500
+    >=> text ex.Message
 
 // ---------------------------------
 // Config and Main
@@ -46,7 +50,8 @@ let configureCors (builder : CorsPolicyBuilder) =
     builder
         .WithOrigins(
             "http://localhost:5000",
-            "https://localhost:5001")
+            "https://localhost:5001"
+        )
        .WithMethods("GET", "HEAD")
        .AllowAnyHeader()
        |> ignore
@@ -67,8 +72,8 @@ let configureApp (app : IApplicationBuilder) =
 let configureServices (services : IServiceCollection) =
     services .AddCors()
              .AddResponseCaching(fun (options: ResponseCachingOptions) ->
-                 options.MaximumBodySize <- int64 1024;
-                 options.UseCaseSensitivePaths <- true  
+                 options.MaximumBodySize <- 16 * 1024 * 1024 |> int64;
+                 options.UseCaseSensitivePaths <- false
              )
              .AddGiraffe()
              .AddScoped<Redis.Client>() |> ignore
