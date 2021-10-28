@@ -100,7 +100,7 @@ let index (date: Release) (redis: Redis.Client): XmlNode List =
         |> List.map filterPayload
         |> List.map (fun item -> (item.metric, item))
         |> dict
-        |> Generic.Dictionary<string, DB.Payload>
+        |> Metrics.GeneralPayload
         
     [
         yield! leadSection

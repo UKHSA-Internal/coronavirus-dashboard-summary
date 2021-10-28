@@ -134,7 +134,7 @@ type private PostCodeView(postcode: string, redis: Redis.Client) =
             |> List.map filterPayload
             |> List.map (fun item -> (item.metric, item))
             |> dict
-            |> Generic.Dictionary<string, DB.Payload>
+            |> Metrics.GeneralPayload
 
         [
             PageHeading postcode
