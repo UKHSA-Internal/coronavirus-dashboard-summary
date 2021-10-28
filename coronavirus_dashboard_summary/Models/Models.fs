@@ -7,6 +7,7 @@ open coronavirus_dashboard_summary.Utils.TimeStamp
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Constants
 open coronavirus_dashboard_summary.Models.DB
+open coronavirus_dashboard_summary.Models.Metrics
 open FSharp.Json
 
 [<AutoOpen>]
@@ -47,8 +48,8 @@ module BaseModel =
             ]
         
 
-    type MSOAData(redis, date, payload, metrics) =
-        inherit PostCodeData(redis, date, payload, metrics)
+    type MSOAData(redis, date, payload) =
+        inherit PostCodeData(redis, date, payload, PostCodeMetrics)
         override this.query = 
             "SELECT area_code, area_type, area_name, date::TEXT AS date, metric, priority,
                (
@@ -87,8 +88,8 @@ module BaseModel =
             AND ts.rank = 1;"
 
 
-    type GeneralData(redis, date, payload, metrics) =
-        inherit PostCodeData(redis, date, payload, metrics)
+    type GeneralData(redis, date, payload) =
+        inherit PostCodeData(redis, date, payload, PostCodeMetrics)
         override this.query =
                 "SELECT area_code, area_type, area_name, date::TEXT AS date, metric, value, priority 
                 FROM (
@@ -129,40 +130,40 @@ module BaseModel =
         member inline private this.dateObj =
             match this.date :> obj with
             | :? DateTime as s -> unbox<DateTime> s
-            | :? string as s -> DateTime.Parse s
-            | _ -> raise (ArgumentException())
+            | :? string   as s -> DateTime.Parse s
+            | _                -> raise (ArgumentException())
             
         member inline this.getter (attribute: string) =
             match attribute with
-            | "metric" -> this.metric
-            | "date" -> this.dateObj |> Formatter.toIsoString
-            | "formattedDate" -> this.dateObj.ToString Generic.DateFormat
-            | "7DaysAgo" -> this.dateObj.AddDays(-7.) |> Formatter.toIsoString
-            | "7DaysAgoFormatted" -> this.dateObj.AddDays(-7.).ToString Generic.DateFormat
+            | "metric"             -> this.metric
+            | "date"               -> this.dateObj |> Formatter.toIsoString
+            | "formattedDate"      -> this.dateObj.ToString Generic.DateFormat
+            | "7DaysAgo"           -> this.dateObj.AddDays(-7.) |> Formatter.toIsoString
+            | "7DaysAgoFormatted"  -> this.dateObj.AddDays(-7.).ToString Generic.DateFormat
             | "13DaysAgoFormatted" -> this.dateObj.AddDays(-13.).ToString Generic.DateFormat
-            | "6DaysAgo" -> this.dateObj.AddDays(-6.) |> Formatter.toIsoString
-            | "6DaysAgoFormatted" -> this.dateObj.AddDays(-6.).ToString Generic.DateFormat
-            | "area_code" -> this.area_code
-            | "area_type" -> this.area_type
-            | "area_name" -> this.area_name
-            | "value" -> match this.value with
-                         | Some v -> string v
-                         | _ -> ""
-            | "formattedValue" -> match this.value with
-                                  | Some v -> String.Format(NumberFormat, v)
-                                  | _ -> Generic.NotAvailable
-            | "trimmedAreaName" -> match this.area_name with
-                                   | "United Kingdom" -> ""
-                                   | v -> Regex.Replace(v, "(.+?)(nhs.*)?", "$1", RegexOptions.IgnoreCase)
-            | _ -> ""
+            | "6DaysAgo"           -> this.dateObj.AddDays(-6.) |> Formatter.toIsoString
+            | "6DaysAgoFormatted"  -> this.dateObj.AddDays(-6.).ToString Generic.DateFormat
+            | "area_code"          -> this.area_code
+            | "area_type"          -> this.area_type
+            | "area_name"          -> this.area_name
+            | "value"              -> match this.value with
+                                      | Some v -> string v
+                                      | _ -> ""
+            | "formattedValue"     -> match this.value with
+                                      | Some v -> String.Format(NumberFormat, v)
+                                      | _ -> Generic.NotAvailable
+            | "trimmedAreaName"    -> match this.area_name with
+                                      | "United Kingdom" -> ""
+                                      | v -> Regex.Replace(v, "(.+?)(nhs.*)?", "$1", RegexOptions.IgnoreCase)
+            | _                    -> ""
 
 
     type PostCodeDataPayload with        
         member inline this.Data date metrics redis: Async<Payload List> =
             let fetcher =
                 match this.area_type with
-                | AreaTypes.MSOA -> MSOAData(redis, date, this, metrics) :> PostCodeData
-                | _ -> GeneralData(redis, date, this, metrics) :> PostCodeData
+                | AreaTypes.MSOA -> MSOAData(redis, date, this) :> PostCodeData
+                | _              -> GeneralData(redis, date, this) :> PostCodeData
                 
             async {
                 
@@ -174,13 +175,13 @@ module BaseModel =
                                 
                 return match result with
                        | Some res -> Json.deserialize<Payload list>(res)
-                       | _ -> []
+                       | _        -> []
             }
             
-        member inline this.Key date metrics redis: string =
+        member inline this.Key date redis: string =
             let fetcher =
                 match this.area_type with
-                | AreaTypes.MSOA -> MSOAData(redis, date, this, metrics) :> PostCodeData
-                | _ -> GeneralData(redis, date, this, metrics) :> PostCodeData
+                | AreaTypes.MSOA -> MSOAData(redis, date, this) :> PostCodeData
+                | _              -> GeneralData(redis, date, this) :> PostCodeData
                 
             fetcher.key
