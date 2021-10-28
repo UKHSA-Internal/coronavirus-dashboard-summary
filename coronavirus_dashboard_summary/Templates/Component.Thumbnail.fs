@@ -10,17 +10,17 @@ open coronavirus_dashboard_summary.Utils.Constants
 type Payload =
     {
         isPostcode: bool
-        caption: string
-        metric: string
+        caption:    string
+        metric:     string
         metricData: string -> string
-        date: TimeStamp.Release
+        date:       TimeStamp.Release
     }
 
 type Payload with 
     member inline this.Render =
         match this.isPostcode with
         | true -> "" |> encodedText
-        | _ -> 
+        | _    -> 
             a [
                 $"{ Generic.UrlLocation }/details/{this.caption.ToLower()}?areaType="
                 + (this.metricData "area_type").ToLower()

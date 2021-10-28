@@ -11,15 +11,15 @@ let toIsoDate ( d: DateTime ) =
 
 let inline toLongAreaType (areaType: string): string =
     match areaType with
-    | AreaTypes.Overview -> "United Kingdom"
+    | AreaTypes.Overview  -> "United Kingdom"
     | AreaTypes.Nation
-    | AreaTypes.Region -> areaType
-    | AreaTypes.UTLA -> "Local authority (Upper tier)"
-    | AreaTypes.LTLA -> "Local authority (Lower tier)"
-    | AreaTypes.MSOA -> "MSOA"
+    | AreaTypes.Region    -> areaType
+    | AreaTypes.UTLA      -> "Local authority (Upper tier)"
+    | AreaTypes.LTLA      -> "Local authority (Lower tier)"
+    | AreaTypes.MSOA      -> "MSOA"
     | AreaTypes.NHSRegion -> "healthcare region"
-    | AreaTypes.NHSTrust -> "healthcare trust"
-    | _ -> null
+    | AreaTypes.NHSTrust  -> "healthcare trust"
+    | _                   -> null
 
 let inline pluralise (value: int32) single multi zero: string =
     if value = 1 then single

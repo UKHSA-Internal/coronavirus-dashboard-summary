@@ -20,24 +20,21 @@ type Payload with
     member inline private this.colour: (string * string) =
          match this.caption with
          | "Testing" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
-         | _ ->         match this.change.Substring(0, 1) with
+         | _         -> match this.change.Substring(0, 1) with
                         | "" | "0" | "N/A" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
-                        | "-" -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
-                        | _ -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
+                        | "-"              -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
+                        | _                -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
          
          
     member inline private this.directionText: string =
          match this.change.Substring(0, 1) with
          | "-" -> "a decrease"
-         | _ -> "an increase"
+         | _   -> "an increase"
     
     member inline this.numberBox: XmlNode List =
         match this.change with
-        | "0" ->
-            [
-                encodedText "No change"
-            ] 
-        | _  ->
+        | "0" -> [ encodedText "No change" ] 
+        | _   ->
             [
                 span [ _class "govuk-visually-hidden" ] [
                     encodedText $"{ this.directionText } of "

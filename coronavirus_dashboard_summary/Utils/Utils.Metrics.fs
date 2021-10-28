@@ -11,6 +11,6 @@ let inline Processor (payload: GeneralPayload) =
         let inline attr (attribute: string) =
             match payload.TryGetValue metric with
             | true, m -> m.getter attribute
-            | _ -> Generic.NotAvailable
+            | _       -> Generic.NotAvailable
         attr
     metric

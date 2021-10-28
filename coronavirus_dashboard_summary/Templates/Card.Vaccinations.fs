@@ -143,7 +143,7 @@ type private NumberItem with
                         _itemtype "https://schema.org/QuantitativeValue"
                         match areaType.Equals metricAreaType with
                         | true -> getter this.percentage "value"
-                        | _ -> Generic.NotAvailable
+                        | _    -> Generic.NotAvailable
                         |> _content
                     ]
                 ]
@@ -155,7 +155,7 @@ type private NumberItem with
                             span [ _class "govuk-link--no-visited-state number-link" ] [
                                 match areaType.Equals metricAreaType with
                                 | true -> getter this.percentage "formattedValue"
-                                | _ -> Generic.NotAvailable
+                                | _    -> Generic.NotAvailable
                                 + "%"
                                 |> encodedText
                                 span [
@@ -177,10 +177,10 @@ type private NumberItem with
                 span [
                     _ariaHidden "true"
                     match this.label with
-                    | "First dose" -> "square lightgreen"
-                    | "Second dose" -> "square darkgreen"
+                    | "First dose"            -> "square lightgreen"
+                    | "Second dose"           -> "square darkgreen"
                     | "Booster or third dose" -> "square darkergreen"
-                    | _ -> ""
+                    | _                       -> ""
                     |> _class
                 ] []
                 strong [ _class "govuk-!-margin-left-1 govuk-!-font-weight-regular" ] [
@@ -204,7 +204,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
         let areaNameConnector =
                 match getter headingMetric "trimmedAreaName" with
                        | "" -> ""
-                       | _ -> " in "
+                       | _  -> " in "
                        
         li [ _class "vaccinations"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
             meta [ _itemprop "datePosted"; _content this.release.isoTimestamp ]
@@ -223,7 +223,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 "http://schema.org/"
                 + match getter headingMetric "area_name" with
                   | "United Kingdom" -> "Country"
-                  | _ -> "AdministrativeArea"
+                  | _                -> "AdministrativeArea"
                 |> _itemtype 
             ] [
                 meta [ _itemprop "name"; getter headingMetric "area_name" |> _content ]
@@ -241,7 +241,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 $"{ Generic.UrlLocation }/details/{ this.metadata.caption.ToLower() }"
                 + match areaType with
                   | AreaTypes.Overview -> ""
-                  | _ -> $"?areaType={ areaType }&areaName=" + getter headingMetric "area_name"
+                  | _                  -> $"?areaType={ areaType }&areaName=" + getter headingMetric "area_name"
                 |> _content
             ]
             meta [

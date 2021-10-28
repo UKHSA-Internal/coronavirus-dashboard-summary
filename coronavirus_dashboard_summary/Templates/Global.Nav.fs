@@ -6,8 +6,8 @@ open coronavirus_dashboard_summary.Utils.Attrs
 open coronavirus_dashboard_summary.Utils.Constants
 
 type private NavigationItem = {
-    label: string
-    uri: string
+    label:   string
+    uri:     string
     current: bool
 }
 
@@ -37,13 +37,13 @@ type private NavigationItem with
                _href $"{Generic.UrlLocation}{this.uri}" 
                match this.current with
                | true -> _ariaCurrent "page"; _class "govuk-link govuk-link--no-visited-state"
-               | _ ->  _class "govuk-link govuk-link--no-visited-state"
+               | _    ->  _class "govuk-link govuk-link--no-visited-state"
             ] [ encodedText this.label ]
         ] |> parent
         
     member inline this.PrimaryNavItem =
         li [ match this.current with
-             | true -> "moj-side-navigation__item moj-side-navigation__item--active"
+             | true  -> "moj-side-navigation__item moj-side-navigation__item--active"
              | false -> "moj-side-navigation__item"
              |> _class
         ] |> this.content
@@ -51,7 +51,7 @@ type private NavigationItem with
     member inline this.SecondaryNavItem (mobile: bool) =
         match mobile with
         | false -> li [ _class "govuk-!-padding-bottom-1" ] |> this.content
-        | true -> li [ _class "moj-side-navigation__item mobile" ] |> this.content
+        | true  -> li [ _class "moj-side-navigation__item mobile" ] |> this.content
 
 
 let RenderMobile =

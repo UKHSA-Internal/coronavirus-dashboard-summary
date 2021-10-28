@@ -13,10 +13,10 @@ let inline visuallyHidden (value: string) =
 let inline areaTypeTag (areaType: string) =
     match areaType with
     | AreaTypes.Overview -> encodedText ""
-    | _ ->
-        strong[ _class "areatype-tag" ] [
-            visuallyHidden "Available at "
-            Formatter.toLongAreaType areaType
-            |> encodedText
-            visuallyHidden " level."
-        ]
+    | _                  ->
+                         strong[ _class "areatype-tag" ] [
+                             visuallyHidden "Available at "
+                             Formatter.toLongAreaType areaType
+                             |> encodedText
+                             visuallyHidden " level."
+                         ]
