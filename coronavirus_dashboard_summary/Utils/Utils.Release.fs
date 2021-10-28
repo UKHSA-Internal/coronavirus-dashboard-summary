@@ -9,9 +9,9 @@ module TimeStamp =
 
     [<Struct>]
     type Release = {
-        isoTimestamp: string
-        isoDate: string
-        timestamp: DateTime
+        isoTimestamp:  string
+        isoDate:       string
+        timestamp:     DateTime
         partitionDate: string
     }
 
@@ -38,8 +38,8 @@ module TimeStamp =
             DateTime.ParseExact(res, @"yyyy-MM-dd\THH:mm:ss.fffffff\Z", null)
         
         {
-          isoTimestamp = res
-          isoDate = res.Split("T").[0];
-          timestamp = resObj
+          isoTimestamp  = res
+          isoDate       = res.Split("T").[0];
+          timestamp     = resObj
           partitionDate = $"{resObj:yyyy_M_d}"
         }
