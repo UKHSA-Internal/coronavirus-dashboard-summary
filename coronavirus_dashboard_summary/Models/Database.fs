@@ -22,16 +22,16 @@ type DateTransform() =
         
         member this.toTargetType obj =
             match obj with
-            | :? string as s -> DateTime.Parse s |> box
+            | :? string   as s -> DateTime.Parse s |> box
             | :? DateTime as s -> s |> box
-            | :? int64  as s -> DateTimeOffset.FromUnixTimeSeconds(s) |> box
+            | :? int64    as s -> DateTimeOffset.FromUnixTimeSeconds(s) |> box
             | _ -> raise (ArgumentException())
             
         member this.fromTargetType obj =
             match obj with
             | :? DateTime as s -> (Formatter.toIsoDate (unbox<DateTime> s)) :> obj 
-            | :? int64 as s -> DateTimeOffset.FromUnixTimeSeconds(s) :> obj
-            | :? string as s -> s :> obj
+            | :? int64    as s -> DateTimeOffset.FromUnixTimeSeconds(s) :> obj
+            | :? string   as s -> s :> obj
             | _ -> raise (ArgumentException())
             
         
@@ -62,9 +62,6 @@ type ChangeLogPayload =
 [<Struct>]   
 type AnnouncementPayload =
     {
-        id:     string
-        launch: DateTime
-        expire: DateTime
         date:   DateTime
         body:   string
     }
@@ -76,7 +73,7 @@ let private DBConnection =
         |> Sql.password (Environment.GetEnvironmentVariable "POSTGRES_PASSWORD")
         |> (fun h -> match Generic.IsDev with
                      | true -> h |> Sql.requireSslMode
-                     | _ -> h)
+                     | _    -> h)
         |> Sql.trustServerCertificate true
         |> Sql.formatConnectionString
     
@@ -115,10 +112,10 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                                 area_type = read.string "area_type"
                                 area_code = read.string "area_code"
                                 area_name = read.string "area_name"
-                                date = read.string "date"
-                                metric = read.string "metric"
-                                value = read.doubleOrNone "value"
-                                priority = read.int "priority"
+                                date      = read.string "date"
+                                metric    = read.string "metric"
+                                value     = read.doubleOrNone "value"
+                                priority  = read.int "priority"
                             }
                         )
                     |> Async.AwaitTask
@@ -140,8 +137,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                                 id = read.int "id"
                                 area_type = read.string "area_type"
                                 area_name = read.string "area_name"
-                                postcode = read.string "postcode"
-                                priority = read.int "priority"
+                                postcode  = read.string "postcode"
+                                priority  = read.int "priority"
                             }
                         )
                     |> Async.AwaitTask
@@ -160,12 +157,12 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                     |> Sql.executeAsync
                         (fun read ->
                             {
-                                id = read.string "id"
-                                date = read.dateTime "date"
+                                id            = read.string "id"
+                                date          = read.dateTime "date"
                                 high_priority = read.bool "high_priority"
-                                tag = read.string "tag"
-                                heading = read.string "heading"
-                                body = read.string "body"
+                                tag           = read.string "tag"
+                                heading       = read.string "heading"
+                                body          = read.string "body"
                             }
                         )
                     |> Async.AwaitTask
@@ -184,11 +181,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                     |> Sql.executeAsync
                         (fun read ->
                             {
-                                id     = read.string "date"
-                                launch = read.dateTime "date"
-                                expire = read.dateTime "date"
-                                date   = read.dateTime "date"
-                                body   = read.text "body"
+                                date = read.dateTime "date"
+                                body = read.text "body"
                                 
                             }
                         )
