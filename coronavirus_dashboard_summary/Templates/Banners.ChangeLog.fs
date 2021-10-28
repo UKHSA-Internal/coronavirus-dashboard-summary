@@ -1,11 +1,12 @@
 module coronavirus_dashboard_summary.Templates.ChangeLogBanners
 
+open System.Xml
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Constants
 
-let private bannerItem (banner: DB.ChangeLogPayload) =
+let inline private bannerItem (banner: DB.ChangeLogPayload) =
     li [ _class "change-log-banner" ] [
         div [ _class "govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-0" ] [
             strong [ _class "govuk-tag"; _style "background:white;color: #1d70b8 !important;margin:0 1rem 0 0;line-height:initial;" ] [
@@ -28,9 +29,12 @@ let private bannerItem (banner: DB.ChangeLogPayload) =
         ]
     ]  
 
-let Render (payload: DB.ChangeLogPayload list) =
-    ul [ _class "change-logs govuk-!-padding-left-0" ] [
-        yield! 
-            payload
-            |> List.map bannerItem
-    ]
+let inline Render (payload: DB.ChangeLogPayload list): XmlNode option =
+    match payload.IsEmpty with
+    | true  -> None
+    | false -> ul [ _class "change-logs govuk-!-padding-left-0" ] [
+                   yield! 
+                       payload
+                       |> List.map bannerItem
+               ]
+               |> Some
