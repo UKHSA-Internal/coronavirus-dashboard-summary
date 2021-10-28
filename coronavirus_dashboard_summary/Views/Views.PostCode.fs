@@ -16,6 +16,7 @@ open coronavirus_dashboard_summary.Models.MetaData
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Views.HomePageView
 open coronavirus_dashboard_summary.Utils.TimeStamp
+open System.Collections
 
 let PostCodeMetrics =
     [|
@@ -55,18 +56,19 @@ let PostCodeMetrics =
         "transmissionRateMax"
     |]
 
-let inline (|Regex|_|) pattern input =
+let inline private (|Regex|_|) pattern input =
     let found = Regex.Match(input, pattern)
-    if found.Success then Some(List.tail [ for g in found.Groups -> g.Value ])
-    else None
+    match found.Success with
+    | true -> Some(List.tail [ for g in found.Groups -> g.Value ])
+    | false -> None
 
-let inline validatePostcode (postcode: string): string =
+let inline private validatePostcode (postcode: string): string =
     match postcode.ToUpper() with
     | Regex @"^\s*([A-Z]{1,2}\d{1,2}[A-Z]?\s?\d{1,2}[A-Z]{1,2})\s*$" [ validated ] ->
         validated.Replace(" ", "").ToUpper()
     | _ -> ""
 
-let inline PageHeading (postcode: string) =
+let inline private PageHeading (postcode: string) =
     div [ _id "top" ] [
         div [ _class "sticky-header govuk-!-padding-top-3" ] [
             div [ _class "sticky-header govuk-grid-row govuk-!-margin-top-0" ] [
@@ -79,7 +81,11 @@ let inline PageHeading (postcode: string) =
         ]
     ]
     
-type PostCodeView(postcode: string, redis: Redis.Client) =
+let inline private filterPayload (group: string * DB.Payload list) =
+    snd group
+    |> Seq.minBy (fun v -> v.priority)
+    
+type private PostCodeView(postcode: string, redis: Redis.Client) =
     
     let date = ReleaseTimestamp()
             
@@ -115,7 +121,7 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
                 | _ -> postcodeData |> this.getContent
                 |> layout.Render
         )
-    
+        
     member private _.getContent (postcodeData: DB.PostCodeDataPayload list) = 
         let dbResp =
             postcodeData
@@ -124,6 +130,11 @@ type PostCodeView(postcode: string, redis: Redis.Client) =
             |> redis.GetAllAsync
             |> Async.RunSynchronously
             |> Json.deserialize<DB.Payload List>
+            |> List.groupBy (fun item -> item.metric)
+            |> List.map filterPayload
+            |> List.map (fun item -> (item.metric, item))
+            |> dict
+            |> Generic.Dictionary<string, DB.Payload>
 
         [
             PageHeading postcode
@@ -151,11 +162,14 @@ let PostCodePageHandler: HttpHandler =
                 ctx.TryGetQueryStringValue "postcode"
                 |> Option.defaultValue ""
                 
-            let redis = ctx.GetService<Redis.Client>()
+            let redis =
+                ctx.GetService<Redis.Client>()
                 
-            let view = PostCodeView(postcode, redis)
+            let view =
+                PostCodeView(postcode, redis)
             
-            if not view.postCodeFound then ctx.SetStatusCode 404
+            if not view.postCodeFound
+                then ctx.SetStatusCode 404
 
             return! ctx.WriteHtmlViewAsync view.postcodeData
         }

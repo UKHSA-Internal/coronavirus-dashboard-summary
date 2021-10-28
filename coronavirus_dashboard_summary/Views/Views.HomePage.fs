@@ -11,6 +11,7 @@ open coronavirus_dashboard_summary.Templates.Base
 open coronavirus_dashboard_summary.Templates
 open coronavirus_dashboard_summary.Utils    
 open coronavirus_dashboard_summary.Utils.TimeStamp
+open System.Collections
 
 let HomePageMetrics =
     [|
@@ -86,12 +87,21 @@ let inline changeLogBanners redis date =
     |> Async.RunSynchronously
     |> ChangeLogBanners.Render
     
-let inline index (date: Release) (redis: Redis.Client): XmlNode List =    
+let inline private filterPayload (group: string * DB.Payload list): DB.Payload =
+    snd group
+    |> Seq.minBy (fun v -> v.priority)
+    
+let index (date: Release) (redis: Redis.Client): XmlNode List =    
     let dbResp =
         redis.GetAllAsync [|$"area-{date.isoDate}-UK"|]
         |> Async.RunSynchronously
         |> Json.deserialize<DB.Payload list>
-    
+        |> List.groupBy (fun item -> item.metric)
+        |> List.map filterPayload
+        |> List.map (fun item -> (item.metric, item))
+        |> dict
+        |> Generic.Dictionary<string, DB.Payload>
+        
     [
         yield! leadSection
         article [] [
