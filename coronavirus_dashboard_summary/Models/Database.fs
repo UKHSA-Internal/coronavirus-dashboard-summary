@@ -9,11 +9,11 @@ open coronavirus_dashboard_summary.Utils.Constants
 [<Struct>]
 type PostCodeDataPayload =
     {
-        id: int
+        id:        int
         area_type: string
         area_name: string
-        postcode: string
-        priority: int
+        postcode:  string
+        priority:  int
     }       
 
 type DateTransform() =
@@ -38,25 +38,25 @@ type DateTransform() =
 [<Struct>]
 type Payload =
     {
+        [<JsonField("date", Transform=typeof<DateTransform>)>]
+        date:      string
         area_code: string
         area_type: string
         area_name: string
-        [<JsonField("date", Transform=typeof<DateTransform>)>]
-        date: string
-        metric: string
-        value: double option
-        priority: int
+        metric:    string
+        value:     double option
+        priority:  int
     }
     
 [<Struct>]
 type ChangeLogPayload =
     {
-        id: string
-        date: DateTime
+        id:            string
+        date:          DateTime
         high_priority: bool
-        tag: string
-        heading: string
-        body: string
+        tag:           string
+        heading:       string
+        body:          string
     }
  
 [<Struct>]   
@@ -184,8 +184,12 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                     |> Sql.executeAsync
                         (fun read ->
                             {
-                                date = read.dateTime "date"
-                                body = read.string "body"
+                                id     = read.string "date"
+                                launch = read.dateTime "date"
+                                expire = read.dateTime "date"
+                                date   = read.dateTime "date"
+                                body   = read.text "body"
+                                
                             }
                         )
                     |> Async.AwaitTask
