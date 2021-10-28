@@ -13,9 +13,9 @@ open coronavirus_dashboard_summary.Templates.Header
 module Base =
     type LayoutPayload =
         {
-            date: Release
-            changeLogs: XmlNode
-            title: string
+            date:     Release
+            banners:  Banners.BannerPayload
+            title:    string
             postcode: string
         }
             
@@ -27,7 +27,7 @@ module Base =
     let private PageDescription =
         "Official Coronavirus (COVID-19) disease situation dashboard with latest data in the UK."
         
-    let envMetaTags =
+    let private envMetaTags =
         match ApiEnv with
         | "PRODUCTION" ->
             [
@@ -43,7 +43,7 @@ module Base =
                 meta [ _name "AdsBot-Google"; _content "noindex,nofollow" ]
             ]
     
-    let TailCards ( content: XmlNode ): XmlNode =
+    let inline private TailCards ( content: XmlNode ): XmlNode =
         article [] [
             header [] [
                 h2 [ _class "govuk-heading-l govuk-!-margin-top-4 govuk-!-margin-bottom-0" ] [
@@ -191,7 +191,7 @@ module Base =
                         
                         match Generic.IsDev with
                         | false -> $"{Generic.UrlLocation}/public/assets/summary/css/application.css"
-                        | true -> "css/application.css"
+                        | true  -> "css/application.css"
                         |> _href 
                     ]
                     
@@ -199,13 +199,24 @@ module Base =
                     script [ _type "application/javascript"; _async; _src "https://www.clarity.ms/eus-b/s/0.6.24/clarity.js" ] []
                     script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
                     script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/gat.js"] []
+                    
+                    style [ _type "text/css" ] [
+                        match this.banners.changeLogs with
+                        | None   -> ""
+                        | Some _ -> ".banner {margin-top: .6rem !important;"
+                        |> rawText
+                    ]
                 ]
                 body [ _class "govuk-template__body" ] [
                     GovUKHeader
                     
                     Navigation.RenderMobile
                     
-                    this.changeLogs
+                    match this.banners.changeLogs with
+                    | None   -> "" |> rawText
+                    | Some v -> v
+                    
+                    this.banners.announcements
                     
                     div [ _class "govuk-width-container" ] [
                         div [ _class "govuk-!-margin-top-5 govuk-!-margin-bottom-5"; attr "role" "region"; _ariaLabelledBy "last-update"] [
