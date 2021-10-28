@@ -62,8 +62,11 @@ type ChangeLogPayload =
 [<Struct>]   
 type AnnouncementPayload =
     {
-        date: DateTime
-        body: string
+        id:     string
+        launch: DateTime
+        expire: DateTime
+        date:   DateTime
+        body:   string
     }
     
 let private DBConnection =
