@@ -68,10 +68,10 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
                           area_type = read.string "area_type"
                           area_code = read.string "area_code"
                           area_name = read.string "area_name"
-                          date = read.string "date"
-                          metric = read.string "metric"
-                          value = read.doubleOrNone "value"
-                          priority = read.int "priority"
+                          date      = read.string "date"
+                          metric    = read.string "metric"
+                          value     = read.doubleOrNone "value"
+                          priority  = read.int "priority"
                       }
                 )
             |> Async.AwaitTask
@@ -81,7 +81,7 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
                     $"area-{date.isoDate}-UK"
                     result
                     {
-                        hours = Random().Next(3, 12)
+                        hours   = Random().Next(3, 12)
                         minutes = Random().Next(0, 60)
                         seconds = Random().Next(0, 60)
                     } 
