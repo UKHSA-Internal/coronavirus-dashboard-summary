@@ -24,7 +24,7 @@ let inline private Comparison postcode getter (release: TimeStamp.Release) =
                        "Comparison to case rates in other "
                        + match getter "newCasesBySpecimenDateRollingRate" "area_type" with
                           | "msoa" -> "England"
-                          | _ -> "UK"
+                          | _      -> "UK"
                        + " areas"
                        |> encodedText
                    ]
@@ -224,7 +224,7 @@ let Render postcode getter (release: TimeStamp.Release) =
                 ]
                 match getter "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage" "area_type" with
                 | AreaTypes.MSOA -> Vaccination getter
-                | _ -> "" |> encodedText
+                | _              -> "" |> encodedText
             ]
         ]
         li [ _class "more-details" ] [
