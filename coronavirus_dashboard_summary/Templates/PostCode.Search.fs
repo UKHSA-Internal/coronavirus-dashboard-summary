@@ -32,7 +32,7 @@ let Render (postcode: string): XmlNode =
                 "govuk-form-group govuk-!-margin-bottom-0"
                 + match postcode with
                    | null -> null
-                   | _ -> " govuk-form-group--error"
+                   | _    -> " govuk-form-group--error"
                 |> _class
             ] [
                 fieldset [ _class "govuk-fieldset"; attr "role" "group"; _ariaDescribedBy "postcode-hint" ] [
@@ -45,18 +45,21 @@ let Render (postcode: string): XmlNode =
                     yield!
                         match postcode with
                         | null -> []
-                        | _ -> [ span [ _class "govuk-error-message" ] [
-                            Components.visuallyHidden "Error: "
-                            encodedText $"Invalid postcode '{ postcode }' "
-                            rawText "&mdash; enter a full and valid UK postcode."
-                        ]]
+                        | _    ->
+                            [
+                              span [ _class "govuk-error-message" ] [
+                                    Components.visuallyHidden "Error: "
+                                    encodedText $"Invalid postcode '{ postcode }' "
+                                    rawText "&mdash; enter a full and valid UK postcode."
+                                ]
+                            ]
                     p [ _class "govuk-!-margin-bottom-0" ] [
                         input [
                             _form "regionform"
                             "govuk-input govuk-input--width-10"
                             + match postcode with
                                | null -> null
-                               | _ -> " govuk-input--error"
+                               | _    -> " govuk-input--error"
                             |> _class
                             _id "postcode"
                             _name "postcode"
