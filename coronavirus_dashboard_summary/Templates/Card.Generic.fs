@@ -1,6 +1,7 @@
 namespace coronavirus_dashboard_summary.Templates
 
 open System
+open System.Collections
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Utils.Metrics
@@ -270,7 +271,7 @@ module Card =
                 ]
             ]
               
-        member this.Card (release: TimeStamp.Release) (payload: DB.Payload list) (postcode: string): XmlNode list =
+        member this.Card (release: TimeStamp.Release) (payload: Generic.Dictionary<string, DB.Payload>) (postcode: string): XmlNode list =
             let getter = MetricValue(payload)
             let emptyPostcode = String.IsNullOrEmpty postcode
             
@@ -278,7 +279,7 @@ module Card =
             | (false, true) ->
                 match String.IsNullOrEmpty this.caption with
                 | false -> [ Transmission.Card this getter.metricValue ]
-                | _ -> PostCodeLead.Render (postcode.ToUpper()) getter.smallestByMetric release
+                | _ -> PostCodeLead.Render (postcode.ToUpper()) getter.metricValue release
             | (true, false)
             | (false, false) ->
                match this.caption with
