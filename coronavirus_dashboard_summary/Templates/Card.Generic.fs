@@ -158,11 +158,11 @@ module Card =
             let metricData = getter this.metric
             let thumbnail: Thumbnail.Payload =
                 {
-                    isPostcode   = isPostcode
-                    caption      = this.caption
-                    metric       = this.metric
-                    metricData   = metricData
-                    date         = date
+                    isPostcode = isPostcode
+                    caption    = this.caption
+                    metric     = this.metric
+                    metricData = metricData
+                    date       = date
                 }
                 
             let areaNameConnector =
