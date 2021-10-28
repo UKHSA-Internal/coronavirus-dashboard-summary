@@ -616,3 +616,11 @@ main {
     @extend .govuk-\!-padding-bottom-1;
   }
 }
+
+.title {
+  font-size: 1.65rem;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 1.15rem;
+  }
+}
