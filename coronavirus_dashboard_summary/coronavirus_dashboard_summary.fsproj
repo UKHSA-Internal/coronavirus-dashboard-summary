@@ -31,20 +31,27 @@
         <Compile Include="Utils\Utils.Formatters.fs" />
         <Compile Include="Utils\Utils.Release.fs" />
         <Compile Include="Utils\Utils.Attrs.fs" />
+        <Compile Include="Utils\Utils.Validators.fs" />
         <Compile Include="Utils\Redis.Client.fs" />
         <Compile Include="Models\Database.fs" />
 
+        <Compile Include="Models\Metrics.fs" />
         <Compile Include="Models\Models.fs" />
+        <Compile Include="Utils\Utils.Filters.fs" />
+
         <Compile Include="Templates\Component.fs" />
-        <Compile Include="Templates\Banner.ChangeLog.fs" />
+        <Compile Include="Templates\Banners.ChangeLog.fs" />
+        <Compile Include="Templates\Banners.Announcement.fs" />
         <Compile Include="Templates\Global.Header.fs" />
         <Compile Include="Templates\Global.Footer.fs" />
         <Compile Include="Templates\Global.Nav.fs" />
         <Compile Include="Templates\Component.ChangeValue.fs" />
         <Compile Include="Templates\Card.WeeklyChange.fs" />
         <Compile Include="Templates\PostCode.Lead.fs" />
+        <Compile Include="Templates\PostCode.Heading.fs" />
+        <Compile Include="Templates\Body.fs" />
+        <Compile Include="Templates\Home.Heading.fs" />
         <Compile Include="Templates\PostCode.Search.fs" />
-        <Compile Include="Templates\Base.fs" />
         <Compile Include="Models\Models.Announcements.fs" />
         <Compile Include="Models\Models.ChangeLog.fs" />
         <Compile Include="Models\Models.Metadata.fs" />
@@ -55,6 +62,8 @@
         <Compile Include="Utils\Utils.Metrics.fs" />
         <Compile Include="Templates\Component.Thumbnail.fs" />
         <Compile Include="Templates\Card.Generic.fs" />
+        <Compile Include="Templates\Banners.fs" />
+        <Compile Include="Templates\Base.fs" />
         <Compile Include="Models\Models.HomePage.fs" />
         <Compile Include="Views\Views.HomePage.fs" />
         <Compile Include="Views\Views.PostCode.fs" />
