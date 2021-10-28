@@ -1,5 +1,6 @@
 .banner {
   background: #FEDE02;
+  @extend .govuk-list;
   @extend .govuk-grid-row;
   @extend .govuk-\!-padding-top-2 ;
   @extend .govuk-\!-padding-bottom-2;
@@ -15,10 +16,10 @@
     margin: auto;
 
     &>.timestamp {
-      @extend .govuk-\!-font-weight-bold;
       @extend .govuk-\!-margin-bottom-1;
-
+      display: flex;
       width: 100%;
+      justify-content: center;
       text-align: center;
     }
 
