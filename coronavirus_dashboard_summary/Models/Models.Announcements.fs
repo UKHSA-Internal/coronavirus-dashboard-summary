@@ -27,10 +27,7 @@ type Announcements(redis, date) =
     FROM covid19.release_reference AS rr
     WHERE rr.released IS TRUE
 )
-SELECT id::TEXT,
-       launch::DATE,
-       expire::DATE,
-       COALESCE(date, launch::DATE) AS date,
+SELECT COALESCE(date, launch::DATE) AS date,
        body
 FROM covid19.announcement AS an
 WHERE
