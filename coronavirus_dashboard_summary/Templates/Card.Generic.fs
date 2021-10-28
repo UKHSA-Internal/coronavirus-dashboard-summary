@@ -4,10 +4,9 @@ open System
 open System.Collections
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Models
-open coronavirus_dashboard_summary.Utils.Metrics
+open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Attrs
 open coronavirus_dashboard_summary.Utils.Constants
-open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Templates
 
 [<AutoOpen>]
@@ -271,18 +270,18 @@ module Card =
                 ]
             ]
               
-        member this.Card (release: TimeStamp.Release) (payload: Generic.Dictionary<string, DB.Payload>) (postcode: string): XmlNode list =
-            let getter = MetricValue(payload)
+        member this.Card (release: TimeStamp.Release) (payload: Metrics.GeneralPayload) (postcode: string): XmlNode list =
+            let getter = Metrics.Processor payload
             let emptyPostcode = String.IsNullOrEmpty postcode
             
             match (emptyPostcode, this.postCodeOnly) with
             | (false, true) ->
                 match String.IsNullOrEmpty this.caption with
-                | false -> [ Transmission.Card this getter.metricValue ]
-                | _ -> PostCodeLead.Render (postcode.ToUpper()) getter.metricValue release
+                | false -> [ Transmission.Card this getter ]
+                | _ -> PostCodeLead.Render (postcode.ToUpper()) getter release
             | (true, false)
             | (false, false) ->
                match this.caption with
-               | "Vaccinations" -> [ Vaccinations.Payload(this, release).Render getter.metricValue ]
-               | _ -> [ this.normalCard release (not emptyPostcode) getter.metricValue ]
+               | "Vaccinations" -> [ Vaccinations.Payload(this, release).Render getter ]
+               | _ -> [ this.normalCard release (not emptyPostcode) getter ]
             | _ -> []
