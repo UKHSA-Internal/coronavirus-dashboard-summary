@@ -4,11 +4,20 @@ open System
 open coronavirus_dashboard_summary.Models
 open Giraffe.ViewEngine
 
-let inline Render (metadata: MetaData.ContentMetadata) (getter: string -> string -> string): XmlNode List =
+[<Literal>]
+let private IgnoredRate = "newCasesBySpecimenDateRollingRate"
+
+[<Literal>]
+let private EnglandInitial = "E"
+
+
+let inline Render (metadata: MetaData.ContentMetadata) (getter: string -> string -> string): XmlNode =
     match String.IsNullOrEmpty metadata.rate with
-    | true -> []
-    | _ -> 
-        [
+    | true -> "" |> rawText
+    | _    ->     
+        match (getter metadata.metric "area_code").StartsWith EnglandInitial && metadata.rate.Equals IgnoredRate with
+        | true -> "" |> rawText
+        | _    -> 
             details [
                 _class "govuk-details govuk-!-margin-top-1 govuk-!-margin-bottom-1"
                 _data "module" "govuk-details"
@@ -33,6 +42,4 @@ let inline Render (metadata: MetaData.ContentMetadata) (getter: string -> string
                         |> encodedText
                     ]
                 ]
-            ]
-        ]
-    
+            ] 
