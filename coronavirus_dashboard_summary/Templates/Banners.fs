@@ -1,10 +1,12 @@
 module coronavirus_dashboard_summary.Templates.Banners
 
+open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Templates
 open coronavirus_dashboard_summary.Utils
 
+[<IsReadOnly>]
 type BannerPayload =
     {
         changeLogs:    XmlNode option

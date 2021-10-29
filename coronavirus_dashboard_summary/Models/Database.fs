@@ -1,12 +1,13 @@
 module coronavirus_dashboard_summary.Models.DB
 
 open System
+open System.Runtime.CompilerServices
 open FSharp.Json
 open Npgsql.FSharp
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Constants
 
-[<Struct>]
+[<Struct; IsReadOnly>]
 type PostCodeDataPayload =
     {
         id:        int
@@ -35,7 +36,7 @@ type DateTransform() =
             | _ -> raise (ArgumentException())
             
         
-[<Struct>]
+[<Struct; IsReadOnly>]
 type Payload =
     {
         [<JsonField("date", Transform=typeof<DateTransform>)>]
@@ -48,7 +49,7 @@ type Payload =
         priority:  int
     }
     
-[<Struct>]
+[<Struct; IsReadOnly>]
 type ChangeLogPayload =
     {
         id:            string
@@ -59,7 +60,7 @@ type ChangeLogPayload =
         body:          string
     }
  
-[<Struct>]   
+[<Struct; IsReadOnly>]
 type AnnouncementPayload =
     {
         date:   DateTime

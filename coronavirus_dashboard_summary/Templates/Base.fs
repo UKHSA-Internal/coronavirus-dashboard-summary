@@ -2,6 +2,7 @@ namespace coronavirus_dashboard_summary.Templates
 
 open System
 open System.Globalization
+open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open Giraffe.ViewEngine.Accessibility
 open coronavirus_dashboard_summary.Utils.Attrs
@@ -11,6 +12,8 @@ open coronavirus_dashboard_summary.Templates.Footer
 open coronavirus_dashboard_summary.Templates.Header
 
 module Base =
+    
+    [<IsReadOnly>]
     type LayoutPayload =
         {
             date:     Release

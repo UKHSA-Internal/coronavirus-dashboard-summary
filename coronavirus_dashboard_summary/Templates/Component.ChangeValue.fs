@@ -1,10 +1,12 @@
 module coronavirus_dashboard_summary.Templates.ChangeValue
 
+open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open Giraffe.ViewEngine.Accessibility
 open coronavirus_dashboard_summary.Utils.Attrs
 open coronavirus_dashboard_summary.Utils.Constants
 
+[<IsReadOnly>]
 type Payload =
     {
         change:              string

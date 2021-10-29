@@ -1,12 +1,13 @@
 module coronavirus_dashboard_summary.Templates.Thumbnail
 
+open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open Giraffe.ViewEngine.Accessibility
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Attrs
 open coronavirus_dashboard_summary.Utils.Constants
 
-[<Struct>]
+[<Struct; IsReadOnly>]
 type Payload =
     {
         isPostcode: bool

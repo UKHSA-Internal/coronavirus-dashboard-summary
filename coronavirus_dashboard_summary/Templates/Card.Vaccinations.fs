@@ -1,6 +1,7 @@
 module coronavirus_dashboard_summary.Templates.Vaccinations
 
 open System
+open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Attrs
@@ -8,7 +9,7 @@ open coronavirus_dashboard_summary.Utils.Constants
 open coronavirus_dashboard_summary.Models
 open Giraffe.ViewEngine.Accessibility
 
-[<Struct>]
+[<Struct; IsReadOnly>]
 type private NumberItem =
     {
         metric: string
