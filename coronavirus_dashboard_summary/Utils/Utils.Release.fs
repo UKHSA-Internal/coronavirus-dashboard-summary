@@ -1,13 +1,14 @@
 namespace coronavirus_dashboard_summary.Utils
 
 open System
+open System.Runtime.CompilerServices
 open Azure.Storage.Blobs
 
 module TimeStamp =
     let private connStr = Environment.GetEnvironmentVariable("DeploymentBlobStorage")
     let private containerClient = BlobContainerClient(connStr, "pipeline")
 
-    [<Struct>]
+    [<Struct; IsReadOnly>]
     type Release = {
         isoTimestamp:  string
         isoDate:       string
