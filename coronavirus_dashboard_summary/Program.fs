@@ -13,7 +13,6 @@ open Giraffe
 open coronavirus_dashboard_summary.Views
 open coronavirus_dashboard_summary.Utils
 
-
 let webApp =
     choose [
         GET >=>
@@ -40,7 +39,7 @@ let errorHandler (ex : Exception) (logger : ILogger) =
     
     clearResponse
     >=> setStatusCode 500
-    >=> text ex.Message
+    >=> ServerErrors.INTERNAL_ERROR "An unhandled error occurred while serving your request."
 
 // ---------------------------------
 // Config and Main
@@ -70,17 +69,20 @@ let configureApp (app : IApplicationBuilder) =
             .UseGiraffe webApp
 
 let configureServices (services : IServiceCollection) =
-    services .AddCors()
+    services .AddApplicationInsightsTelemetry()
+             .AddCors()
              .AddResponseCaching(fun (options: ResponseCachingOptions) ->
                  options.MaximumBodySize <- 16 * 1024 * 1024 |> int64;
                  options.UseCaseSensitivePaths <- false
              )
              .AddGiraffe()
-             .AddScoped<Redis.Client>() |> ignore
+             .AddScoped<Redis.Client>()
+    |> ignore
 
 let configureLogging (builder : ILoggingBuilder) =
     builder.AddConsole()
-           .AddDebug() |> ignore
+           .AddDebug()
+    |> ignore
 
 [<EntryPoint>]
 let main args =
@@ -93,8 +95,8 @@ let main args =
                     .UseContentRoot(contentRoot)
                     .UseWebRoot(webRoot)
                     .Configure(Action<IApplicationBuilder> configureApp)
-                    .ConfigureServices(configureServices)
                     .ConfigureLogging(configureLogging)
+                    .ConfigureServices(configureServices)
                     |> ignore)
         .Build()
         .Run()
