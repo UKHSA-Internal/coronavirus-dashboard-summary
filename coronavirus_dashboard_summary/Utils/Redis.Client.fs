@@ -1,10 +1,15 @@
 module coronavirus_dashboard_summary.Utils.Redis
 
 open System
+open System.Diagnostics
+open System.Runtime.CompilerServices
 open Giraffe
 open StackExchange.Redis
 open StackExchange.Redis.MultiplexerPool
 open FSharp.Json
+open Microsoft.ApplicationInsights
+open Microsoft.ApplicationInsights.DataContracts
+
 
 [<Literal>]
 let private RedisDatabase = 2
@@ -16,7 +21,9 @@ let private conStr = Environment.GetEnvironmentVariable "REDIS"
 
 let private RedisConfig = ConfigurationOptions.Parse(conStr)
 
-[<Struct>]
+let private RedisHostName = (conStr.Split ".").[0]
+
+[<Struct; IsReadOnly>]
 type Expiry =
     {
         hours: int
@@ -24,7 +31,7 @@ type Expiry =
         seconds: int
     }
     
-type Client () = 
+type Client (telemetry: TelemetryClient) = 
     let mutable errCount = Array.init RedisPoolSize int
         
     let cxp = ConnectionMultiplexerPoolFactory
@@ -129,10 +136,29 @@ type Client () =
         
     member this.GetHashAsync (key: string) (field: string): Async<string option> =
         async {
+            let startTime = DateTimeOffset.UtcNow
+            let swFlush = Stopwatch.StartNew()
+            
             let! result = this.QueryRedisAsync (fun (db: IDatabase) ->
                 db.HashGetAsync(RedisKey key, RedisValue field)
                 |> Async.AwaitTask
             )
+            
+            swFlush.Stop()
+            
+            let tracker = DependencyTelemetry
+                              (
+                                  "Redis",
+                                  RedisHostName,
+                                  "HSET",
+                                  String.Empty,
+                                  startTime,
+                                  swFlush.Elapsed,
+                                  "200",
+                                  true
+                              )
+                        
+            telemetry.TrackDependency(tracker)
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
@@ -145,6 +171,9 @@ type Client () =
         let data = Json.serializeEx conf value
 
         async {
+            let startTime = DateTimeOffset.UtcNow
+            let swFlush = Stopwatch.StartNew()
+            
             let! _ = this.QueryRedisAsync (fun (db: IDatabase) ->
                 db.HashSetAsync
                     (
@@ -156,6 +185,21 @@ type Client () =
                     )
                 |> Async.AwaitTask
             )
+            swFlush.Stop()
+            
+            let tracker = DependencyTelemetry
+                              (
+                                  "Redis",
+                                  RedisHostName,
+                                  "HSET",
+                                  String.Empty,
+                                  startTime,
+                                  swFlush.Elapsed,
+                                  "200",
+                                  true
+                              )
+            
+            telemetry.TrackDependency(tracker)
             
             return Some(data.ToString())
         }
