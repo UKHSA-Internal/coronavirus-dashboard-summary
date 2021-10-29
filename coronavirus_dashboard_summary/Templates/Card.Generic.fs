@@ -238,7 +238,7 @@ module Card =
                     ]
                 ]
                 
-                yield! RateDetail.Render this getter
+                RateDetail.Render this getter
                 thumbnail.Render
 
                 hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned" ]
