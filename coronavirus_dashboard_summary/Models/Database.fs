@@ -80,14 +80,15 @@ type Tracker =
     
 let private DBConnection =
     Sql.host (Environment.GetEnvironmentVariable "POSTGRES_HOST")
-        |> Sql.database (Environment.GetEnvironmentVariable "POSTGRES_DATABASE")
-        |> Sql.username (Environment.GetEnvironmentVariable "POSTGRES_USER")
-        |> Sql.password (Environment.GetEnvironmentVariable "POSTGRES_PASSWORD")
-        |> (fun h -> match Generic.IsDev with
-                     | true -> h |> Sql.requireSslMode
-                     | _    -> h)
-        |> Sql.trustServerCertificate true
-        |> Sql.formatConnectionString
+    |> Sql.database (Environment.GetEnvironmentVariable "POSTGRES_DATABASE")
+    |> Sql.username (Environment.GetEnvironmentVariable "POSTGRES_USER")
+    |> Sql.password (Environment.GetEnvironmentVariable "POSTGRES_PASSWORD")
+    |> (fun h -> match Generic.IsDev with
+                 | true -> h |> Sql.requireSslMode
+                 | _    -> h)
+    |> Sql.trustServerCertificate true
+    |> Sql.formatConnectionString
+    |> (+) "Pooling=false;"
     
 type IDatabase<'T> =
     abstract member fetchFromDB: Async<string option>
