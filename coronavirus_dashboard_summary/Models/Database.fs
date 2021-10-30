@@ -1,11 +1,16 @@
 module coronavirus_dashboard_summary.Models.DB
 
 open System
+open System.Diagnostics
 open System.Runtime.CompilerServices
 open FSharp.Json
+open Microsoft.ApplicationInsights.Extensibility
 open Npgsql.FSharp
+open Npgsql
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Constants
+open Microsoft.ApplicationInsights
+open Microsoft.ApplicationInsights.DataContracts
 
 [<Struct; IsReadOnly>]
 type PostCodeDataPayload =
@@ -67,6 +72,16 @@ type AnnouncementPayload =
         body:   string
     }
     
+    
+type DBException = PostgresException | NpgsqlException
+    
+[<IsReadOnly>]
+type Tracker =
+    {
+        Success: unit -> unit
+        Failure: Exception -> Exception
+    }
+    
 let private DBConnection =
     Sql.host (Environment.GetEnvironmentVariable "POSTGRES_HOST")
         |> Sql.database (Environment.GetEnvironmentVariable "POSTGRES_DATABASE")
@@ -83,6 +98,51 @@ type IDatabase<'T> =
     
 [<AbstractClass>]
 type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
+    member private this.telemetry
+        with get() =
+            let config = TelemetryConfiguration.CreateDefault()
+            TelemetryClient(config)
+        
+    member private this.startTelemetry (payload: string) =
+        let startTime = DateTimeOffset.UtcNow
+        let swFlush = Stopwatch.StartNew()
+            
+        {
+             Success = fun () ->
+                swFlush.Stop()
+                let tracker = DependencyTelemetry
+                                  (
+                                      "postgresql",
+                                      "database",
+                                      "query",
+                                      payload,
+                                      startTime,
+                                      swFlush.Elapsed,
+                                      "200",
+                                      true
+                                  )
+                this.telemetry.TrackDependency(tracker)
+                
+             Failure = fun ex ->
+                swFlush.Stop()
+                
+                let tracker = DependencyTelemetry
+                                  (
+                                      "postgresql",
+                                      "database",
+                                      "query",
+                                      payload,
+                                      startTime,
+                                      swFlush.Elapsed,
+                                      "500",
+                                      false
+                                  )
+                this.telemetry.TrackDependency tracker
+                this.telemetry.TrackException ex
+                
+                ex
+        }
+            
     abstract query: string
         with get
             
@@ -105,94 +165,126 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
     interface IDatabase<Payload> with
         member this.fetchFromDB =
             async {
-                let! result =
-                    this.preppedQuery
-                    |> Sql.executeAsync
-                        (fun read ->
-                            {
-                                area_type = read.string "area_type"
-                                area_code = read.string "area_code"
-                                area_name = read.string "area_name"
-                                date      = read.string "date"
-                                metric    = read.string "metric"
-                                value     = read.doubleOrNone "value"
-                                priority  = read.int "priority"
-                            }
-                        )
-                    |> Async.AwaitTask
+                let tracker = this.startTelemetry this.query
+                
+                try
+                    let! result =
+                        this.preppedQuery
+                        |> Sql.executeAsync
+                            (fun read ->
+                                {
+                                    area_type = read.string "area_type"
+                                    area_code = read.string "area_code"
+                                    area_name = read.string "area_name"
+                                    date      = read.string "date"
+                                    metric    = read.string "metric"
+                                    value     = read.doubleOrNone "value"
+                                    priority  = read.int "priority"
+                                }
+                            )
+                        |> Async.AwaitTask
 
-                return! redis.SetAsync
-                            this.key
-                            result
-                            this.cacheDuration
+                    tracker.Success()
+                    
+                    return! redis.SetAsync
+                                this.key
+                                result
+                                this.cacheDuration
+                with
+                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
             }
             
     interface IDatabase<PostCodeDataPayload> with
         member this.fetchFromDB =
             async {
-                let! result =
-                    this.preppedQuery
-                    |> Sql.executeAsync
-                        (fun read ->
-                            {
-                                id = read.int "id"
-                                area_type = read.string "area_type"
-                                area_name = read.string "area_name"
-                                postcode  = read.string "postcode"
-                                priority  = read.int "priority"
-                            }
-                        )
-                    |> Async.AwaitTask
+                let tracker = this.startTelemetry this.query
                 
-                return! redis.SetHashAsync
-                            this.key
-                            this.keySuffix
-                            result
+                try 
+                    let! result =
+                        this.preppedQuery
+                        |> Sql.executeAsync
+                            (fun read ->
+                                {
+                                    id = read.int "id"
+                                    area_type = read.string "area_type"
+                                    area_name = read.string "area_name"
+                                    postcode  = read.string "postcode"
+                                    priority  = read.int "priority"
+                                }
+                            )
+                        |> Async.AwaitTask
+                    
+                    tracker.Success()
+
+                    return! redis.SetHashAsync
+                                this.key
+                                this.keySuffix
+                                result
+                with
+                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
             }
 
     interface IDatabase<ChangeLogPayload> with
-        member this.fetchFromDB =
+        member this.fetchFromDB: Async<string option> =            
             async {
-                let! result = 
-                    this.preppedQuery
-                    |> Sql.executeAsync
-                        (fun read ->
-                            {
-                                id            = read.string "id"
-                                date          = read.dateTime "date"
-                                high_priority = read.bool "high_priority"
-                                tag           = read.string "tag"
-                                heading       = read.string "heading"
-                                body          = read.string "body"
-                            }
-                        )
-                    |> Async.AwaitTask
-            
-                return! redis.SetAsync
-                            this.key
-                            result
-                            this.cacheDuration
+                let tracker = this.startTelemetry this.query
+                
+                try
+                    let! result =
+                        this.preppedQuery
+                        |> Sql.executeAsync
+                            (fun read ->
+                                {
+                                    id            = read.string "id"
+                                    date          = read.dateTime "date"
+                                    high_priority = read.bool "high_priority"
+                                    tag           = read.string "tag"
+                                    heading       = read.string "heading"
+                                    body          = read.string "body"
+                                }
+                            )
+                        |> Async.AwaitTask
+                        
+                    tracker.Success()
+
+                    return! redis.SetAsync
+                                this.key
+                                result
+                                this.cacheDuration
+                with
+                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
             }
             
     interface IDatabase<AnnouncementPayload> with
         member this.fetchFromDB =
             async {
-                let! result = 
-                    this.preppedQuery
-                    |> Sql.executeAsync
-                        (fun read ->
-                            {
-                                date = read.dateTime "date"
-                                body = read.text "body"
-                                
-                            }
-                        )
-                    |> Async.AwaitTask
-            
-                return! redis.SetAsync
-                            this.key
-                            result
-                            this.cacheDuration
+                let tracker = this.startTelemetry this.query
+                
+                try
+                    let! result = 
+                        this.preppedQuery
+                        |> Sql.executeAsync
+                            (fun read ->
+                                {
+                                    date = read.dateTime "date"
+                                    body = read.text "body"
+                                    
+                                }
+                            )
+                        |> Async.AwaitTask
+
+                    tracker.Success()
+
+                    return! redis.SetAsync
+                                this.key
+                                result
+                                this.cacheDuration
+                with
+                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
             }
         
     member this.date
