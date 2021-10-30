@@ -45,7 +45,7 @@ type Client (telemetry: TelemetryClient) =
     let cxp = ConnectionMultiplexerPoolFactory
                   .Create(RedisPoolSize, RedisConfig, null, ConnectionSelectionStrategy.RoundRobin)
                   
-    member private this.startTelemetry (cmd: string) (payload: string) =
+    member private this.startTelemetry (name: string) (cmd: string) (payload: string) =
         let startTime = DateTimeOffset.UtcNow
         let swFlush = Stopwatch.StartNew()
             
@@ -56,8 +56,8 @@ type Client (telemetry: TelemetryClient) =
                                   (
                                       "Redis",
                                       RedisHostName,
-                                      $"{cmd} ${payload}",
-                                      String.Empty,
+                                      name,
+                                      $"{cmd} {payload}",
                                       startTime,
                                       swFlush.Elapsed,
                                       "200",
@@ -72,8 +72,8 @@ type Client (telemetry: TelemetryClient) =
                                   (
                                       "Redis",
                                       RedisHostName,
+                                      name,
                                       $"{cmd} {payload}",
-                                      ex.ToString(),
                                       startTime,
                                       swFlush.Elapsed,
                                       "500",
@@ -109,7 +109,7 @@ type Client (telemetry: TelemetryClient) =
 
         async {
 
-            let tracker = this.startTelemetry "SET" key
+            let tracker = this.startTelemetry "SetAsync" "SET" key
 
             let! _ = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringSetAsync
@@ -134,7 +134,7 @@ type Client (telemetry: TelemetryClient) =
 
         async {
             
-            let tracker = this.startTelemetry "SET NX" key
+            let tracker = this.startTelemetry "SetOverrideAsync" "SET NX" key
             
             let! _ = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringSetAsync
@@ -157,7 +157,7 @@ type Client (telemetry: TelemetryClient) =
     member this.GetAsync (key: string): Async<string option> =
         async {
 
-            let tracker = this.startTelemetry "GET" key
+            let tracker = this.startTelemetry "GetAsync" "GET" key
 
             let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringGetAsync(RedisKey key)
@@ -175,7 +175,7 @@ type Client (telemetry: TelemetryClient) =
     member this.GetAllAsync (keys: string[]): Async<string> =
         async {
             
-            let tracker = this.startTelemetry "GET" ( String.Join(" ", keys) )
+            let tracker = this.startTelemetry "GetAllAsync" "GET" ( String.Join(" ", keys) )
 
             let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 keys
@@ -204,7 +204,7 @@ type Client (telemetry: TelemetryClient) =
     member this.GetHashAsync (key: string) (field: string): Async<string option> =
         async {
             
-            let tracker = this.startTelemetry "HGET" key
+            let tracker = this.startTelemetry "GetHashAsync" "HGET" key
             
             let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.HashGetAsync(RedisKey key, RedisValue field)
@@ -225,7 +225,7 @@ type Client (telemetry: TelemetryClient) =
 
         async {
             
-            let tracker = this.startTelemetry "HSET" key
+            let tracker = this.startTelemetry "SetHashAsync" "HSET" key
             
             let! _ = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.HashSetAsync
