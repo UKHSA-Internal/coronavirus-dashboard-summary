@@ -26,9 +26,17 @@ let private RedisHostName = (conStr.Split ".").[0]
 [<Struct; IsReadOnly>]
 type Expiry =
     {
-        hours: int
+        hours:   int
         minutes: int
         seconds: int
+    }
+    
+    
+[<IsReadOnly>]
+type private Tracker =
+    {
+        Success: unit -> unit
+        Failure: RedisException -> RedisException
     }
     
 type Client (telemetry: TelemetryClient) = 
@@ -36,8 +44,47 @@ type Client (telemetry: TelemetryClient) =
         
     let cxp = ConnectionMultiplexerPoolFactory
                   .Create(RedisPoolSize, RedisConfig, null, ConnectionSelectionStrategy.RoundRobin)
-      
-    member inline private _.QueryRedisAsync (op: IDatabase -> Async<'a>) =
+                  
+    member private this.startTelemetry (cmd: string) (payload: string) =
+        let startTime = DateTimeOffset.UtcNow
+        let swFlush = Stopwatch.StartNew()
+            
+        {
+             Success = fun () ->
+                swFlush.Stop()
+                let tracker = DependencyTelemetry
+                                  (
+                                      "Redis",
+                                      RedisHostName,
+                                      $"{cmd} ${payload}",
+                                      String.Empty,
+                                      startTime,
+                                      swFlush.Elapsed,
+                                      "200",
+                                      true
+                                  )
+                telemetry.TrackDependency(tracker)
+                
+             Failure = fun ex ->
+                swFlush.Stop()
+                
+                let tracker = DependencyTelemetry
+                                  (
+                                      "Redis",
+                                      RedisHostName,
+                                      $"{cmd} {payload}",
+                                      ex.ToString(),
+                                      startTime,
+                                      swFlush.Elapsed,
+                                      "500",
+                                      false
+                                  )            
+                telemetry.TrackDependency tracker
+                telemetry.TrackException ex
+                ex
+        }
+            
+    member inline private _.QueryRedisAsync (tracker: Tracker) (op: IDatabase -> Async<'a>) =
         async {
             let! cx = cxp.GetAsync() |> Async.AwaitTask
             
@@ -45,6 +92,7 @@ type Client (telemetry: TelemetryClient) =
                 return! op(cx.Connection.GetDatabase(RedisDatabase))
             with
             | :? RedisConnectionException as ex when errCount.[cx.ConnectionIndex] + 1 < 3 -> return! raise(ex)
+            | :? RedisException as ex -> return! raise (tracker.Failure(ex))
             | _ -> 
                 errCount.[cx.ConnectionIndex] <- errCount.[cx.ConnectionIndex] + 1
                     
@@ -60,7 +108,10 @@ type Client (telemetry: TelemetryClient) =
         let data = Json.serializeEx conf value
 
         async {
-            let! _ = this.QueryRedisAsync (fun (db: IDatabase) ->
+
+            let tracker = this.startTelemetry "SET" key
+
+            let! _ = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringSetAsync
                     (
                         RedisKey key,
@@ -72,6 +123,8 @@ type Client (telemetry: TelemetryClient) =
                 |> Async.AwaitTask
             )
             
+            tracker.Success()
+            
             return Some(data.ToString())
         }
         
@@ -80,7 +133,10 @@ type Client (telemetry: TelemetryClient) =
         let data = Json.serializeEx conf value
 
         async {
-            let! _ = this.QueryRedisAsync (fun (db: IDatabase) ->
+            
+            let tracker = this.startTelemetry "SET NX" key
+            
+            let! _ = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringSetAsync
                     (
                         RedisKey key,
@@ -92,16 +148,23 @@ type Client (telemetry: TelemetryClient) =
                 |> Async.AwaitTask
             )
             
+            tracker.Success()
+            
             return Some(data.ToString())
+            
         }
         
     member this.GetAsync (key: string): Async<string option> =
         async {
 
-            let! result = this.QueryRedisAsync (fun (db: IDatabase) ->
+            let tracker = this.startTelemetry "GET" key
+
+            let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringGetAsync(RedisKey key)
                 |> Async.AwaitTask
             )
+            
+            tracker.Success()
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
@@ -111,13 +174,17 @@ type Client (telemetry: TelemetryClient) =
         
     member this.GetAllAsync (keys: string[]): Async<string> =
         async {
-                
-            let! result = this.QueryRedisAsync (fun (db: IDatabase) ->
+            
+            let tracker = this.startTelemetry "GET" ( String.Join(" ", keys) )
+
+            let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 keys
                 |> Array.map(RedisKey)
                 |> db.StringGetAsync
                 |> Async.AwaitTask
             )
+            
+            tracker.Success()
             
             let response =
                 result
@@ -136,29 +203,15 @@ type Client (telemetry: TelemetryClient) =
         
     member this.GetHashAsync (key: string) (field: string): Async<string option> =
         async {
-            let startTime = DateTimeOffset.UtcNow
-            let swFlush = Stopwatch.StartNew()
             
-            let! result = this.QueryRedisAsync (fun (db: IDatabase) ->
+            let tracker = this.startTelemetry "HGET" key
+            
+            let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.HashGetAsync(RedisKey key, RedisValue field)
                 |> Async.AwaitTask
             )
             
-            swFlush.Stop()
-            
-            let tracker = DependencyTelemetry
-                              (
-                                  "Redis",
-                                  RedisHostName,
-                                  "HSET",
-                                  String.Empty,
-                                  startTime,
-                                  swFlush.Elapsed,
-                                  "200",
-                                  true
-                              )
-                        
-            telemetry.TrackDependency(tracker)
+            tracker.Success()
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
@@ -171,10 +224,10 @@ type Client (telemetry: TelemetryClient) =
         let data = Json.serializeEx conf value
 
         async {
-            let startTime = DateTimeOffset.UtcNow
-            let swFlush = Stopwatch.StartNew()
             
-            let! _ = this.QueryRedisAsync (fun (db: IDatabase) ->
+            let tracker = this.startTelemetry "HSET" key
+            
+            let! _ = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.HashSetAsync
                     (
                         RedisKey key,
@@ -185,21 +238,9 @@ type Client (telemetry: TelemetryClient) =
                     )
                 |> Async.AwaitTask
             )
-            swFlush.Stop()
             
-            let tracker = DependencyTelemetry
-                              (
-                                  "Redis",
-                                  RedisHostName,
-                                  "HSET",
-                                  String.Empty,
-                                  startTime,
-                                  swFlush.Elapsed,
-                                  "200",
-                                  true
-                              )
-            
-            telemetry.TrackDependency(tracker)
+            tracker.Success()
             
             return Some(data.ToString())
+            
         }
