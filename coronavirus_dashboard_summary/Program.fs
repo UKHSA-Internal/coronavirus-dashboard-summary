@@ -74,7 +74,7 @@ let configureServices (services : IServiceCollection) =
              .AddResponseCaching(fun (options: ResponseCachingOptions) ->
                  options.MaximumBodySize <- 16 * 1024 * 1024 |> int64;
                  options.UseCaseSensitivePaths <- false
-             )
+             ) // Must be before Giraffe
              .AddGiraffe()
              .AddScoped<Redis.Client>()
     |> ignore
