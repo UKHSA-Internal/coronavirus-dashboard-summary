@@ -4,7 +4,6 @@ open System
 open System.Diagnostics
 open System.Runtime.CompilerServices
 open FSharp.Json
-open Microsoft.ApplicationInsights.Extensibility
 open Npgsql.FSharp
 open Npgsql
 open coronavirus_dashboard_summary.Utils
@@ -71,10 +70,7 @@ type AnnouncementPayload =
         date:   DateTime
         body:   string
     }
-    
-    
-type DBException = PostgresException | NpgsqlException
-    
+        
 [<IsReadOnly>]
 type Tracker =
     {
@@ -96,13 +92,11 @@ let private DBConnection =
 type IDatabase<'T> =
     abstract member fetchFromDB: Async<string option>
     
+    
 [<AbstractClass>]
 type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
-    member private this.telemetry
-        with get() =
-            let config = TelemetryConfiguration.CreateDefault()
-            TelemetryClient(config)
-        
+    let telemetry = TelemetryClient()
+    
     member private this.startTelemetry (payload: string) =
         let startTime = DateTimeOffset.UtcNow
         let swFlush = Stopwatch.StartNew()
@@ -121,7 +115,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                                       "200",
                                       true
                                   )
-                this.telemetry.TrackDependency(tracker)
+                                  
+                telemetry.TrackDependency(tracker)
                 
              Failure = fun ex ->
                 swFlush.Stop()
@@ -137,8 +132,9 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
                                       "500",
                                       false
                                   )
-                this.telemetry.TrackDependency tracker
-                this.telemetry.TrackException ex
+                
+                telemetry.TrackDependency tracker
+                telemetry.TrackException ex
                 
                 ex
         }
