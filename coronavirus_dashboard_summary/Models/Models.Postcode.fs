@@ -2,13 +2,14 @@ module coronavirus_dashboard_summary.Models.PostCode
 
 open Giraffe
 open Giraffe.GoodRead
+open Microsoft.ApplicationInsights
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Models.DB
 open FSharp.Json
 open Npgsql.FSharp
     
-type Model (redis: Redis.Client, date: TimeStamp.Release, postcode: string) =
-    inherit DataBase<PostCodeDataPayload>(redis, date)
+type Model (redis: Redis.Client, date: TimeStamp.Release, postcode: string, telemetry: TelemetryClient) =
+    inherit DataBase<PostCodeDataPayload>(redis, date, telemetry)
 
     override this.keySuffix = postcode
     

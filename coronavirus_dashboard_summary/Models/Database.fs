@@ -94,9 +94,7 @@ type IDatabase<'T> =
     
     
 [<AbstractClass>]
-type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release) =
-    let telemetry = TelemetryClient()
-    
+type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: TelemetryClient) =    
     member private this.startTelemetry (payload: string) =
         let startTime = DateTimeOffset.UtcNow
         let swFlush = Stopwatch.StartNew()

@@ -16,8 +16,8 @@ module BaseModel =
     let NumberFormat = "{0:#,##0.##}"
 
     [<AbstractClass>]
-    type PostCodeData(redis, date, payload: PostCodeDataPayload, metrics) =
-        inherit DataBase<Payload>(redis, date)
+    type PostCodeData(redis, date, payload: PostCodeDataPayload, metrics, telemetry) =
+        inherit DataBase<Payload>(redis, date, telemetry)
         
         override this.keyPrefix = "area"
         override this.keySuffix = $"{payload.id}"
@@ -48,8 +48,8 @@ module BaseModel =
             ]
         
 
-    type MSOAData(redis, date, payload) =
-        inherit PostCodeData(redis, date, payload, PostCodeMetrics)
+    type MSOAData(redis, date, payload, telemetry) =
+        inherit PostCodeData(redis, date, payload, PostCodeMetrics, telemetry)
         override this.query = 
             "SELECT area_code, area_type, area_name, date::TEXT AS date, metric, priority,
                (
@@ -88,8 +88,8 @@ module BaseModel =
             AND ts.rank = 1;"
 
 
-    type GeneralData(redis, date, payload) =
-        inherit PostCodeData(redis, date, payload, PostCodeMetrics)
+    type GeneralData(redis, date, payload, telemetry) =
+        inherit PostCodeData(redis, date, payload, PostCodeMetrics, telemetry)
         override this.query =
                 "SELECT area_code, area_type, area_name, date::TEXT AS date, metric, value, priority 
                 FROM (
@@ -159,11 +159,11 @@ module BaseModel =
 
 
     type PostCodeDataPayload with        
-        member inline this.Data date metrics redis: Async<Payload List> =
+        member inline this.Data date metrics redis telemetry: Async<Payload List> =
             let fetcher =
                 match this.area_type with
-                | AreaTypes.MSOA -> MSOAData(redis, date, this) :> PostCodeData
-                | _              -> GeneralData(redis, date, this) :> PostCodeData
+                | AreaTypes.MSOA -> MSOAData(redis, date, this, telemetry) :> PostCodeData
+                | _              -> GeneralData(redis, date, this, telemetry) :> PostCodeData
                 
             async {
                 
@@ -178,10 +178,10 @@ module BaseModel =
                        | _        -> []
             }
             
-        member inline this.Key date redis: string =
+        member inline this.Key date redis telemetry: string =
             let fetcher =
                 match this.area_type with
-                | AreaTypes.MSOA -> MSOAData(redis, date, this) :> PostCodeData
-                | _              -> GeneralData(redis, date, this) :> PostCodeData
+                | AreaTypes.MSOA -> MSOAData(redis, date, this, telemetry) :> PostCodeData
+                | _              -> GeneralData(redis, date, this, telemetry) :> PostCodeData
                 
             fetcher.key

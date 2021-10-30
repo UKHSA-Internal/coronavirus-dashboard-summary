@@ -89,11 +89,7 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
 
 let Data (date: TimeStamp.Release) (metrics: string []) (redis: Redis.Client): Async<Payload List> =
     async {
-        let! result = Async.Choice
-                          [
-                              redis.GetAsync $"area-{date.isoDate}-UK"
-                              fetch redis date metrics
-                          ]
+        let! result = redis.GetAsync $"area-{date.isoDate}-UK"
         
         return match result with
                | Some res -> Json.deserialize<Payload list>(res)

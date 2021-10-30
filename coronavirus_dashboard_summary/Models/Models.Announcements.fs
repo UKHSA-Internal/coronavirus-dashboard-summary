@@ -5,8 +5,8 @@ open Npgsql.FSharp
 open coronavirus_dashboard_summary.Models.DB
 open FSharp.Json
 
-type Announcements(redis, date) =
-    inherit DataBase<AnnouncementPayload>(redis, date)
+type Announcements(redis, date, telemetry) =
+    inherit DataBase<AnnouncementPayload>(redis, date, telemetry)
     override this.keyPrefix = "announcement"
     override this.keySuffix = "UK"
     override this.cacheDuration =
@@ -41,8 +41,8 @@ WHERE
     )
 ORDER BY an.launch DESC, an.expire DESC;"""
       
-    static member inline Data redis date: Async<AnnouncementPayload list> =
-        let fetcher = Announcements(redis, date)
+    static member inline Data redis date telemetry: Async<AnnouncementPayload list> =
+        let fetcher = Announcements(redis, date, telemetry)
         
         async {
             let! result = Async.Choice

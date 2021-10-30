@@ -1,6 +1,7 @@
 module coronavirus_dashboard_summary.Views.HomePageView 
 
 open Giraffe
+open Microsoft.ApplicationInsights
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks
 open FSharp.Json
@@ -35,11 +36,12 @@ let HomePageHandler =
         task {
             let release = ReleaseTimestamp()
             let redis = ctx.GetService<Redis.Client>()
+            let telemetry = ctx.GetService<TelemetryClient>()
             
             let layout: LayoutPayload =
                 {
                     date     = release
-                    banners  = Banners.Render redis release
+                    banners  = Banners.Render redis release telemetry
                     title    = "UK Summary"
                     postcode = null
                 }

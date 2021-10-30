@@ -1,5 +1,6 @@
 module coronavirus_dashboard_summary.Views.PostCodeSearch
 
+open Microsoft.ApplicationInsights
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks
 open Giraffe
@@ -13,12 +14,12 @@ open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.TimeStamp
 open coronavirus_dashboard_summary.Views.HomePageView
     
-type private PostCodeView(postcode: string, redis: Redis.Client) =
+type private PostCodeView(postcode, redis, telemetry) =
     
     let release = ReleaseTimestamp()
             
     let postcodeAreas =
-        PostCode.Model(redis, release, Validators.ValidatePostcode postcode).PostCodeAreas
+        PostCode.Model(redis, release, Validators.ValidatePostcode postcode, telemetry).PostCodeAreas
         |> Async.RunSynchronously
         
     member _.postCodeFound
@@ -28,7 +29,7 @@ type private PostCodeView(postcode: string, redis: Redis.Client) =
     member private _.getContent (postcodeData: DB.PostCodeDataPayload list) = 
         let dbResp =
             postcodeData
-            |> List.map (fun item -> item.Key release redis)
+            |> List.map (fun item -> item.Key release redis telemetry)
             |> List.toArray
             |> redis.GetAllAsync
             |> Async.RunSynchronously
@@ -55,7 +56,7 @@ type private PostCodeView(postcode: string, redis: Redis.Client) =
                     {
                         date     = release
                         title    = $"Local summary for { postcode.ToUpper() }"
-                        banners  = Banners.Render redis release
+                        banners  = Banners.Render redis release telemetry
                         postcode = match postcodeData.IsEmpty with
                                    | true -> postcode
                                    | _ -> null
@@ -83,8 +84,11 @@ let PostCodePageHandler: HttpHandler =
             let redis =
                 ctx.GetService<Redis.Client>()
                 
+            let telemetry =
+                ctx.GetService<TelemetryClient>()
+
             let view =
-                PostCodeView(postcode.ToUpper(), redis)
+                PostCodeView(postcode.ToUpper(), redis, telemetry)
             
             if not view.postCodeFound
                 then ctx.SetStatusCode 404
