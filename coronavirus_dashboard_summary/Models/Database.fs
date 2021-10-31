@@ -88,7 +88,6 @@ let private DBConnection =
                  | _    -> h)
     |> Sql.trustServerCertificate true
     |> Sql.formatConnectionString
-    |> (+) "Pooling=false;"
     
 type IDatabase<'T> =
     abstract member fetchFromDB: Async<string option>
