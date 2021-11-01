@@ -167,7 +167,7 @@ type Client (telemetry: TelemetryClient) =
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
-                   | true  -> Some(onMissing().ToString())
+                   | true  -> onMissing() |> Async.RunSynchronously
                         
         }
         
@@ -214,7 +214,7 @@ type Client (telemetry: TelemetryClient) =
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
-                   | true -> Some(onMissing().ToString())
+                   | true -> onMissing() |> Async.RunSynchronously
                         
         }
 
