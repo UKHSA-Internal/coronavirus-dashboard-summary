@@ -60,6 +60,7 @@ type private PostCodeView(postcode, redis, telemetry) =
                         postcode = match postcodeData.IsEmpty with
                                    | true -> postcode
                                    | _ -> null
+                        error    = false
                     }
                 
                 match postcodeData.IsEmpty with

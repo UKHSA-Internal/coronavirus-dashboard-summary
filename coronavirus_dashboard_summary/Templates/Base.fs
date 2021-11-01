@@ -20,6 +20,7 @@ module Base =
             banners:  Banners.BannerPayload
             title:    string
             postcode: string
+            error:    bool
         }
             
     let private ApiEnv = Environment.GetEnvironmentVariable "API_ENV"
@@ -244,8 +245,9 @@ module Base =
                                 main [ _class "main"; _id "main-content" ] [
                                     yield! content
                                     
-                                    PostCodeSearch.Render this.postcode
-                                    |> TailCards
+                                    match this.error with
+                                    | false -> PostCodeSearch.Render this.postcode |> TailCards
+                                    | true  -> rawText ""
                                 ]
                             ]
                         ]

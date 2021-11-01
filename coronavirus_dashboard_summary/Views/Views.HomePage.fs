@@ -44,6 +44,7 @@ let HomePageHandler =
                     banners  = Banners.Render redis release telemetry
                     title    = "UK Summary"
                     postcode = null
+                    error    = false
                 }
 
             return!
