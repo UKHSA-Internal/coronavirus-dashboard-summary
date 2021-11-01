@@ -154,21 +154,20 @@ type Client (telemetry: TelemetryClient) =
             
         }
         
-    member this.GetAsync (key: string): Async<string option> =
+    member this.GetAsync (key: string) (onMissing: unit -> Async<string option>): Async<string option> =
         async {
 
             let tracker = this.startTelemetry "GetAsync" "GET" key
 
             let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 db.StringGetAsync(RedisKey key)
-                |> Async.AwaitTask
-            )
+                |> Async.AwaitTask)
             
             tracker.Success()
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
-                   | true -> None
+                   | true  -> Some(onMissing().ToString())
                         
         }
         
@@ -201,7 +200,7 @@ type Client (telemetry: TelemetryClient) =
                         
         }
         
-    member this.GetHashAsync (key: string) (field: string): Async<string option> =
+    member this.GetHashAsync (key: string) (field: string) (onMissing: unit -> Async<string option>): Async<string option> =
         async {
             
             let tracker = this.startTelemetry "GetHashAsync" "HGET" key
@@ -215,7 +214,7 @@ type Client (telemetry: TelemetryClient) =
             
             return match result.IsNullOrEmpty with
                    | false -> Some(result.ToString())
-                   | true -> None
+                   | true -> Some(onMissing().ToString())
                         
         }
 
