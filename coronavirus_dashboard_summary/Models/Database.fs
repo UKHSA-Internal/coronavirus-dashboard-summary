@@ -91,7 +91,7 @@ let private DBConnection =
     |> (+) "Pooling=false;"
     
 type IDatabase<'T> =
-    abstract member fetchFromDB: Async<string option>
+    abstract member fetchFromDB: unit -> Async<string option>
     
     
 [<AbstractClass>]
@@ -158,7 +158,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
     default this.key = $"{this.keyPrefix}-{this.date.isoDate}-{this.keySuffix}"
 
     interface IDatabase<Payload> with
-        member this.fetchFromDB =
+        member this.fetchFromDB () =
             async {
                 let tracker = this.startTelemetry this.query
                 
@@ -191,7 +191,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
             }
             
     interface IDatabase<PostCodeDataPayload> with
-        member this.fetchFromDB =
+        member this.fetchFromDB () =
             async {
                 let tracker = this.startTelemetry this.query
                 
@@ -222,7 +222,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
             }
 
     interface IDatabase<ChangeLogPayload> with
-        member this.fetchFromDB: Async<string option> =            
+        member this.fetchFromDB () : Async<string option> =            
             async {
                 let tracker = this.startTelemetry this.query
                 
@@ -254,7 +254,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
             }
             
     interface IDatabase<AnnouncementPayload> with
-        member this.fetchFromDB =
+        member this.fetchFromDB () =
             async {
                 let tracker = this.startTelemetry this.query
                 
@@ -266,7 +266,6 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                                 {
                                     date = read.dateTime "date"
                                     body = read.text "body"
-                                    
                                 }
                             )
                         |> Async.AwaitTask

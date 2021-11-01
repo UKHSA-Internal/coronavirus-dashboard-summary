@@ -45,11 +45,7 @@ ORDER BY an.launch DESC, an.expire DESC;"""
         let fetcher = Announcements(redis, date, telemetry)
         
         async {
-            let! result = Async.Choice
-                              [
-                                  redis.GetAsync fetcher.key
-                                  (fetcher :> IDatabase<AnnouncementPayload>).fetchFromDB
-                              ]
+            let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<AnnouncementPayload>).fetchFromDB
             
             return match result with
                    | Some res -> Json.deserialize<AnnouncementPayload list>(res)

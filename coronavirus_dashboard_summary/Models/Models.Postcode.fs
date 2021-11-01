@@ -36,11 +36,7 @@ WHERE UPPER(REPLACE(postcode, ' ', '')) = @postcode;
     
     member this.PostCodeAreas: Async<PostCodeDataPayload List> =
         async {
-            let! result = Async.Choice
-                            [
-                                redis.GetHashAsync this.key this.keySuffix
-                                (this :> IDatabase<PostCodeDataPayload>).fetchFromDB
-                            ]
+            let! result = redis.GetHashAsync this.key this.keySuffix (this :> IDatabase<PostCodeDataPayload>).fetchFromDB
                             
             return match result with
                    | Some res -> Json.deserialize<PostCodeDataPayload List>(res)

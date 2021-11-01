@@ -44,12 +44,8 @@ type ChangeLog(redis, date, telemetry) =
         let fetcher = ChangeLog(redis, date, telemetry)
         
         async {
-            let! result = Async.Choice
-                              [
-                                  redis.GetAsync fetcher.key
-                                  (fetcher :> IDatabase<ChangeLogPayload>).fetchFromDB
-                              ]
-            
+            let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<ChangeLogPayload>).fetchFromDB
+                                      
             return match result with
                    | Some res -> Json.deserialize<ChangeLogPayload list>(res)
                    | _ -> []

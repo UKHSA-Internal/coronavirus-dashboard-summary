@@ -45,7 +45,7 @@ let formatDate (d: DateTime) =
 let subtractFormatDate (d: DateTime) (n: float) =
     d.AddDays n |> formatDate
    
-let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: string []) =
+let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: string []): Async<string option> =
     async {
         let! result =
             Sql.host (Environment.GetEnvironmentVariable "POSTGRES_HOST")
@@ -76,7 +76,6 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
                 )
             |> Async.AwaitTask
             
-            
         return! redis.SetAsync
                     $"area-{date.isoDate}-UK"
                     result
@@ -89,7 +88,8 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
 
 let Data (date: TimeStamp.Release) (metrics: string []) (redis: Redis.Client): Async<Payload List> =
     async {
-        let! result = redis.GetAsync $"area-{date.isoDate}-UK"
+        let dbRes () = fetch redis date metrics
+        let! result = redis.GetAsync $"area-{date.isoDate}-UK" dbRes
         
         return match result with
                | Some res -> Json.deserialize<Payload list>(res)

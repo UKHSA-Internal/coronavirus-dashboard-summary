@@ -167,11 +167,7 @@ module BaseModel =
                 
             async {
                 
-                let! result = Async.Choice
-                                [
-                                    redis.GetAsync fetcher.key
-                                    (fetcher :> IDatabase<Payload>).fetchFromDB
-                                ]
+                let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<Payload>).fetchFromDB
                                 
                 return match result with
                        | Some res -> Json.deserialize<Payload list>(res)
