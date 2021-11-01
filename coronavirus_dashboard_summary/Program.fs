@@ -5,11 +5,13 @@ open System.IO
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.HttpOverrides
 open Microsoft.AspNetCore.ResponseCaching
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
+open coronavirus_dashboard_summary.Utils.Constants
 open coronavirus_dashboard_summary.Views
 open coronavirus_dashboard_summary.Utils
 
@@ -49,9 +51,11 @@ let configureCors (builder : CorsPolicyBuilder) =
     builder
         .WithOrigins(
             "http://localhost:5000",
-            "https://localhost:5001"
+            "https://localhost:5001",
+            $"https://{Generic.UrlLocation}"
         )
        .WithMethods("GET", "HEAD")
+      
        .AllowAnyHeader()
        |> ignore
 
@@ -59,7 +63,7 @@ let configureApp (app : IApplicationBuilder) =
     let env = app.ApplicationServices.GetService<IWebHostEnvironment>()
     (match env.IsDevelopment() with
     | true  ->
-        app.UseDeveloperExceptionPage()
+        app .UseDeveloperExceptionPage()
     | false ->
         app .UseGiraffeErrorHandler(errorHandler)
             .UseHttpsRedirection())
@@ -67,14 +71,17 @@ let configureApp (app : IApplicationBuilder) =
             .UseStaticFiles()
             .UseResponseCaching()
             .UseGiraffe webApp
-
+            
 let configureServices (services : IServiceCollection) =
     services .AddApplicationInsightsTelemetry()
              .AddCors()
+             .Configure(fun (options: ForwardedHeadersOptions) ->
+                 options.ForwardedHeaders
+                    <- ForwardedHeaders.XForwardedFor
+                       ||| ForwardedHeaders.XForwardedProto)
              .AddResponseCaching(fun (options: ResponseCachingOptions) ->
-                 options.MaximumBodySize <- 16 * 1024 * 1024 |> int64;
-                 options.UseCaseSensitivePaths <- false
-             ) // Must be before Giraffe
+                 options.MaximumBodySize <- 16 * 1024 * 1024 |> int64
+                 options.UseCaseSensitivePaths <- false) // Must be before Giraffe
              .AddGiraffe()
              .AddScoped<Redis.Client>()
     |> ignore
