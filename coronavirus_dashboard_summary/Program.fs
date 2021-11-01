@@ -29,6 +29,12 @@ let webApp =
                 
                 route "/healthcheck"
                 >=> text "Healthy"
+                
+                route "/favicon.png"
+                >=> redirectTo true "/public/assets/summary/icon/favicon.png"
+                
+                route "/favicon.ico"
+                >=> redirectTo true "/public/assets/summary/icon/favicon.ico"
             ]
         RequestErrors.notFound Views.Error.Handler
     ]
