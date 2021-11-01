@@ -70,9 +70,12 @@
         <Compile Include="Templates\Card.Generic.fs" />
         <Compile Include="Templates\Banners.fs" />
         <Compile Include="Templates\Base.fs" />
+        <Compile Include="Templates\Error.500.fs" />
+        <Compile Include="Templates\Error.400.fs" />
         <Compile Include="Models\Models.HomePage.fs" />
         <Compile Include="Views\Views.HomePage.fs" />
         <Compile Include="Views\Views.PostCode.fs" />
+        <Compile Include="Views\Views.Error.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

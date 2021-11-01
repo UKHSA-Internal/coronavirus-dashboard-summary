@@ -30,7 +30,8 @@ let webApp =
                 route "/healthcheck"
                 >=> text "Healthy"
             ]
-        RequestErrors.NOT_FOUND "Not Found" ]
+        RequestErrors.notFound Views.Error.Handler
+    ]
 
 // ---------------------------------
 // Error handler
@@ -41,7 +42,7 @@ let errorHandler (ex : Exception) (logger : ILogger) =
     
     clearResponse
     >=> setStatusCode 500
-    >=> ServerErrors.INTERNAL_ERROR "An unhandled error occurred while serving your request."
+    >=> ServerErrors.internalError Views.Error.Handler
 
 // ---------------------------------
 // Config and Main
