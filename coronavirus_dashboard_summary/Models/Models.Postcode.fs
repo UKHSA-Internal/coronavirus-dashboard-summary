@@ -1,7 +1,6 @@
 module coronavirus_dashboard_summary.Models.PostCode
 
 open Giraffe
-open Giraffe.GoodRead
 open Microsoft.ApplicationInsights
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Models.DB
