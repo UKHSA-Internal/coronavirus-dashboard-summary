@@ -14,6 +14,7 @@ module TimeStamp =
         isoDate:       string
         timestamp:     DateTime
         partitionDate: string
+        dateInt      : string
     }
 
     type Release with
@@ -43,4 +44,5 @@ module TimeStamp =
           isoDate       = res.Split("T").[0];
           timestamp     = resObj
           partitionDate = $"{resObj:yyyy_M_d}"
+          dateInt       = $"{resObj:yyyyMMdd}" 
         }
