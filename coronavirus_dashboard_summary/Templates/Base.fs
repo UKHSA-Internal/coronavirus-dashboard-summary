@@ -129,7 +129,7 @@ module Base =
                     meta [ _name "viewport"; _content "width=device-width; initial-scale=1; shrink-to-fit=no" ]
                     meta [ _name "theme-color"; _content "#0b0c0c" ]
                     meta [ _name "twitter:card"; _content "summary_large_image" ]
-                    meta [ _name "twitter:site"; _content "@PHE_uk" ]
+                    meta [ _name "twitter:site"; _content "@UKHSA" ]
                     meta [ _property "og:type"; _content "website" ]
                     meta [ _property "og:locale"; _content "en_GB" ]
                     meta [ _name "instrumentation_key"; _content Generic.InstrumentationKey ]
