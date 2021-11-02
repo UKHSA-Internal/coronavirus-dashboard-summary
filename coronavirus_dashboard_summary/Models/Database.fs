@@ -60,8 +60,8 @@ type ChangeLogPayload =
 [<Struct; IsReadOnly>]
 type AnnouncementPayload =
     {
-        date:   DateTime
-        body:   string
+        date: DateTime
+        body: string
     }
         
 [<IsReadOnly>]
