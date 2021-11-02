@@ -12,9 +12,9 @@ open Giraffe.ViewEngine.Accessibility
 [<Struct; IsReadOnly>]
 type private NumberItem =
     {
-        metric: string
-        percentage: string
-        label: string
+        metric:      string
+        percentage:  string
+        label:       string
         periodLabel: string
     }
     
@@ -22,43 +22,43 @@ let private contentMetadata =
     [
         ("first", [
             {
-              metric = "newPeopleVaccinatedFirstDoseByPublishDate"
-              percentage = null
-              label = "First dose"
+              metric      = "newPeopleVaccinatedFirstDoseByPublishDate"
+              percentage  = null
+              label       = "First dose"
               periodLabel = "Daily"
             }
             {
-              metric = "cumPeopleVaccinatedFirstDoseByPublishDate"
-              percentage = "cumVaccinationFirstDoseUptakeByPublishDatePercentage"
-              label = "First dose"
+              metric      = "cumPeopleVaccinatedFirstDoseByPublishDate"
+              percentage  = "cumVaccinationFirstDoseUptakeByPublishDatePercentage"
+              label       = "First dose"
               periodLabel = "Total"
             }
         ])
         ("second", [
             {
-              metric = "newPeopleVaccinatedSecondDoseByPublishDate"
-              percentage = null
-              label = "Second dose"
+              metric      = "newPeopleVaccinatedSecondDoseByPublishDate"
+              percentage  = null
+              label       = "Second dose"
               periodLabel = "Daily"
             }
             {
-              metric = "cumPeopleVaccinatedSecondDoseByPublishDate"
-              percentage = "cumVaccinationSecondDoseUptakeByPublishDatePercentage"
-              label = "Second dose"
+              metric      = "cumPeopleVaccinatedSecondDoseByPublishDate"
+              percentage  = "cumVaccinationSecondDoseUptakeByPublishDatePercentage"
+              label       = "Second dose"
               periodLabel = "Total"
             }
         ])
         ("booster", [
             {
-              metric = "newPeopleVaccinatedThirdInjectionByPublishDate"
-              percentage = null
-              label = "Booster or third dose"
+              metric      = "newPeopleVaccinatedThirdInjectionByPublishDate"
+              percentage  = null
+              label       = "Booster or third dose"
               periodLabel = "Daily"
             }
             {
-              metric = "cumPeopleVaccinatedThirdInjectionByPublishDate"
-              percentage = "cumVaccinationThirdInjectionUptakeByPublishDatePercentage"
-              label = "Booster or third dose"
+              metric      = "cumPeopleVaccinatedThirdInjectionByPublishDate"
+              percentage  = "cumVaccinationThirdInjectionUptakeByPublishDatePercentage"
+              label       = "Booster or third dose"
               periodLabel = "Total"
             }
         ])

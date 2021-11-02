@@ -1,5 +1,6 @@
 module coronavirus_dashboard_summary.Views.PostCodeSearch
 
+open System
 open Microsoft.ApplicationInsights
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks
@@ -15,9 +16,8 @@ open coronavirus_dashboard_summary.Utils.TimeStamp
 open coronavirus_dashboard_summary.Views.HomePageView
     
 type private PostCodeView(postcode, redis, telemetry) =
-    
     let release = ReleaseTimestamp()
-            
+      
     let postcodeAreas =
         PostCode.Model(redis, release, Validators.ValidatePostcode postcode, telemetry).PostCodeAreas
         |> Async.RunSynchronously
@@ -80,16 +80,11 @@ let PostCodePageHandler: HttpHandler =
             
             let postcode =
                 ctx.TryGetQueryStringValue "postcode"
-                |> Option.defaultValue ""
+                |> Option.defaultValue String.Empty
                 
-            let redis =
-                ctx.GetService<Redis.Client>()
-                
-            let telemetry =
-                ctx.GetService<TelemetryClient>()
-
-            let view =
-                PostCodeView(postcode.ToUpper(), redis, telemetry)
+            let redis     = ctx.GetService<Redis.Client>()
+            let telemetry = ctx.GetService<TelemetryClient>()
+            let view      = PostCodeView(postcode.ToUpper(), redis, telemetry)
             
             if not view.postCodeFound
                 then ctx.SetStatusCode 404

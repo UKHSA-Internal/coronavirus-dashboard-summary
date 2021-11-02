@@ -16,11 +16,8 @@ type BannerPayload =
 
 let inline Render (redis: Redis.Client) (release: TimeStamp.Release) (telemetry: TelemetryClient): BannerPayload =
     async {
-        let! changeLog =
-            ChangeLogModel.ChangeLog.Data redis release telemetry
-            
-        let! announcement =
-            AnnouncementModel.Announcements.Data redis release telemetry
+        let! changeLog    = ChangeLogModel.ChangeLog.Data redis release telemetry
+        let! announcement = AnnouncementModel.Announcements.Data redis release telemetry
         
         return
             {

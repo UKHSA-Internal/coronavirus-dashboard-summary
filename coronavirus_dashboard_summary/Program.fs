@@ -43,7 +43,7 @@ let webApp =
 // Error handler
 // ---------------------------------
 
-let errorHandler (ex : Exception) (logger : ILogger) =
+let inline errorHandler (ex : Exception) (logger : ILogger) =
     logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
     
     clearResponse
@@ -54,7 +54,7 @@ let errorHandler (ex : Exception) (logger : ILogger) =
 // Config and Main
 // ---------------------------------
 
-let configureCors (builder : CorsPolicyBuilder) =
+let inline configureCors (builder : CorsPolicyBuilder) =
     builder
         .WithOrigins(
             "http://localhost:5000",
@@ -66,7 +66,7 @@ let configureCors (builder : CorsPolicyBuilder) =
        .AllowAnyHeader()
        |> ignore
 
-let configureApp (app : IApplicationBuilder) =
+let inline configureApp (app : IApplicationBuilder) =
     let env = app.ApplicationServices.GetService<IWebHostEnvironment>()
     (match env.IsDevelopment() with
     | true  ->
@@ -79,7 +79,7 @@ let configureApp (app : IApplicationBuilder) =
             .UseResponseCaching()
             .UseGiraffe webApp
             
-let configureServices (services : IServiceCollection) =
+let inline configureServices (services : IServiceCollection) =
     services .AddApplicationInsightsTelemetry()
              .AddCors()
              .Configure(fun (options: ForwardedHeadersOptions) ->
@@ -93,7 +93,7 @@ let configureServices (services : IServiceCollection) =
              .AddScoped<Redis.Client>()
     |> ignore
 
-let configureLogging (builder : ILoggingBuilder) =
+let inline configureLogging (builder : ILoggingBuilder) =
     builder.AddConsole()
            .AddDebug()
     |> ignore

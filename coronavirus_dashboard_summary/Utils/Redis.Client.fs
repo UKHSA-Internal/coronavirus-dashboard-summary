@@ -15,7 +15,7 @@ open Microsoft.ApplicationInsights.DataContracts
 let private RedisDatabase = 2
 
 [<Literal>]
-let private RedisPoolSize = 30
+let private RedisPoolSize = 40
 
 let private conStr = Environment.GetEnvironmentVariable "REDIS"
 
@@ -67,7 +67,6 @@ type Client (telemetry: TelemetryClient) =
                 
              Failure = fun ex ->
                 swFlush.Stop()
-                
                 let tracker = DependencyTelemetry
                                   (
                                       "Redis",
@@ -91,9 +90,12 @@ type Client (telemetry: TelemetryClient) =
             try
                 return! op(cx.Connection.GetDatabase(RedisDatabase))
             with
-            | :? RedisConnectionException as ex when errCount.[cx.ConnectionIndex] + 1 < 3 -> return! raise(ex)
-            | :? RedisException as ex -> return! raise (tracker.Failure(ex))
-            | _ -> 
+            | :? RedisConnectionException as ex
+                                when errCount.[cx.ConnectionIndex] + 1 < 3
+                                -> return! raise(ex)
+            | :? RedisException as ex
+                                -> return! raise (tracker.Failure ex)
+            | _                 -> 
                 errCount.[cx.ConnectionIndex] <- errCount.[cx.ConnectionIndex] + 1
                     
                 cx.ReconnectAsync()
@@ -191,7 +193,7 @@ type Client (telemetry: TelemetryClient) =
                         fun item ->
                             match item.IsNullOrEmpty with
                             | false -> item.ToString().Trim('[', ']')
-                            | true -> ""
+                            | true  -> String.Empty
                         )
                 |> Array.filter (fun item -> String.IsNullOrEmpty item |> not)
                 |> String.concat ","

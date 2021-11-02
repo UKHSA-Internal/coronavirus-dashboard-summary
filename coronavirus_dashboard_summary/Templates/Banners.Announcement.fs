@@ -1,5 +1,6 @@
 module coronavirus_dashboard_summary.Templates.Announcement
 
+open System
 open Giraffe.ViewEngine
 open FSharp.Formatting.Markdown
 open coronavirus_dashboard_summary.Models
@@ -27,7 +28,7 @@ let inline private bannerItem (banner: DB.AnnouncementPayload) =
 
 let inline Render (payload: DB.AnnouncementPayload list): XmlNode =
     match payload.IsEmpty with
-    | true  -> "" |> rawText
+    | true  -> String.Empty |> rawText
     | false -> ul [ _class "banner" ] [
                    yield! 
                        payload

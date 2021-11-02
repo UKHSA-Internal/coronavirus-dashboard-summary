@@ -39,6 +39,7 @@
         <Compile Include="Utils\Utils.Attrs.fs" />
         <Compile Include="Utils\Utils.Validators.fs" />
         <Compile Include="Utils\Redis.Client.fs" />
+        <Compile Include="Utils\Utils.JsonTransformers.fs" />
         <Compile Include="Models\Database.fs" />
 
         <Compile Include="Models\Metrics.fs" />

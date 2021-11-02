@@ -7,9 +7,21 @@ open FSharp.Json
 open Npgsql.FSharp
 open Npgsql
 open coronavirus_dashboard_summary.Utils
+open coronavirus_dashboard_summary.Utils.JsonTransformers
 open coronavirus_dashboard_summary.Utils.Constants
 open Microsoft.ApplicationInsights
 open Microsoft.ApplicationInsights.DataContracts
+
+[<Literal>]
+let private Success        = "200"
+[<Literal>]
+let private Failure        = "500"
+[<Literal>]
+let private ResourceType   = "postgresql"
+[<Literal>]
+let private ResourceTarget = "database"
+[<Literal>]
+let private ResourceName   = "query"
 
 [<Struct; IsReadOnly>]
 type PostCodeDataPayload =
@@ -19,26 +31,7 @@ type PostCodeDataPayload =
         area_name: string
         postcode:  string
         priority:  int
-    }       
-
-type DateTransform() =
-    interface ITypeTransform with
-        member this.targetType() = typeof<String>
-        
-        member this.toTargetType obj =
-            match obj with
-            | :? string   as s -> DateTime.Parse s |> box
-            | :? DateTime as s -> s |> box
-            | :? int64    as s -> DateTimeOffset.FromUnixTimeSeconds(s) |> box
-            | _ -> raise (ArgumentException())
-            
-        member this.fromTargetType obj =
-            match obj with
-            | :? DateTime as s -> (Formatter.toIsoDate (unbox<DateTime> s)) :> obj 
-            | :? int64    as s -> DateTimeOffset.FromUnixTimeSeconds(s) :> obj
-            | :? string   as s -> s :> obj
-            | _ -> raise (ArgumentException())
-            
+    }
         
 [<Struct; IsReadOnly>]
 type Payload =
@@ -92,8 +85,7 @@ let private DBConnection =
     
 type IDatabase<'T> =
     abstract member fetchFromDB: unit -> Async<string option>
-    
-    
+
 [<AbstractClass>]
 type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: TelemetryClient) =    
     member private this.startTelemetry (payload: string) =
@@ -105,13 +97,13 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                 swFlush.Stop()
                 let tracker = DependencyTelemetry
                                   (
-                                      "postgresql",
-                                      "database",
-                                      "query",
+                                      ResourceType,
+                                      ResourceTarget,
+                                      ResourceName,
                                       payload,
                                       startTime,
                                       swFlush.Elapsed,
-                                      "200",
+                                      Success,
                                       true
                                   )
                                   
@@ -119,16 +111,15 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                 
              Failure = fun ex ->
                 swFlush.Stop()
-                
                 let tracker = DependencyTelemetry
                                   (
-                                      "postgresql",
-                                      "database",
-                                      "query",
+                                      ResourceType,
+                                      ResourceTarget,
+                                      ResourceName,
                                       payload,
                                       startTime,
                                       swFlush.Elapsed,
-                                      "500",
+                                      Failure,
                                       false
                                   )
                 
@@ -141,21 +132,15 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
     abstract query: string
         with get
             
-    abstract member queryParams: unit -> (string * SqlValue) list
-    
-    abstract member keyPrefix: string
-    
-    abstract member keySuffix: string
-    
+    abstract member queryParams:   unit -> (string * SqlValue) list
+    abstract member keyPrefix:     string
+    abstract member keySuffix:     string
     abstract member cacheDuration: Redis.Expiry
-    
-    abstract member key: string
+    abstract member key:           string
     
     default this.keyPrefix = "area"
-    
-    default this.keySuffix = ""
-    
-    default this.key = $"{this.keyPrefix}-{this.date.isoDate}-{this.keySuffix}"
+    default this.keySuffix = String.Empty
+    default this.key       = $"{this.keyPrefix}-{this.date.isoDate}-{this.keySuffix}"
 
     interface IDatabase<Payload> with
         member this.fetchFromDB () =
@@ -186,8 +171,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                                 result
                                 this.cacheDuration
                 with
-                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
-                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? PostgresException
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure ex)
             }
             
     interface IDatabase<PostCodeDataPayload> with
@@ -201,7 +186,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                         |> Sql.executeAsync
                             (fun read ->
                                 {
-                                    id = read.int "id"
+                                    id        = read.int "id"
                                     area_type = read.string "area_type"
                                     area_name = read.string "area_name"
                                     postcode  = read.string "postcode"
@@ -217,8 +202,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                                 this.keySuffix
                                 result
                 with
-                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
-                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? PostgresException
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure ex)
             }
 
     interface IDatabase<ChangeLogPayload> with
@@ -249,8 +234,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                                 result
                                 this.cacheDuration
                 with
-                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
-                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? PostgresException
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure ex)
             }
             
     interface IDatabase<AnnouncementPayload> with
@@ -277,8 +262,8 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                                 result
                                 this.cacheDuration
                 with
-                | :? PostgresException as ex -> return! raise (tracker.Failure (ex :> Exception))
-                | :? NpgsqlException   as ex -> return! raise (tracker.Failure (ex :> Exception))
+                | :? PostgresException
+                | :? NpgsqlException   as ex -> return! raise (tracker.Failure ex)
             }
         
     member this.date

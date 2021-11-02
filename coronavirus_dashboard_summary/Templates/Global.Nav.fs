@@ -15,21 +15,65 @@ type private NavigationItem = {
 
 let private primaryNavItems =
     [
-        {label = "Daily update"; uri = "/"; current = true}
-        {label = "Testing"; uri = "/details/testing"; current = false}
-        {label = "Cases"; uri = "/details/cases"; current = false}
-        {label = "Healthcare"; uri = "/details/healthcare"; current = false}
-        {label = "Vaccinations"; uri = "/details/vaccinations"; current = false}
-        {label = "Deaths"; uri = "/details/deaths"; current = false}
+        {
+            label   = "Daily update"
+            uri     = "/"
+            current = true
+        }
+        {
+            label   = "Testing" 
+            uri     = "/details/testing" 
+            current = false
+        }
+        {
+            label   = "Cases" 
+            uri     = "/details/cases" 
+            current = false
+        }
+        {
+            label   = "Healthcare" 
+            uri     = "/details/healthcare" 
+            current = false
+        }
+        {
+            label   = "Vaccinations" 
+            uri     = "/details/vaccinations" 
+            current = false
+        }
+        {
+            label   = "Deaths" 
+            uri     = "/details/deaths" 
+            current = false
+        }
     ]
 
 let private secondaryNavItems =
     [
-        {label = "Interactive maps"; uri = "/details/interactive-map"; current = false}
-        {label = "About the data"; uri = "/details/about-data"; current = false}
-        {label = "Download data"; uri = "/details/download"; current = false}
-        {label = "What's new"; uri = "/details/whats-new"; current = false}
-        {label = "Developer's guide"; uri = "/details/developers-guide"; current = false}
+        {
+            label   = "Interactive maps"
+            uri     = "/details/interactive-map"
+            current = false
+        }
+        {
+            label   = "About the data"
+            uri     = "/details/about-data"
+            current = false
+        }
+        {
+            label   = "Download data"
+            uri     = "/details/download"
+            current = false
+        }
+        {
+            label   = "What's new"
+            uri     = "/details/whats-new"
+            current = false
+        }
+        {
+            label   = "Developer's guide"
+            uri     = "/details/developers-guide"
+            current = false
+        }
     ]        
 
 type private NavigationItem with
@@ -52,8 +96,10 @@ type private NavigationItem with
         
     member inline this.SecondaryNavItem (mobile: bool) =
         match mobile with
-        | false -> li [ _class "govuk-!-padding-bottom-1" ] |> this.content
-        | true  -> li [ _class "moj-side-navigation__item mobile" ] |> this.content
+        | false -> li [ _class "govuk-!-padding-bottom-1" ]
+                   |> this.content
+        | true  -> li [ _class "moj-side-navigation__item mobile" ]
+                   |> this.content
 
 
 let RenderMobile =

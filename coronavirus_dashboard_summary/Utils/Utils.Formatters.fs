@@ -17,16 +17,18 @@ let inline toLongAreaType (areaType: string): string =
     | AreaTypes.UTLA      -> "Local authority (Upper tier)"
     | AreaTypes.LTLA      -> "Local authority (Lower tier)"
     | AreaTypes.MSOA      -> "MSOA"
-    | AreaTypes.NHSRegion -> "healthcare region"
-    | AreaTypes.NHSTrust  -> "healthcare trust"
+    | AreaTypes.NHSRegion -> "Healthcare region"
+    | AreaTypes.NHSTrust  -> "Healthcare trust"
     | _                   -> null
 
 let inline pluralise (value: int32) single multi zero: string =
-    if value = 1 then single
-    elif value > 1 then multi
-    else zero
+    match value with
+    | v when v = 1 -> single
+    | v when v > 1 -> multi
+    | _            -> zero
     
 let inline comparisonVerb (value: int32) up down same: string =
-    if value > 0 then up
-    elif value < 0 then down
-    else same
+    match value with
+    | v when v > 0 -> up
+    | v when v < 0 -> down
+    | _            -> same

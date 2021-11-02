@@ -5,8 +5,13 @@ open System.Runtime.CompilerServices
 open Azure.Storage.Blobs
 
 module TimeStamp =
-    let private connStr = Environment.GetEnvironmentVariable("DeploymentBlobStorage")
-    let private containerClient = BlobContainerClient(connStr, "pipeline")
+    [<Literal>]
+    let private TimeStampBlob     = "info/latest_published"
+    [<Literal>]
+    let private IsoFormatTemplate = @"yyyy-MM-dd\THH:mm:ss.fffffff\Z"
+    
+    let private connStr           = Environment.GetEnvironmentVariable("DeploymentBlobStorage")
+    let private containerClient   = BlobContainerClient(connStr, "pipeline")
 
     [<Struct; IsReadOnly>]
     type Release = {
@@ -27,7 +32,7 @@ module TimeStamp =
     
     let ReleaseTimestamp (): Release =
         let timestampBlobClient =
-            containerClient.GetBlobClient("info/latest_published")
+            containerClient.GetBlobClient(TimeStampBlob)
 
         let res =
             timestampBlobClient
@@ -37,7 +42,8 @@ module TimeStamp =
                 .ToString()
             
         let resObj =
-            DateTime.ParseExact(res, @"yyyy-MM-dd\THH:mm:ss.fffffff\Z", null)
+            DateTime
+                .ParseExact(res, IsoFormatTemplate, null)
         
         {
           isoTimestamp  = res

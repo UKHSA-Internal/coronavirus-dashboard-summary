@@ -34,8 +34,8 @@ let index (date: Release) (redis: Redis.Client) =
 let HomePageHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let release = ReleaseTimestamp()
-            let redis = ctx.GetService<Redis.Client>()
+            let release   = ReleaseTimestamp()
+            let redis     = ctx.GetService<Redis.Client>()
             let telemetry = ctx.GetService<TelemetryClient>()
             
             let layout: LayoutPayload =

@@ -1,5 +1,6 @@
 module coronavirus_dashboard_summary.Templates.Thumbnail
 
+open System
 open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open Giraffe.ViewEngine.Accessibility
@@ -20,7 +21,8 @@ type Payload =
 type Payload with 
     member inline this.Render =
         match this.isPostcode with
-        | true -> "" |> encodedText
+        | true -> String.Empty
+                  |> encodedText
         | _    -> 
             a [
                 $"{ Generic.UrlLocation }/details/{this.caption.ToLower()}?areaType="

@@ -1,5 +1,6 @@
 module coronavirus_dashboard_summary.Templates.Components
 
+open System
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.Constants
@@ -12,7 +13,7 @@ let inline visuallyHidden (value: string) =
 
 let inline areaTypeTag (areaType: string) =
     match areaType with
-    | AreaTypes.Overview -> encodedText ""
+    | AreaTypes.Overview -> encodedText String.Empty
     | _                  ->
                          strong[ _class "areatype-tag" ] [
                              visuallyHidden "Available at "
