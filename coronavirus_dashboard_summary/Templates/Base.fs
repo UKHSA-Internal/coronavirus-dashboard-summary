@@ -164,8 +164,8 @@ module Base =
                     meta [ _property "og:url"; _content Generic.UrlLocation ]
 
                     title [ _itemprop "name" ] [ encodedText $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
-                    meta [ _property "og-title"; _content $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
-                    meta [ _name "twitter-title"; _content $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
+                    meta [ _property "og:title"; _content $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
+                    meta [ _name "twitter:title"; _content $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
                     
                     link [
                         _rel "preload"
