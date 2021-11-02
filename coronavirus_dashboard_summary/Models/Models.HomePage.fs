@@ -65,13 +65,13 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
             |> Sql.executeAsync
                 (fun read ->
                       {
-                          area_type = read.string "area_type"
-                          area_code = read.string "area_code"
-                          area_name = read.string "area_name"
-                          date      = read.string "date"
-                          metric    = read.string "metric"
+                          area_type = read.string       "area_type"
+                          area_code = read.string       "area_code"
+                          area_name = read.string       "area_name"
+                          date      = read.string       "date"
+                          metric    = read.string       "metric"
                           value     = read.doubleOrNone "value"
-                          priority  = read.int "priority"
+                          priority  = read.int          "priority"
                       }
                 )
             |> Async.AwaitTask

@@ -153,13 +153,13 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                         |> Sql.executeAsync
                             (fun read ->
                                 {
-                                    area_type = read.string "area_type"
-                                    area_code = read.string "area_code"
-                                    area_name = read.string "area_name"
-                                    date      = read.string "date"
-                                    metric    = read.string "metric"
+                                    area_type = read.string       "area_type"
+                                    area_code = read.string       "area_code"
+                                    area_name = read.string       "area_name"
+                                    date      = read.string       "date"
+                                    metric    = read.string       "metric"
                                     value     = read.doubleOrNone "value"
-                                    priority  = read.int "priority"
+                                    priority  = read.int          "priority"
                                 }
                             )
                         |> Async.AwaitTask
@@ -186,11 +186,11 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                         |> Sql.executeAsync
                             (fun read ->
                                 {
-                                    id        = read.int "id"
+                                    id        = read.int    "id"
                                     area_type = read.string "area_type"
                                     area_name = read.string "area_name"
                                     postcode  = read.string "postcode"
-                                    priority  = read.int "priority"
+                                    priority  = read.int    "priority"
                                 }
                             )
                         |> Async.AwaitTask
@@ -217,12 +217,12 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                         |> Sql.executeAsync
                             (fun read ->
                                 {
-                                    id            = read.string "id"
+                                    id            = read.string   "id"
                                     date          = read.dateTime "date"
-                                    high_priority = read.bool "high_priority"
-                                    tag           = read.string "tag"
-                                    heading       = read.string "heading"
-                                    body          = read.string "body"
+                                    high_priority = read.bool     "high_priority"
+                                    tag           = read.string   "tag"
+                                    heading       = read.string   "heading"
+                                    body          = read.string   "body"
                                 }
                             )
                         |> Async.AwaitTask
@@ -250,7 +250,7 @@ type DataBase<'T>(redis: Redis.Client, date: TimeStamp.Release, telemetry: Telem
                             (fun read ->
                                 {
                                     date = read.dateTime "date"
-                                    body = read.text "body"
+                                    body = read.text     "body"
                                 }
                             )
                         |> Async.AwaitTask

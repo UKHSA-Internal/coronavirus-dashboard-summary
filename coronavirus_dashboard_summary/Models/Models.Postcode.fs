@@ -24,7 +24,7 @@ type Model (redis: Redis.Client, date: TimeStamp.Release, postcode: string, tele
     override this.query         = Query
     override this.cacheDuration = 
         {
-            hours = 48
+            hours   = 48
             minutes = 0
             seconds = 0
         }
