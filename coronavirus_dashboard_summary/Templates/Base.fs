@@ -206,7 +206,7 @@ module Base =
                     
                     style [ _type "text/css" ] [
                         match this.banners.changeLogs with
-                        | None   -> ""
+                        | None   -> String.Empty
                         | Some _ -> ".banner {margin-top: .6rem !important;"
                         |> rawText
                     ]
@@ -217,7 +217,7 @@ module Base =
                     Navigation.RenderMobile
                     
                     match this.banners.changeLogs with
-                    | None   -> "" |> rawText
+                    | None   -> String.Empty |> rawText
                     | Some v -> v
                     
                     this.banners.announcements
@@ -232,7 +232,6 @@ module Base =
                                          CultureInfo.CreateSpecificCulture("en-GB")
                                      ) |> encodedText
                                 ]
-                                meta [ _itemprop "expires"; _content "" ]
                                 span [ _itemprop "maintainer"; _itemscope ] [
                                     meta [ _itemprop "legalName"; _content "UK Health Security Agency" ]
                                     meta [ _itemprop "email"; _content "coronavirus-tracker@phe.gov.uk" ]
@@ -247,7 +246,7 @@ module Base =
                                     
                                     match this.error with
                                     | false -> PostCodeSearch.Render this.postcode |> TailCards
-                                    | true  -> rawText ""
+                                    | true  -> rawText String.Empty
                                 ]
                             ]
                         ]
