@@ -1,5 +1,9 @@
 namespace coronavirus_dashboard_summary.Utils.Constants
 
+
+/// ===========================================
+/// Area types as defined in the database
+/// ===========================================
 module AreaTypes =
     [<Literal>]
     let Overview = "overview"
@@ -26,6 +30,9 @@ module AreaTypes =
     let NHSTrust = "nhsTrust"
 
     
+/// ===========================================
+/// Generic constants used globally
+/// ===========================================
 module Generic =
     let private Location = System.Environment.GetEnvironmentVariable "URL_LOCATION"
     
