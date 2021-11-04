@@ -9,6 +9,9 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <CrossGenDuringPublish>false</CrossGenDuringPublish>
+        <SatelliteResourceLanguages>en-GB</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <ItemGroup>
