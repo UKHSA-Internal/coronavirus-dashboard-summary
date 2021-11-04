@@ -1,17 +1,4 @@
-﻿FROM node:14-buster-slim AS assets
-LABEL maintainer="Pouria Hadjibagheri <Pouria.Hadjibagheri@phe.gov.uk>"
-
-WORKDIR /app/static
-
-COPY ./coronavirus_dashboard_summary/WebRoot     /app/static
-
-RUN rm -rf node_modules
-RUN npm install
-RUN npm rebuild node-sass
-RUN npm run build /app/static
-RUN rm -rf node_modules
-
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 LABEL maintainer="Pouria Hadjibagheri <Pouria.Hadjibagheri@phe.gov.uk>"
 
 WORKDIR /app
@@ -24,7 +11,6 @@ LABEL maintainer="Pouria Hadjibagheri <Pouria.Hadjibagheri@phe.gov.uk>"
 
 WORKDIR /src
 COPY ["coronavirus_dashboard_summary/coronavirus_dashboard_summary.fsproj", "coronavirus_dashboard_summary/"]
-COPY --from=assets /app/static/dist   /src/coronavirus_dashboard_summary/WebRoot/css
 
 RUN dotnet restore "coronavirus_dashboard_summary/coronavirus_dashboard_summary.fsproj"
 COPY . .
