@@ -119,36 +119,36 @@ module Card =
                 | "Cases" ->
                     "A confirmed case is someone who has tested positive for coronavirus. There were "
                 | "Deaths" ->
-                    "There " + Formatter.pluralise (getter this.metric "value" |> int) "was " "were " "were "
+                    "There " + Formatter.pluralise (getter this.metric "value") "was " "were " "were "
                 | "Healthcare" ->
                     "Some people with coronavirus have to go into hospital. There "
-                    + Formatter.pluralise (getter this.metric "value" |> int) "was " "were " "were "
+                    + Formatter.pluralise (getter this.metric "value") "was " "were " "were "
                 | "Testing" ->
                     "Testing is where we do a test to see who has coronavirus. Some people are tested more than once. There "
-                    + Formatter.pluralise (getter this.metric "value" |> int) "was " "were " "were "
+                    + Formatter.pluralise (getter this.metric "value") "was " "were " "were "
                 | _ -> ""
                 + getter this.metric "formattedValue"
                 + " new "
                 + match this.caption with
                   | "Cases" ->
-                       Formatter.pluralise (getter this.metric "value" |> int) "person" "people" "people"
+                       Formatter.pluralise (getter this.metric "value") "person" "people" "people"
                        + " with a confirmed positive test result for coronavirus on "
                   | "Deaths" ->
-                        "death" + Formatter.pluralise (getter this.metric "value" |> int) "" "s" "s"
+                        "death" + Formatter.pluralise (getter this.metric "value") "" "s" "s"
                         + " within 28 days of a positive test for coronavirus reported on "
                   | "Healthcare" ->
-                       Formatter.pluralise (getter this.metric "value" |> int) "person" "people" "people"
+                       Formatter.pluralise (getter this.metric "value") "person" "people" "people"
                         + " people with coronavirus who were admitted into hospital on "
                   | "Testing" ->
-                      "test" + Formatter.pluralise (getter this.metric "value" |> int) "" "s" "s"
+                      "test" + Formatter.pluralise (getter this.metric "value") "" "s" "s"
                       + " reported on "
                   | _ -> ""
                 + getter this.metric "formattedDate"
                 + ", and "
                 + getter $"{this.metric}RollingSum" "formattedValue"
-                + Formatter.pluralise (getter $"{this.metric}RollingSum" "value" |> int) " person" " people" " people"
+                + Formatter.pluralise (getter $"{this.metric}RollingSum" "value") " person" " people" " people"
                 + " in the last 7 days. This shows "
-                + Formatter.comparisonVerb (getter $"{this.metric}Change" "value" |> int) "an increase" "a decrease" "no change"
+                + Formatter.comparisonVerb (getter $"{this.metric}Change" "value") "an increase" "a decrease" "no change"
                 + " of " + (getter $"{this.metric}Change" "formattedValue").TrimStart('-')
                 + " compared to the previous 7 days."
                 |> _content
@@ -167,7 +167,7 @@ module Card =
                 
             let areaNameConnector =
                 match getter this.metric "trimmedAreaName" with
-                       | "" -> ""
+                       | "" -> String.Empty
                        | _ -> " in " 
 
             li [ _class "mini-card"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
@@ -274,6 +274,7 @@ module Card =
             let getter = Metrics.Processor payload
             let emptyPostcode = String.IsNullOrEmpty postcode
             
+            try
             match (emptyPostcode, this.postCodeOnly) with
             | (false, true) ->
                 match String.IsNullOrEmpty this.caption with
@@ -284,4 +285,7 @@ module Card =
                match this.caption with
                | "Vaccinations" -> [ Vaccinations.Payload(this, release).Render getter ]
                | _ -> [ this.normalCard release (not emptyPostcode) getter ]
+            | _ -> []
+            with
+            | :? AggregateException-> []  // ToDo: Log the exception
             | _ -> []
