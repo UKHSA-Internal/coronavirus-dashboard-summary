@@ -365,8 +365,6 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             "Chart displaying the percentage of population aged 12+ vaccinated in "
                             + getter this.metadata.metric "area_name"
                             |> _alt
-                            
-                            attr "loading" "lazy"
                         ]
                     ]
                 ]
