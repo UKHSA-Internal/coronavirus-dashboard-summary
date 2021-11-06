@@ -20,15 +20,17 @@ let inline toLongAreaType (areaType: string): string =
     | AreaTypes.NHSRegion -> "Healthcare region"
     | AreaTypes.NHSTrust  -> "Healthcare trust"
     | _                   -> null
-
-let inline pluralise (value: int32) single multi zero: string =
-    match value with
-    | v when v = 1 -> single
-    | v when v > 1 -> multi
-    | _            -> zero
     
-let inline comparisonVerb (value: int32) up down same: string =
-    match value with
-    | v when v > 0 -> up
-    | v when v < 0 -> down
-    | _            -> same
+let inline pluralise (value: string) single multi zero: string =
+    match Int32.TryParse value with
+    | true, v when v = 1 -> single
+    | true, v when v > 1 -> multi
+    | true, _            -> zero
+    | _                  -> multi
+
+let inline comparisonVerb (value: string) up down same: string =
+    match Int32.TryParse value with
+    | true, v when v > 0 -> up
+    | true, v when v < 0 -> down
+    | true, _            -> same
+    | _                  -> String.Empty
