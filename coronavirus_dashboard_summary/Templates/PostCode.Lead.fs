@@ -39,8 +39,6 @@ let inline private Comparison postcode getter (release: TimeStamp.Release) =
                    + ".jpg"
                    |> _src
                    
-                   attr "loading" "lazy"
-                   
                    "Scale showing the comparison of "
                    + postcode
                    + " relative to national median."
@@ -149,7 +147,6 @@ let Render postcode getter (release: TimeStamp.Release) =
                     + getter baseMetric "area_code"
                     + ".svg"
                     |> _src
-                    attr "loading" "lazy"
                     _alt "Thumbnail of the area on a map"
                 ] 
             ]
