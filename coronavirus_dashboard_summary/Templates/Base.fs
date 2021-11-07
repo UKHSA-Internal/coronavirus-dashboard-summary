@@ -212,7 +212,7 @@ module Base =
                     ]
                 ]
                 body [ _class "govuk-template__body" ] [
-                    GovUKHeader
+                    yield! GovUKHeader
                     
                     Navigation.RenderMobile
                     
