@@ -23,7 +23,7 @@ let inline private bannerItem (banner: DB.ChangeLogPayload) =
             rawText " &mdash; "
             encodedText banner.heading
             a [
-                _href $"/details/whats-new#{banner.id}"
+                _href $"/details/whats-new/record/{banner.id}"
                 _class "govuk-link govuk-link--no-visited-state govuk-!-margin-left-1"
             ] [ encodedText "More" ]
         ]
