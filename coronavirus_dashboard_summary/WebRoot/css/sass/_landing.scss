@@ -360,22 +360,26 @@ main {
   display: flex;
   flex-wrap: wrap;
   padding: unset;
+  row-gap: .5rem;
+  column-gap: .5rem;
+  flex-direction: row;
 
   &, & ul:not(.govuk-list--bullet) {
     list-style: none;
   }
 
   & > *:not(.postcode-lead,.more-details,.stand-alone-metric,.simple-summary) {
-    margin: 0.5em .5em 0.5em 0;
 
     &:not(.vaccinations) {
       @extend .mini-card;
-      flex-grow: 4;
-      flex-shrink: 1;
-      flex-basis: 20%;
+      flex: 4 1 20%;
       min-width: 250px;
+
+      @media only screen and (max-width: 1452px) {
+        flex: 2 1 40%;
+      }
     }
-    
+
   }
 
   & > .vaccinations,
@@ -383,7 +387,6 @@ main {
   & > .stand-alone-metric,
   & > .more-detail {
     flex-grow: 4;
-    min-width: 80%;
     align-self: flex-start;
   }
 }
@@ -519,6 +522,7 @@ main {
 }
 
 .mini-card {
+  margin-bottom: 0 !important;
   & hr {
     margin-left: -1.3rem;
     margin-right: -1.3rem;
@@ -534,11 +538,8 @@ main {
   padding: 20px;
   background-color: #f8f8f8;
   border: 1px #f3f2f1 solid;
+  margin-top: 0 !important;
   
-  //display: grid !important;
-  
-  //flex: 1 4 100%;
-  //flex-direction: column;
   h3, h4 {
     width: auto;
   }
