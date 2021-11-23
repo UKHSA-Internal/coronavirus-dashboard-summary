@@ -1,11 +1,3 @@
-var removeCookies = function () {
-    document.cookie = "_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "_gid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "_gat_gtag_UA_161400643_2=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "LocationBanner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-};
-
-
 var determineCookieState = function () {
     var cookies = document.cookie.split(';');
     var cookiePreferences = cookies.find(c => c.trim().startsWith('cookies_preferences_set_21_3'));
@@ -59,7 +51,7 @@ function runCookieJobs() {
 
         document.cookie = "cookies_policy_21_3=" + encodeURIComponent('{"essential":true,"usage":false,"preferences":false}') + "; expires=" + cookieExpiryDate + ";";
         document.cookie = "cookies_preferences_set_21_3=true; expires=" + cookieExpiryDate + ";";
-        removeCookies();
+        window['ga-disable-GA_MEASUREMENT_ID'] = false;
 
         cookieDecisionBanner.innerHTML = cookieDecisionBanner.innerHTML.replace("accepted", "rejected");
         showElement(cookieDecisionBanner);
