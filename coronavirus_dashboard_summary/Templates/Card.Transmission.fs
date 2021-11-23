@@ -28,7 +28,7 @@ let inline Card (metadata: MetaData.ContentMetadata) getter =
             ]
         ]
     
-    div [ _class "card-wide transmission govuk-!-margin-top-3" ] [
+    li [ _class "card-wide transmission govuk-!-margin-top-3" ] [
         div [ _class "content" ] [
             div [ _class "topic column govuk-!-margin-bottom-0" ] [
                 div [] [
