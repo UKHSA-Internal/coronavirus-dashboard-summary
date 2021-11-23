@@ -4,6 +4,7 @@
   background-color: #f8f8f8;
   border: 1px #f3f2f1 solid;
   flex: 1 1 100%;
+  margin-bottom: 0 !important;
   
   grid-template-columns: 1fr;
   grid-template-rows: 1fr repeat(3, auto);
@@ -23,12 +24,6 @@
   @include govuk-media-query($from: 1100px) {
     display: flex;
     justify-content: space-between;
-    //grid-template-columns: auto 1fr auto;
-    //justify-content: stretch;
-    //grid-row-gap: .5rem;
-    //grid-template-rows: auto repeat(2, 1fr);
-    //grid-template-columns: repeat(5, 20%);
-    //grid-auto-flow: column;
   }
 }
 
