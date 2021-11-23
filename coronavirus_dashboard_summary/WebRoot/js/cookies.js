@@ -51,7 +51,8 @@ function runCookieJobs() {
 
         document.cookie = "cookies_policy_21_3=" + encodeURIComponent('{"essential":true,"usage":false,"preferences":false}') + "; expires=" + cookieExpiryDate + ";";
         document.cookie = "cookies_preferences_set_21_3=true; expires=" + cookieExpiryDate + ";";
-        window['ga-disable-GA_MEASUREMENT_ID'] = false;
+        window['ga-disable-UA-161400643-2'] = false;
+        window['ga-disable-UA-145652997-1'] = false;
 
         cookieDecisionBanner.innerHTML = cookieDecisionBanner.innerHTML.replace("accepted", "rejected");
         showElement(cookieDecisionBanner);

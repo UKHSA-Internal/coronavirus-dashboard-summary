@@ -15,7 +15,8 @@ function gtag() {
 }
 
 var setCookies = function () {
-    window['ga-disable-GA_MEASUREMENT_ID'] = true;
+    window['ga-disable-UA-161400643-2'] = true;
+    window['ga-disable-UA-145652997-1'] = true;
     window.dataLayer = window.dataLayer || [];
 
     gtag('js', new Date());
