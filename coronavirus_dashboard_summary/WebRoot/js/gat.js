@@ -28,7 +28,8 @@ var setCookies = function () {
             'allowAdFeatures': false,
             'allow_google_signals': false,
             'allowLinker': true,
-            'allow_ad_personalization_signals': false
+            'allow_ad_personalization_signals': false,
+            'send_page_view': false,
         }
     );
     gtag(
