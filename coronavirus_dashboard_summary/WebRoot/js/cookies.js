@@ -14,6 +14,7 @@ var determineCookieState = function () {
             window['ga-disable-UA-161400643-2'] = true;
             window['ga-disable-UA-145652997-1'] = true;
             setCookies();
+            console.log("Cookies initialised.")
         }
     }
 };
@@ -25,6 +26,7 @@ function showElement (elm) {
 
 function hideElement (elm) {
     elm.remove()
+    console.log("Cookies removed.")
 }
 
 function runCookieJobs() {
@@ -49,6 +51,7 @@ function runCookieJobs() {
         document.querySelector("#hide-cookie-decision").onclick = function () {
             hideElement(cookieDecisionBanner);
         };
+        console.log("Cookies accepted.")
     };
 
     document.querySelector("#reject-cookies").onclick = function () {
@@ -72,6 +75,7 @@ function runCookieJobs() {
         document.querySelector("#hide-cookie-decision").onclick = function () {
             hideElement(cookieDecisionBanner);
         };
+        console.log("Cookies rejected.")
     };
 
     determineCookieState();
