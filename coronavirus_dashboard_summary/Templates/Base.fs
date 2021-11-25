@@ -199,15 +199,17 @@ module Base =
                         |> _href 
                     ]
                     
-                    script [ _type "application/javascript"; _async; _src "https://www.googletagmanager.com/gtag/js?id=UA-161400643-2" ] []
-                    script [ _type "application/javascript"; _async; _src "https://www.clarity.ms/eus-b/s/0.6.24/clarity.js" ] []
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
+                    script [ _type "application/javascript"; _src "https://www.googletagmanager.com/gtag/js?id=UA-161400643-2" ] []
+                    script [ _type "application/javascript"; _src "https://www.googletagmanager.com/gtag/js?id=UA-145652997-1" ] []
+                    script [ _type "application/javascript"; _src "https://www.clarity.ms/eus-b/s/0.6.24/clarity.js" ] []
+                    script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
                     script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/gat.js"] []
+                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
                     
                     style [ _type "text/css" ] [
                         match this.banners.changeLogs with
                         | None   -> String.Empty
-                        | Some _ -> ".banner {margin-top: .6rem !important;"
+                        | Some _ -> ".banner {margin-top: .6rem !important;}"
                         |> rawText
                     ]
                 ]
@@ -253,7 +255,6 @@ module Base =
                     ]
                     MainFooter
                     script [ _type "application/javascript"; _defer; _src $"{Generic.UrlLocation}/public/assets/summary/js/msai.js"] []
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
                     script [ _type "application/javascript"; _defer; _src $"{Generic.UrlLocation}/public/assets/summary/js/mobile_menu.js"] []
                 ]
             ]        
