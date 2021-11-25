@@ -199,12 +199,9 @@ module Base =
                         |> _href 
                     ]
                     
-                    script [ _type "application/javascript"; _src "https://www.googletagmanager.com/gtag/js?id=UA-161400643-2" ] []
-                    script [ _type "application/javascript"; _src "https://www.googletagmanager.com/gtag/js?id=UA-145652997-1" ] []
-                    script [ _type "application/javascript"; _src "https://www.clarity.ms/eus-b/s/0.6.24/clarity.js" ] []
                     script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
                     script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/gat.js"] []
-                    script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
+                    script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
                     
                     style [ _type "text/css" ] [
                         match this.banners.changeLogs with
