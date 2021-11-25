@@ -199,6 +199,7 @@ module Base =
                         |> _href 
                     ]
                     
+                    script [ _type "application/javascript"; _async; _src "https://www.google-analytics.com/analytics.js"] []
                     script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
                     script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/gat.js"] []
                     script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
