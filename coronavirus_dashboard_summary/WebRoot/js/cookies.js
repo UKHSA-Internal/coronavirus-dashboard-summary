@@ -3,13 +3,16 @@ var determineCookieState = function () {
     var cookiePreferences = cookies.find(function (c) {
         return c.trim().startsWith('cookies_preferences_set_21_3');
     });
+    var cookiePolicy = cookies.find(function (c) {
+        return c.trim().startsWith('cookies_policy_21_3');
+    });
 
     if ( !cookiePreferences || cookiePreferences.split('=')[1] !== 'true' ) {
         var cookieBanner = document.querySelector("#cookie-banner");
         cookieBanner.style.display = 'block';
         cookieBanner.style.visibility = 'visible';
-    } else if ( cookiePreferences ) {
-        var prefs = JSON.parse(cookiePreferences.split('=')[1]);
+    } else if ( cookiePolicy ) {
+        var prefs = JSON.parse(decodeURIComponent(cookiePolicy.split('=')[1]));
         if (prefs["usage"] === true) {
             window['ga-disable-UA-161400643-2'] = true;
             window['ga-disable-UA-145652997-1'] = true;
