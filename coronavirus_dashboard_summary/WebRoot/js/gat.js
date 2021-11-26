@@ -7,7 +7,7 @@ var tagIds = [
 ];
 
 var stripPII = function (str) {
-    return decodeURIComponent(str).replace(/(.*)([A-Z]{1,2}\d{1,2}[A-Z]?[\s+]?\d{1,2}[A-Z]{1,2})(.*)/gi, '$1[REDACTED]$3')
+    return decodeURIComponent(str).replace(/(.*=)([A-Z]{1,2}\d{1,2}[A-Z]?[\s+]?\d{1,2}[A-Z]{1,2})(.*)/gi, '$1[REDACTED]$3')
 }
 
 var stripPIIUri = function (str) {
