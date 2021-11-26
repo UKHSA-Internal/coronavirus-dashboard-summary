@@ -14,8 +14,8 @@ var determineCookieState = function () {
     } else if ( cookiePolicy ) {
         var prefs = JSON.parse(decodeURIComponent(cookiePolicy.split('=')[1]));
         if (prefs["usage"] === true) {
-            window['ga-disable-UA-161400643-2'] = true;
-            window['ga-disable-UA-145652997-1'] = true;
+            window['ga-disable-UA-161400643-2'] = false;
+            window['ga-disable-UA-145652997-1'] = false;
             setCookies();
             console.log("Cookies initialised.")
         }
@@ -66,8 +66,8 @@ function runCookieJobs() {
 
         document.cookie = "cookies_policy_21_3=" + encodeURIComponent('{"essential":true,"usage":false,"preferences":false}') + "; expires=" + cookieExpiryDate + ";";
         document.cookie = "cookies_preferences_set_21_3=true; expires=" + cookieExpiryDate + ";";
-        window['ga-disable-UA-161400643-2'] = false;
-        window['ga-disable-UA-145652997-1'] = false;
+        window['ga-disable-UA-161400643-2'] = true;
+        window['ga-disable-UA-145652997-1'] = true;
 
         cookieDecisionBanner.innerHTML = cookieDecisionBanner.innerHTML.replace("accepted", "rejected");
         showElement(cookieDecisionBanner);
