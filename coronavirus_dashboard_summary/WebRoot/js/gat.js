@@ -21,8 +21,6 @@ function gtag() {
 
 var setCookies = function () {
     window.dataLayer = window.dataLayer || [];
-
-    gtag('js', new Date());
     
     tagIds.map(function (tag) {
         window['ga-disable-' + tag] = false;
