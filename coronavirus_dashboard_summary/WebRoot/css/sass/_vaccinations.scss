@@ -102,6 +102,10 @@
     grid-column: 2;
   }
 
+  @media only screen and (max-width: 520px) {
+    grid-column-gap: .5rem !important;
+  }
+
   @include govuk-media-query($from: 1100px) {
     grid-column: 4;
     grid-row: 1 / -1;
@@ -183,8 +187,11 @@
       @include govuk-media-query($from: 1100px) {
         max-width: 200px;
       }
-    }
+      @media only screen and (max-width: 520px) {
+        max-width: 145px !important;
+      }
 
+    }
   }
 }
 

@@ -521,6 +521,20 @@ main {
   
 }
 
+.mini-card,
+.vaccinations,
+.card-width {
+  padding: 20px;
+
+  @media only screen and (max-width: 520px) {
+    padding: .8rem !important;
+    
+    & hr {
+      margin: 0 -.8rem !important;
+    }
+  }
+}
+
 .mini-card {
   margin-bottom: 0 !important;
   & hr {
@@ -560,6 +574,7 @@ main {
     @media only screen and (max-width: 520px) {
       //grid-template-columns: 1fr;
       //grid-auto-flow: row;
+      padding: .8rem !important;
 
       & .link {
         display: none;
