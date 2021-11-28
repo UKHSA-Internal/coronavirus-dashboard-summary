@@ -23,7 +23,6 @@ WHERE cl.display_banner IS TRUE
      OR ( date <= @date::DATE AND expiry >= NOW()::DATE )
   )
   AND (
-  AND (
  	   cl.area ISNULL
     OR cl.area @> '{overview::^K.*$}'::VARCHAR[]
   )
