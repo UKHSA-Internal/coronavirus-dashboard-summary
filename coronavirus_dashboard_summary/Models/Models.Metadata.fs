@@ -66,7 +66,7 @@ let CardMetadata: ContentMetadata[] = [|
         description         = null
     }
     {
-        metric               = "newVirusTests"
+        metric              = "newVirusTestsByPublishDate"
         rate                = null
         caption             = "Testing"
         heading             = "Virus tests conducted"
