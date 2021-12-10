@@ -640,3 +640,14 @@ main {
     font-size: 1.15rem;
   }
 }
+
+
+.lead-num-container {
+  display: flex;
+  column-gap: .5rem;
+  row-gap: .75rem;
+  
+  @media only screen and (max-width: 420px) {
+    flex-direction: column;
+  }
+}

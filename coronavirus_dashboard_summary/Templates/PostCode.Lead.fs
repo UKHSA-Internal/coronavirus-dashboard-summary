@@ -66,7 +66,7 @@ let inline private Vaccination getter =
                 ]
             ]
         ]
-        ul [ _class "govuk-list numbers-container govuk-!-margin-top-2" ] [
+        ul [ _class "govuk-list numbers-container govuk-!-margin-top-2 lead-num-container" ] [
             li [] [
                 strong [ _class "govuk-body-s float govuk-!-margin-bottom-0" ] [ encodedText "1st dose" ]
                 div [ _class "number-group" ] [
