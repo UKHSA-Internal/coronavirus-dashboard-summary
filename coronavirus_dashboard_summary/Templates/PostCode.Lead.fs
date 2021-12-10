@@ -49,6 +49,7 @@ let inline private Comparison postcode getter (release: TimeStamp.Release) =
 let inline private Vaccination getter =
     let baseMetric = "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage"
     let secondaryMetric = "cumVaccinationSecondDoseUptakeByVaccinationDatePercentage"
+    let tertiaryMetric = "cumVaccinationThirdInjectionUptakeByVaccinationDatePercentage"
     
     li [ _class "govuk-!-margin-top-2" ] [
         h3 [ _class "govuk-!-font-size-24 title-mobile govuk-!-margin-bottom-0 govuk-!-margin-top-0" ] [
@@ -78,7 +79,7 @@ let inline private Vaccination getter =
                                     |> encodedText   
                                 ]
                                 span [ _itemprop "disambiguatingDescription"; _class "tooltiptext govuk-!-font-size-16" ] [
-                                    "Percentage of population aged 12+ vaccinated (first dose) reported on "
+                                    "Percentage of population aged 12+ vaccinated (1st dose) reported on "
                                     + getter baseMetric "formattedDate"
                                     |> encodedText
                                 ]
@@ -99,8 +100,29 @@ let inline private Vaccination getter =
                                     |> encodedText   
                                 ]
                                 span [ _itemprop "disambiguatingDescription"; _class "tooltiptext govuk-!-font-size-16" ] [
-                                    "Percentage of population aged 12+ vaccinated (second dose) reported on "
+                                    "Percentage of population aged 12+ vaccinated (2nd dose) reported on "
                                     + getter secondaryMetric "formattedDate"
+                                    |> encodedText
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+            li [] [
+                strong [ _class "govuk-body-s float govuk-!-margin-bottom-0" ] [ encodedText "3rd dose or boosters" ]
+                div [ _class "number-group" ] [
+                    div [ _class "number-container" ] [
+                        div [ _class "float tooltip" ] [
+                            div [ _class "float govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2 govuk-!-font-weight-bold" ] [
+                                span [ _class "govuk-link--no-visited-state number-link number" ] [
+                                    getter tertiaryMetric "formattedValue"
+                                    + "%"
+                                    |> encodedText   
+                                ]
+                                span [ _itemprop "disambiguatingDescription"; _class "tooltiptext govuk-!-font-size-16" ] [
+                                    "Percentage of population aged 12+ vaccinated (3rd dose and boosters) reported on "
+                                    + getter tertiaryMetric "formattedDate"
                                     |> encodedText
                                 ]
                             ]
