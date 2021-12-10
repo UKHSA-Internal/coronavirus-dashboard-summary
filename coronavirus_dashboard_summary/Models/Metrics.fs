@@ -15,6 +15,7 @@ let PostCodeMetrics =
         "cumVaccinationSecondDoseUptakeByPublishDatePercentage"
         "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage"
         "cumVaccinationSecondDoseUptakeByVaccinationDatePercentage"
+        "cumVaccinationThirdInjectionUptakeByVaccinationDatePercentage"
         "newDeaths28DaysByPublishDate"
         "newDeaths28DaysByPublishDateChange"
         "newDeaths28DaysByPublishDateChangePercentage"
