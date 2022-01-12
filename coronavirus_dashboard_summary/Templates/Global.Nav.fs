@@ -60,11 +60,6 @@ let private secondaryNavItems =
             current = false
         }
         {
-            label   = "About the data"
-            uri     = "/details/about-data"
-            current = false
-        }
-        {
             label   = "Download data"
             uri     = "/details/download"
             current = false
@@ -77,6 +72,11 @@ let private secondaryNavItems =
         {
             label   = "Developer's guide"
             uri     = "/details/developers-guide"
+            current = false
+        }
+        {
+            label   = "About"
+            uri     = "/about"
             current = false
         }
     ]        
