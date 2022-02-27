@@ -315,7 +315,7 @@ module Card =
             try
                 match (emptyPostcode, this.postCodeOnly) with
                 // Postcode-specific cards (valid postcode + postcode-only card)
-                | (false, true) ->
+                | false, true ->
                     match String.IsNullOrEmpty this.caption with
                     // Caption not empty - the only postcode-only card with caption is
                     // transmission. Note that this might have to be altered (likely 
@@ -328,8 +328,8 @@ module Card =
                     | _     -> PostCodeLead.Render (postcode.ToUpper()) payload.GetValue release
                 
                 // Generic cards
-                | (true, false)      // Valid postcode + generic card
-                | (false, false) ->  // No postcode + generic card
+                | true, false      // Valid postcode + generic card
+                | false, false ->  // No postcode + generic card
                    match this.caption with
                    | "Vaccinations" ->  // Vaccinations card
                        [ Vaccinations.Payload(this, release).Render payload.GetValue ]
