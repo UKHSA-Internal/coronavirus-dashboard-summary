@@ -71,7 +71,7 @@ let private CookieBanner =
             ] [
                 p [ _class "gem-c-cookie-banner__confirmation-message govuk-body" ] [
                     encodedText "You've accepted additional cookies. You can "
-                    a [ _href "/details/cookies"; _class "govuk-link"][ encodedText "change your cookie settings" ]
+                    a [ _href "/details/cookies"; _class "govuk-link"] [ encodedText "change your cookie settings" ]
                     encodedText " at any time."
                 ]
                 button [
