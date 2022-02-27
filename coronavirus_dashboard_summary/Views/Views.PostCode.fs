@@ -26,7 +26,7 @@ type private PostCodeView(postcode, redis, telemetry) =
         with get() = List.isEmpty postcodeAreas
                      |> not
         
-    member private _.getContent (postcodeData: DB.PostCodeDataPayload list) = 
+    member private _.getContent (postcodeData: DB.PostCodeDataPayload list) =
         let dbResp =
             postcodeData
             |> List.map (fun item -> item.Key release redis telemetry)
@@ -34,10 +34,8 @@ type private PostCodeView(postcode, redis, telemetry) =
             |> redis.GetAllAsync
             |> Async.RunSynchronously
             |> Json.deserialize<DB.Payload List>
-            |> List.groupBy (fun item -> item.metric)
-            |> List.map Filters.ByPriorityAttribute
-            |> List.map (fun item -> (item.metric, item))
-            |> dict
+            |> List.groupBy Filters.GroupByMetric
+            |> List.map Filters.GroupByPriorityAttribute
             |> Metrics.GeneralPayload
 
         [

@@ -16,10 +16,8 @@ let index (date: Release) (redis: Redis.Client) =
         redis.GetAllAsync [|$"area-{date.isoDate}-UK"|]
         |> Async.RunSynchronously
         |> Json.deserialize<DB.Payload list>
-        |> List.groupBy (fun item -> item.metric)
-        |> List.map Filters.ByPriorityAttribute
-        |> List.map (fun item -> (item.metric, item))
-        |> dict
+        |> List.groupBy Filters.GroupByMetric
+        |> List.map Filters.GroupByPriorityAttribute
         |> Metrics.GeneralPayload
         
     [
