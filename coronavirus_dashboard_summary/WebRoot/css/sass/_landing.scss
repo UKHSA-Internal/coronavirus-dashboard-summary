@@ -174,19 +174,8 @@ main {
   
   display: grid;
   grid-gap: 1rem;
-  //grid-auto-flow: row;
   grid-template-columns: 1fr;
-  //grid-template-rows: 1fr;
-  //grid-template-columns: auto auto;
-  //grid-template-rows: 1fr auto;
-  //grid-column-gap: 30px;
-  //grid-row-gap: 10px;
-  //
-  //@include govuk-media-query($from: mobile) {
-  //  grid-template-columns: 1fr 1fr;
-  //  grid-template-rows: 1fr;
-  //}
-  //
+
   @include govuk-media-query($from: 1000px) {
     grid-template-columns: auto 1fr;
 
@@ -217,11 +206,7 @@ main {
   width: 100%;
 }
 
-.min-card-more-detail {
-  //display: flex;
-  //width: 100%;
-  //justify-content: flex-end;
-}
+.min-card-more-detail {}
 
 .tooltiptext {
   background: rgba(0, 0, 0, .85) !important;
@@ -459,7 +444,6 @@ main {
 
 .numbers-container {
   display: flex;
-  //flex: 1 2 100%;
   justify-content: flex-start;
   
   @extend .govuk-\!-margin-top-1;
@@ -572,8 +556,6 @@ main {
       justify-content: flex-start;
     }
     @media only screen and (max-width: 520px) {
-      //grid-template-columns: 1fr;
-      //grid-auto-flow: row;
       padding: .8rem !important;
 
       & .link {
@@ -595,7 +577,6 @@ main {
 
     &:first-of-type {
       max-width: 400px;
-      //margin-right: 1rem;
     }
 
     @media only screen and (max-width: 520px) {

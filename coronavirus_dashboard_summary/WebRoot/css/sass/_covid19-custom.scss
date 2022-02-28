@@ -1,1308 +1,1319 @@
 
-#breakdown-table th{
-    border-bottom: 0px solid #ffffff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-      }
-    
-    #breakdown-table td{
-    border-bottom: 0px solid #ffffff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    }
-    
-    #place-name {
-    width: 40%;
-    }
-    #place-name2 {
-    width: 33%;
-    }
-    #bar-data {
-    width: 60%;
-    }
-    #bar-data2 {
-    width: 33%;
-    }
-    
-    .breakdown-table2 th{
-    border-bottom: 0px solid #ffffff;
-    padding-top: 2px;
-    padding-bottom: 2px;
-      }
-    
-    .breakdown-table2 td{
-    border-bottom: 0px solid #ffffff;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    }
-    
-    .breakdown-table th{
-    border-bottom: 0px solid #ffffff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-      }
-    
-    .breakdown-table td{
-    border-bottom: 0px solid #ffffff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    }
-    
-    .place-name {
-    width: 40%;
-    }
-    .place-name2 {
-    width: 33%;
-    }
-    .place-name3 {
-    width: 25%;
-    }
-    .bar-data {
-    width: 60%;
-    }
-    .bar-data2 {
-    width: 33%;
-    }
-    .bar-data3 {
-    width: 25%;
-    }
-    
-    .bar-total {
-      height:20px;
-      margin-right:0px;
-      background-color: #003078;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    
-    .bar-total2 {
-      height:10px;
-      margin-right:0px;
-      background-color: #003078;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    
-    .bar-today {
-      height:20px;
-      margin-right:10px;
-      background-color: #b1b4b6;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    
-    .today {
-      color: #626a6e;
-    }
-    
-    .total {
-      color: #003078;
-    }
-    
-    .size-1 {
-      width:1%;
-    }
-    
-    .size-2 {
-      width:2%;
-    }
-    
-    .size-3 {
-      width:4%;
-    }
-    
-    .size-4 {
-      width:10%;
-    }
-    
-    .size-5 {
-      width:20px;
-    }
-    
-    .size-6 {
-      width: 20%;
-    }
-    
-    .size-7 {
-      width:30%;
-    }
-    
-    .size-8 {
-      width:35%;
-    }
-    
-    .size-9 {
-      width:40%;
-    }
-    
-    .size-10 {
-      width:50%;
-    }
-    
-    
-    .map-container{
-        background-size: auto 100%;
-        background-position: center;
-        background-image: url(/public/images/mapnew.jpg);
-        display: block;
-        background-repeat: no-repeat;
-        width:100%;
-        height:400px;
-        position:relative;
-    
-        @media (min-width: 990px){
-            background-size: 100% auto;
-            height:600px;
-        }
-    
-    }
-    
-    .map-container2{
-        background-size: auto 100%;
-        background-position: center;
-        background-image: url(/public/images/map-cases.png);
-        display: block;
-        background-repeat: no-repeat;
-        width:100%;
-        height:400px;
-        position:relative;
-    
-        @media (min-width: 990px){
-            background-size: 100% auto;
-            height:600px;
-            display: block;
-    
-        }
-    
-    }
-    
-    .map-container-local{
-        background-size: auto 100%;
-        background-position: center;
-        background-image: url(/public/images/map-local.jpg);
-        display: block;
-        background-repeat: no-repeat;
-        width:100%;
-        height:400px;
-        position:relative;
-    
-        @media (min-width: 990px){
-            background-size: 100% auto;
-            height:600px;
-            display: block;
-    
-        }
-    
-    }
-    
-    .map-data{
-      position: absolute;
-      top: 10px;
-      left:10px;
-    
-    }
-    
-    .mapbox {
-      border: 1px solid #b1b4b6;
-      background-color: rgba(255, 255, 255, 0.6);
-    }
-    
-    .map-key{
-      position: absolute;
-      top: 10px;
-      right:10px;
-      display: none;
-    
-      @media (min-width: 990px){
-          background-size: 100% auto;
-          height:600px;
-          display: block;
-      }
-    
-    }
-    
-    .mapkey-mobile{
-      display: block;
-    
-      @media (min-width: 990px){
-          display: none;
-      }
-    
-    }
-    
-    .related-navigation {
-        color: #0b0c0c;
-        border-top: 2px solid #1d70b8;
-        padding-top: 10px;
-    }
-    
-    .sticky-menu {
-      position: inherit;
-      top: 20px;
-      margin-bottom:30px;
-    
-      @media (min-width: 990px){
-        position: -webkit-sticky;
-        position: sticky;
-        top: 20px;
-      }
-    }
-    
-    .deaths {
-      margin-top:30px;
-    
-      @media (min-width: 990px){
-    margin-top:0px;
-      }
-    }
-    
-    .dashboard-panel {
-      background-color: #f8f8f8;
-      padding: 20px;
-      border: 1px #f3f2f1 solid;
-    
-    }
-    
-    .dashboard-panel2 {
-      background-color: #f8f8f8;
-      padding: 20px;
-      padding-top: 30px;
-      border: 1px #f3f2f1 solid;
-    }
-    
-    .dashboard-panel-title {
-      background-color: #1d70b8;
-      padding: 20px;
-      color: #ffffff;
-      padding-top: 30px;
-      border: 1px #f3f2f1 solid;
-      height:100%;
-    }
-    
-    .filter .govuk-accordion__controls {
-      display: none;
-    }
-    
-    .covid-wrapper {
-      padding-top: 20px !important;
-    }
-    
-    .date-updated {
-      text-align: right;
-      margin-top: 10px;
-      color: #626a6e;
-    }
-    
-    .more-detail {
-      text-align: right;
-      text-decoration: none;
-    }
-    
-    .filters {
-      text-align: right;
-    }
-    
-    .slides-wrapper {
-      max-width: 1920px !important;
-      padding-top: 0px !important;
-      padding-left: 60px !important;
-      padding-right: 60px !important;
-    
-    }
-    
-    .govuk-main-wrapper {
-      padding-top: 15px !important;
-    
-    }
-    
-    .header-right {
-      float: right;
-      text-align: right;
-      display:inline-block;
-    }
-    
-    .header-left {
-      display:inline-block;
-    }
-    
-    .white-text {
-      color: #ffffff;
-    }
-    
-    .fullscreen-link a:link,
-    .fullscreen-link a:visited,
-    .fullscreen-link a:hover,
-    .fullscreen-link a:active
-    {
-      color:#ffffff;
-    }
-    
-    .circle-blue {
-        border-radius: 5px;
-        background: #2B8CC4;
-        padding: 0px;
-        width: 10px;
-        height: 10px;
-        float: left;
-        margin:8px;
-      }
-    
-    
-      .square-blue {
-          background: #2B8CC4;
-          padding: 0px;
-          width: 10px;
-          height: 10px;
-          float: left;
-          margin-right:6px;
-          margin-top:6px;
-          margin-bottom:6px;
-          margin-left:0px;
-          border: 1px solid #000;
-          -webkit-box-shadow:inset 1px 0px 0px 1px #ffffff;
-          -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
-          box-shadow:inset 0px 0px 0px 1px #ffffff;
-        }
-    
-        .square-blue2 {
-            background: #F47738;
-            padding: 0px;
-            width: 10px;
-            height: 10px;
-            float: left;
-            margin-right:6px;
-            margin-top:6px;
-            margin-bottom:6px;
-            margin-left:0px;
-            border: 1px solid #000;
-            -webkit-box-shadow:inset 1px 0px 0px 1px #ffffff;
-            -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
-            box-shadow:inset 0px 0px 0px 1px #ffffff;
-          }
-    
-          .square-blue3 {
-              background: #003078;
-              padding: 0px;
-              width: 10px;
-              height: 10px;
-              float: left;
-              margin-right:6px;
-              margin-top:6px;
-              margin-bottom:6px;
-              margin-left:0px;
-              border: 1px solid #000;
-              -webkit-box-shadow:inset 1px 0px 0px 1px #ffffff;
-              -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
-              box-shadow:inset 0px 0px 0px 1px #ffffff;
-            }
-    
-      .circle-blue2 {
-          border-radius: 5px;
-          background: #159BE8;
-          padding: 0px;
-          width: 10px;
-          height: 10px;
-          float: left;
-          margin:8px;
-        }
-    
-        .circle-blue4 {
-            border-radius: 5px;
-            background: #005EA5;
-            padding: 0px;
-            width: 10px;
-            height: 10px;
-            float: left;
-            margin:5px;
-          }
-    
-          .circle-blue5 {
-              border-radius: 5px;
-              background: #003078;
-              padding: 0px;
-              width: 10px;
-              height: 10px;
-              float: left;
-              margin:5px;
-            }
-    
-    
-    
-    
-        .circle-blue3 {
-            border-radius: 5px;
-            background: #159BE8;
-            float: left;
-            padding: 0px;
-            width: 10px;
-            height: 10px;
-            margin-left:8px;
-            margin-top:4px;
-    
-    
-          }
-    
-        .circle-grey {
-            border-radius: 5px;
-            background: #BFC1C3;
-            padding: 0px;
-            width: 10px;
-            height: 10px;
-            float: left;
-            margin:8px;
-          }
-    
-          .square-grey {
-              background: #6F777B;
-              padding: 0px;
-              width: 10px;
-              height: 10px;
-              float: left;
-              margin-right:6px;
-              margin-top:6px;
-              margin-bottom:6px;
-              margin-left:0px;
-              border: 1px solid #000;
-              -webkit-box-shadow:inset 1px 0px 0px 1px #ffffff;
-              -moz-box-shadow:inset 0px 0px 0px 1px #ffffff;
-              box-shadow:inset 0px 0px 0px 1px #ffffff;
-            }
-    
-      .data-label{
-        float:left;
-        overflow: hidden
-        }
-    
-        .data-label p{
-          line-height: 1.2;
-          }
-    
-    
-    .full-header {
-      max-width: 1920px !important;
-      padding-left: 60px !important;
-      padding-right: 60px !important;
-    }
-    
-    .govuk-grid-column-menu {
-        width: 14%;
-        float: left;
-        position: -webkit-sticky; /* Safari */
-        position: sticky;
-        top: 4px;
-    }
-    
-    
-    .govuk-grid-column-dashboard {
-        width: 86%;
-        float: left;
-    }
-    
-    .data-value {
-      clear: both;
-      margin-left:20px;
-    }
-    
-    .container-map {
-      vertical-align: bottom;
-      display: table-cell;
-    }
-    
-    .map-container1 {
-      overflow: hidden;
-      height: 550px;
-      position: relative;
-    
-    }
-    
-    .map-container img{
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-      right: -9999px;
-      bottom: -9999px;
-      margin: auto;
-    }
-    
-    .spacer {
-      margin-bottom: 94px;
-    }
-    
-    .cases .govuk-tabs__list-item {
-      background-color: #f8f8f8;
-      border: 0px solid #ffffff;
-    
-    }
-    
-    .cases .govuk-tabs__list-item .govuk-tabs__tab:link {
-      color: rgb(29, 112, 184) !important;
-      text-decoration: none;
-    }
-    
-    .cases .govuk-tabs__list-item .govuk-tabs__tab:visited {
-      color: rgb(29, 112, 184) !important;
-      text-decoration: none;
-    }
-    
-    .cases .govuk-tabs__panel {
-      border: 0px solid #ffffff;
-    }
-    
-    .cases .govuk-tabs__list {
-      border-bottom: 0px solid #ffffff;
-    }
-    
-    .js-enabled .govuk-tabs__list-item--selected {
-      position: relative;
-      margin-top: -5px;
-      margin-bottom: -1px;
-      padding-top: 14px;
-      padding-right: 15px;
-      padding-bottom: 20px;
-      padding-left: 15px;
-    }
-    .js-enabled .govuk-tabs__list-item--selected .govuk-tabs__tab {
-      text-decoration: none;
-      font-weight: bold;
-      padding-bottom: 2px;
-    
-      border-bottom: 4px solid #1E70B8;
-    
-    }
-    
-    .js-enabled .govuk-tabs__list-item {
-      position: relative;
-      margin-top: -5px;
-      margin-bottom: -1px;
-      padding-top: 14px;
-      padding-right: 15px;
-      padding-bottom: 20px;
-      padding-left: 15px;
-    }
-    
-    .map-hover {
-      border-left: 5px solid #F47738;
-    }
-    
-    .map-hover-green {
-      border-left: 5px solid #85994B;
-    }
-    
-    
-    .map-container3 {
-      overflow: hidden;
-      height: 650px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    
-    }
-    
-    .map-container3 img {
-        max-height: 100%;
-    }
-    
-    
-    .map-parent {
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-    }
-    
-    .map-child img {
-        max-height: 100%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .map-child {
-        height: 100%;
-        width: 50%;
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        right: 0;
-        top: 0;
-        overflow: hidden;
-    
-    }
-    
-    #pointer {
-      color: #1D6FB8;
-    }
-    
-    #pointer-date {
-      color: #1D6FB8;
-    }
-    
-    .sticky-header {
-        position: -webkit-sticky; /* Safari */
-        position: sticky;
-        top: 0px;
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        z-index: 4444;
-    
-    }
-    
-    #localisation {
-      display: none;
-    }
-    
-    #datepicker {
-      display: none;
-    }
-    
-    .change-location {
-      cursor: pointer;
-      color: #1D6FB8;
-      text-decoration: none;
-    }
-    
-    .inline {
-      display: inline-block;
-    }
-    
-    .global-filters {
-      display: inline-block;
-    }
-    
-    .more-detail {
-      display: inline-block;
-      float: right;
-    }
-    .panel-title {
-      display: inline-block;
-    }
-    
-    .panel-title-new {
-      display: inline-block;
-    }
-    
-    .panel-title-location {
-      display: inline-block;
-      text-decoration: none;
-    }
-    
-    .mobile-menu-button {
-      display: none;
-    }
-    
-    #mobile-menu {
-      display: none !important;
-    }
-    
-    
-    /* Tooltip container */
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      text-decoration: none;
-    }
-    
-    /* Tooltip text */
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 120px;
-      background-color: black;
-      margin-left: 5px;
-      color: #fff;
-      text-align: left;
-      padding-top: 5px;
-      padding-right: 5px;
-      padding-bottom: 5px;
-      padding-left: 10px;
-    
-      /* Position the tooltip text - see examples below! */
-      position: absolute;
-      z-index: 1;
-    }
-    
-    .tooltip .tooltiptext {
-      width: 120px;
-      top: 100%;
-      left: 50%;
-      margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
-    }
-    
-    
-    /* Show the tooltip text when you mouse over the tooltip container */
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-    }
-    
-    
-    .float {
-      display: inline-block;
-      float:left;
-    }
-    
-    .clear {
-      clear:both;
-    }
-    
-    .infolink:before
-    {
-        content: 'i';
-        display: inline-block;
-        font-family: "GDS Transport", Arial, sans-serif;
-        font-weight: bold;
-        font-size: 12px;
-        text-align: center;
-        width: 10px;
-        height: 10px;
-        line-height: 10px;
-        border-radius: 1.8ex;
-        margin-left: 4px;
-        padding: 2px;
-        border: 1px solid #1d70b8;
-        text-decoration: none;
-    }
-    
-    .infolink:hover:before
-    {
-        color: white;
-        background: #1d70b8;
-        border-color: #1d70b8;
-        text-decoration: none;
-    }
-    
-    .location-mobile {
-      margin-bottom:0px
-    }
-    
-    .image_full{
-       display:block;
-      }
-    
-     .image_mobile{
-      display:none;
-     }
-    
-    #mobile-navi {
-      display: none;
-      background-color: #f8f8f8;
-      padding-top:30px;
-      padding-bottom:20px;
-    }
-    
-    .mobile-nav-items a{
-      text-decoration: none;
-      margin-bottom: 30px;
-    }
-    
-    .mobile-nav-items li{
-      margin-bottom: 30px;
-      font-size: 20px;
-      font-weight: bold;
-      padding-left: 20px;
-    }
-    
-    @media only screen and (max-width: 600px) {
-    
-      .image_full{
-       display:none;
-      }
-    
-      .image_mobile{
-       display:block;
-      }
-    
-      html, body {
-        overflow-x: hidden;
-      }
-      body {
-        position: relative
-      }
-    
-      .spacer {
-        margin-bottom: 0px;
-      }
-    
-      .slides-wrapper {
-      padding-left: 10px !important;
-      padding-right: 10px !important;
-      }
-    
-      .govuk-grid-column-dashboard {
-        width: 100%;
-      }
-    
-      .panel-right {
-        margin-top: 15px;
-      }
-    
-      .full-header {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-      }
-    
-      .govuk-grid-column-one-half {
-        width: 100%;
-    }
-    
-    
-    .global-filters {
-      display: block;
-      text-align: left;
-      margin-left: 0px !important;
-      margin-top: 6px !important;
-    }
-    
-    .govuk-grid-column-menu {
-        display: none;
-    }
-    
-    .filters {
-      padding-top: 6px !important;
-    }
-    
-    .container-map {
-      padding-bottom: 15px !important;
-    }
-    
-    .mobile-menu-button {
-      display: inline-block;
-    }
-    
-    .govuk-header__logo {
-        padding-right: 0px;
-    }
-    
-    #mobile-menu2 {
-      display: block;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      background-color: red;
-      z-index: 6666px;
-    }
-    
-    .sticky-header {
-      padding-top: 8px;
-    }
-    
-    .location-mobile {
-      margin-bottom:8px;
-    }
-    
-    .dashboard-panel {
-        padding: 12px;
-    }
-    
-    .leftpanel {
-      padding-right: 7px !important;
-    }
-    
-    .rightpanel {
-      padding-left: 7px !important;
-    }
-    
-    .title-mobile {
-      width: auto;
-    }
-    
-    .filters {
-        text-align: left;
-    }
-    
-    .moj-search--inline {
-        padding: 0px !important;
-    }
-    
-    .mobile-metric {
-        padding-left: 10px;
-        margin-top: 20px;
-    }
-    
-    .mobile-metric2 {
-        margin-top: 20px;
-    }
-    
-    .mobile-hide {
-      display: none;
-    }
-    
-    .desktop-hide {
-      display: block !important;
-    }
-    
-    }
-    
-    
-    .desktop-hide {
-      display: none;
-    }
-    
-    .half {
-      width: 50%;
-      float: left;
-      box-sizing: border-box;
-      padding: 0 15px;
-    }
-    
-    
-    
-    /* The Overlay (background) */
-    .overlay {
-      /* Height & width depends on how you want to reveal the overlay (see JS below) */
-      height: 100%;
-      width: 0;
-      position: fixed; /* Stay in place */
-      z-index: 9999; /* Sit on top */
-      left: 0;
-      top: 0;
-      background-color: #1d70b8; /* Black fallback color */
-      overflow-x: hidden; /* Disable horizontal scroll */
-      transition: 0.2s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
-    }
-    
-    /* Position the content inside the overlay */
-    .overlay-content {
-      position: relative;
-      top: 25%; /* 25% from the top */
-      width: 100%; /* 100% width */
-      text-align: center; /* Centered text/links */
-      margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
-    }
-    
-    /* The navigation links inside the overlay */
-    .overlay a {
-      padding: 8px;
-      text-decoration: none;
-      font-size: 24px;
-      color: #ffffff !important;
-      display: block; /* Display block instead of inline */
-      transition: 0.3s; /* Transition effects on hover (color) */
-    }
-    
-    .mobile-navigation-active {
-      font-weight: bold;
-      border-bottom: 2px solid #ffffff;
-    }
-    
-    /* When you mouse over the navigation links, change their color */
-    .overlay a:hover, .overlay a:focus {
-      color: #f1f1f1;
-    }
-    
-    /* Position the close button (top right corner) */
-    .overlay .closebtn {
-      position: absolute;
-      top: 20px;
-      right: 45px;
-      font-size: 60px;
-    }
-    
-    
-    /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
-    @media screen and (max-height: 450px) {
-      .overlay a {font-size: 20px}
-      .overlay .closebtn {
-        font-size: 40px;
-        top: 15px;
-        right: 35px;
-      }
-    }
-    
-    
-    
-    .dialog-overlay {
-        z-index: 8888;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.7);
-    }
-    
-    .dialog {
-        z-index: 9999;
-        background-color: #fff;
-        padding: 30px;
-        text-align: left;
-        width: 90%;
-        max-width: 400px;
-        position: fixed;
-      border: 5px solid black;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-    }
-    
-    .dialog-overlay[aria-hidden="true"],
-    .dialog[aria-hidden="true"] {
-        display: none;
-    }
-    
-    .dialog-overlay:not([aria-hidden="true"]),
-    .dialog:not([aria-hidden="true"]) {
-        display: block;
-    }
-    
-    .sr-only {
-        opacity: 0;
-        position: absolute;
-        clip: rect(1px 1px 1px 1px);
-        clip: rect(1px, 1px, 1px, 1px);
-    }
-    
-    .hide{
-        display:none;
-    }
-    
-    .tertiary-menu a{
-      text-decoration: none;
-    }
-    
-    .total-figure {
-      color: #6F777B;
-      font-weight: normal;
-    }
-    
-    .grey {
-      color: #636A6D;
-    }
-    
-    .total-figure2 {
-      font-weight: normal;
-    }
-    
-    #deaths-more {
-      display: none;
-    }
-    #healthcare-more {
-      display: none;
-    }
-    #cases-more {
-      display: none;
-    }
-    #test-more {
-      display: none;
-    }
-    
-    .child-checkbox {
-      border-left: 3px solid #BFC1C3;
-      margin-left:10px;
-    }
-    
-    .number-container {
-      display: block;
-      float: left;
-    }
-    
-    .number-group {
-      position: relative;
-      display: block;
-      clear: both;
-    }
-    
-    .data-metric {
-      width: 100%;
-      clear: both;
-      display:block;
-      float: left;
-    }
-    
-    .data-metric2 {
-      width: 100%;
-      display:block;
-      clear: both;
-    }
-    
-    .number {
-      display: block;
-      float: left;
-    }
-    
-    .location-warning {
-      background-color: #E3F5FF;
-    }
-    
-    .changelog {
-      background-color: #1d70b8;
-    }
-    
-    .number-link {
-      text-decoration: none;
-      border-bottom: 1px dashed #000000;
-      color: #000000 !important;
-      cursor: help;
-    }
-    
-    .number-link-bold {
-      text-decoration: none;
-      border-bottom: 1px dashed #000000;
-      color: #000000 !important;
-      font-weight: bold;
-    }
-    
-    .number-link-green {
-      text-decoration: none;
-      border-bottom: 1px dashed #85994B;
-      color: #85994B !important;
-    }
-    
-    .number-link-grey {
-      text-decoration: none;
-      border-bottom: 1px dashed #626A6E;
-      color: #626A6E !important;
-    }
-    
-    .number-link-red {
-      text-decoration: none;
-      border-bottom: 1px dashed #D4351C;
-      color: #D4351C !important;
-    }
-    
-    #region {
-      display:none;
-    }
-    #nation {
-      display:none;
-    }
-    #utla {
-      display:none;
-    }
-    #ltla {
-      display:none;
-    }
-    
-    .right {
-      text-align: right;
-    }
-    
-    .download {
-      text-decoration: none;
-    }
-    
-    .rotate {
-      -webkit-transform: rotate(180deg);
-      transform: rotate(180deg);
-      padding-top: 2px;
-    }
-    
-    #pointer-new {
-      display: inline-block;
-      color: #1D6FB8;
-      padding-left: 4px;
-      padding-right: 4px;
-    
-    }
-    
-    .loading {
-      text-align: center;
-    }
-    
-    .green {
-      color: #00703c;
-    }
-    
-    .red {
-      color: #D53880;
-    }
-    
-    .center {
-      text-align: center;
-    }
-    
-    .tip-link {
-      color: #000000 !important;
-      text-decoration: none;
-      border-bottom: 1px dashed #000000;
-    }
-    
-    .no-underline {
-      text-decoration: none;
-    }
-    
-    .hcia-location {
-      display: inline-block;
-      float: left;
-    }
-    
-    .moj-search__button {
-      margin-left: 0 !important;
-      background-color: #000000 !important;
-    }
-    
-    .gem-c-search__submit {
-    
-        width: 40px;
-        background-image: url(/public/images/search-button.png);
-        background-repeat: no-repeat;
-        background-position: 2px 50%;
-        text-indent: -5000px;
-        overflow: hidden;
-    }
-    
-    #areanamediv {
-      display: none;
-    }
-    
-    .status-green {
-      background-color: #85994B;
-      margin-left: 0px;
-      margin-right: 0px;
-    }
-    
-    .status-green p{
-      color: #ffffff;
-    }
-    
-    .reset {
-      display: inline-block;
-      margin-top:12px;
-    }
-    
-    .moj-primary-navigation__search {
-        display: block;
-        vertical-align: middle;
-    }
-    
-    #imgClickAndChange {
-      cursor: pointer;
-    }
-    
-    .scroll-table {
-      overflow-y: auto;
-      height: 500px;
-    }
-    
-    .scroll-table2 {
-      overflow-y: auto;
-      height: 440px;
-    }
-    
-    .govuk-select {
-      background-color: #F8F8F8;
-    }
-    
-    .pin {
-      margin-right: 6px;
-    }
-    
-    .govuk-tag--grey {
-        background: #EBE9E7;
-    }
-    
-    .blue-panel {
-      background-color: #6B7276;
-      padding:20px;
-    
-    }
-    
-    .white {
-      color:#ffffff !important;
-    }
-    
-    .govuk-tag--yellow {
-        color: #206BC9;
-        background: #D7E9FF;
-    }
+#breakdown-table th {
+  border-bottom: 0px solid #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#breakdown-table td {
+  border-bottom: 0px solid #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#place-name {
+  width: 40%;
+}
+
+#place-name2 {
+  width: 33%;
+}
+
+#bar-data {
+  width: 60%;
+}
+
+#bar-data2 {
+  width: 33%;
+}
+
+.breakdown-table2 th {
+  border-bottom: 0px solid #ffffff;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.breakdown-table2 td {
+  border-bottom: 0px solid #ffffff;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.breakdown-table th {
+  border-bottom: 0px solid #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.breakdown-table td {
+  border-bottom: 0px solid #ffffff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.place-name {
+  width: 40%;
+}
+
+.place-name2 {
+  width: 33%;
+}
+
+.place-name3 {
+  width: 25%;
+}
+
+.bar-data {
+  width: 60%;
+}
+
+.bar-data2 {
+  width: 33%;
+}
+
+.bar-data3 {
+  width: 25%;
+}
+
+.bar-total {
+  height: 20px;
+  margin-right: 0px;
+  background-color: #003078;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.bar-total2 {
+  height: 10px;
+  margin-right: 0px;
+  background-color: #003078;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.bar-today {
+  height: 20px;
+  margin-right: 10px;
+  background-color: #b1b4b6;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.today {
+  color: #626a6e;
+}
+
+.total {
+  color: #003078;
+}
+
+.size-1 {
+  width: 1%;
+}
+
+.size-2 {
+  width: 2%;
+}
+
+.size-3 {
+  width: 4%;
+}
+
+.size-4 {
+  width: 10%;
+}
+
+.size-5 {
+  width: 20px;
+}
+
+.size-6 {
+  width: 20%;
+}
+
+.size-7 {
+  width: 30%;
+}
+
+.size-8 {
+  width: 35%;
+}
+
+.size-9 {
+  width: 40%;
+}
+
+.size-10 {
+  width: 50%;
+}
+
+
+.map-container {
+  background-size: auto 100%;
+  background-position: center;
+  background-image: url(/public/images/mapnew.jpg);
+  display: block;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 400px;
+  position: relative;
+
+  @media (min-width: 990px) {
+    background-size: 100% auto;
+    height: 600px;
+  }
+
+}
+
+.map-container2 {
+  background-size: auto 100%;
+  background-position: center;
+  background-image: url(/public/images/map-cases.png);
+  display: block;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 400px;
+  position: relative;
+
+  @media (min-width: 990px) {
+    background-size: 100% auto;
+    height: 600px;
+    display: block;
+
+  }
+
+}
+
+.map-container-local {
+  background-size: auto 100%;
+  background-position: center;
+  background-image: url(/public/images/map-local.jpg);
+  display: block;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 400px;
+  position: relative;
+
+  @media (min-width: 990px) {
+    background-size: 100% auto;
+    height: 600px;
+    display: block;
+
+  }
+
+}
+
+.map-data {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+}
+
+.mapbox {
+  border: 1px solid #b1b4b6;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.map-key {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+
+  @media (min-width: 990px) {
+    background-size: 100% auto;
+    height: 600px;
+    display: block;
+  }
+
+}
+
+.mapkey-mobile {
+  display: block;
+
+  @media (min-width: 990px) {
+    display: none;
+  }
+
+}
+
+.related-navigation {
+  color: #0b0c0c;
+  border-top: 2px solid #1d70b8;
+  padding-top: 10px;
+}
+
+.sticky-menu {
+  position: inherit;
+  top: 20px;
+  margin-bottom: 30px;
+
+  @media (min-width: 990px) {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20px;
+  }
+}
+
+.deaths {
+  margin-top: 30px;
+
+  @media (min-width: 990px) {
+    margin-top: 0px;
+  }
+}
+
+.dashboard-panel {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border: 1px #f3f2f1 solid;
+
+}
+
+.dashboard-panel2 {
+  background-color: #f8f8f8;
+  padding: 20px;
+  padding-top: 30px;
+  border: 1px #f3f2f1 solid;
+}
+
+.dashboard-panel-title {
+  background-color: #1d70b8;
+  padding: 20px;
+  color: #ffffff;
+  padding-top: 30px;
+  border: 1px #f3f2f1 solid;
+  height: 100%;
+}
+
+.filter .govuk-accordion__controls {
+  display: none;
+}
+
+.covid-wrapper {
+  padding-top: 20px !important;
+}
+
+.date-updated {
+  text-align: right;
+  margin-top: 10px;
+  color: #626a6e;
+}
+
+.more-detail {
+  text-align: right;
+  text-decoration: none;
+}
+
+.filters {
+  text-align: right;
+}
+
+.slides-wrapper {
+  max-width: 1920px !important;
+  padding-top: 0px !important;
+  padding-left: 60px !important;
+  padding-right: 60px !important;
+
+}
+
+.govuk-main-wrapper {
+  padding-top: 15px !important;
+
+}
+
+.header-right {
+  float: right;
+  text-align: right;
+  display: inline-block;
+}
+
+.header-left {
+  display: inline-block;
+}
+
+.white-text {
+  color: #ffffff;
+}
+
+.fullscreen-link a:link,
+.fullscreen-link a:visited,
+.fullscreen-link a:hover,
+.fullscreen-link a:active {
+  color: #ffffff;
+}
+
+.circle-blue {
+  border-radius: 5px;
+  background: #2B8CC4;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin: 8px;
+}
+
+
+.square-blue {
+  background: #2B8CC4;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin-right: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 0px;
+  border: 1px solid #000;
+  -webkit-box-shadow: inset 1px 0px 0px 1px #ffffff;
+  -moz-box-shadow: inset 0px 0px 0px 1px #ffffff;
+  box-shadow: inset 0px 0px 0px 1px #ffffff;
+}
+
+.square-blue2 {
+  background: #F47738;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin-right: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 0px;
+  border: 1px solid #000;
+  -webkit-box-shadow: inset 1px 0px 0px 1px #ffffff;
+  -moz-box-shadow: inset 0px 0px 0px 1px #ffffff;
+  box-shadow: inset 0px 0px 0px 1px #ffffff;
+}
+
+.square-blue3 {
+  background: #003078;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin-right: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 0px;
+  border: 1px solid #000;
+  -webkit-box-shadow: inset 1px 0px 0px 1px #ffffff;
+  -moz-box-shadow: inset 0px 0px 0px 1px #ffffff;
+  box-shadow: inset 0px 0px 0px 1px #ffffff;
+}
+
+.circle-blue2 {
+  border-radius: 5px;
+  background: #159BE8;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin: 8px;
+}
+
+.circle-blue4 {
+  border-radius: 5px;
+  background: #005EA5;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin: 5px;
+}
+
+.circle-blue5 {
+  border-radius: 5px;
+  background: #003078;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin: 5px;
+}
+
+
+.circle-blue3 {
+  border-radius: 5px;
+  background: #159BE8;
+  float: left;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  margin-left: 8px;
+  margin-top: 4px;
+
+
+}
+
+.circle-grey {
+  border-radius: 5px;
+  background: #BFC1C3;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin: 8px;
+}
+
+.square-grey {
+  background: #6F777B;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin-right: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 0px;
+  border: 1px solid #000;
+  -webkit-box-shadow: inset 1px 0px 0px 1px #ffffff;
+  -moz-box-shadow: inset 0px 0px 0px 1px #ffffff;
+  box-shadow: inset 0px 0px 0px 1px #ffffff;
+}
+
+.data-label {
+  float: left;
+  overflow: hidden
+}
+
+.data-label p {
+  line-height: 1.2;
+}
+
+
+.full-header {
+  max-width: 1920px !important;
+  padding-left: 60px !important;
+  padding-right: 60px !important;
+}
+
+.govuk-grid-column-menu {
+  width: 14%;
+  float: left;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 4px;
+}
+
+
+.govuk-grid-column-dashboard {
+  width: 86%;
+  float: left;
+}
+
+.data-value {
+  clear: both;
+  margin-left: 20px;
+}
+
+.container-map {
+  vertical-align: bottom;
+  display: table-cell;
+}
+
+.map-container1 {
+  overflow: hidden;
+  height: 550px;
+  position: relative;
+
+}
+
+.map-container img {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  margin: auto;
+}
+
+.spacer {
+  margin-bottom: 94px;
+}
+
+.cases .govuk-tabs__list-item {
+  background-color: #f8f8f8;
+  border: 0px solid #ffffff;
+
+}
+
+.cases .govuk-tabs__list-item .govuk-tabs__tab:link {
+  color: rgb(29, 112, 184) !important;
+  text-decoration: none;
+}
+
+.cases .govuk-tabs__list-item .govuk-tabs__tab:visited {
+  color: rgb(29, 112, 184) !important;
+  text-decoration: none;
+}
+
+.cases .govuk-tabs__panel {
+  border: 0px solid #ffffff;
+}
+
+.cases .govuk-tabs__list {
+  border-bottom: 0px solid #ffffff;
+}
+
+.js-enabled .govuk-tabs__list-item--selected {
+  position: relative;
+  margin-top: -5px;
+  margin-bottom: -1px;
+  padding-top: 14px;
+  padding-right: 15px;
+  padding-bottom: 20px;
+  padding-left: 15px;
+}
+
+.js-enabled .govuk-tabs__list-item--selected .govuk-tabs__tab {
+  text-decoration: none;
+  font-weight: bold;
+  padding-bottom: 2px;
+
+  border-bottom: 4px solid #1E70B8;
+
+}
+
+.js-enabled .govuk-tabs__list-item {
+  position: relative;
+  margin-top: -5px;
+  margin-bottom: -1px;
+  padding-top: 14px;
+  padding-right: 15px;
+  padding-bottom: 20px;
+  padding-left: 15px;
+}
+
+.map-hover {
+  border-left: 5px solid #F47738;
+}
+
+.map-hover-green {
+  border-left: 5px solid #85994B;
+}
+
+
+.map-container3 {
+  overflow: hidden;
+  height: 650px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.map-container3 img {
+  max-height: 100%;
+}
+
+
+.map-parent {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.map-child img {
+  max-height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.map-child {
+  height: 100%;
+  width: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+
+}
+
+#pointer {
+  color: #1D6FB8;
+}
+
+#pointer-date {
+  color: #1D6FB8;
+}
+
+.sticky-header {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0px;
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  z-index: 4444;
+
+}
+
+#localisation {
+  display: none;
+}
+
+#datepicker {
+  display: none;
+}
+
+.change-location {
+  cursor: pointer;
+  color: #1D6FB8;
+  text-decoration: none;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.global-filters {
+  display: inline-block;
+}
+
+.more-detail {
+  display: inline-block;
+  float: right;
+}
+
+.panel-title {
+  display: inline-block;
+}
+
+.panel-title-new {
+  display: inline-block;
+}
+
+.panel-title-location {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.mobile-menu-button {
+  display: none;
+}
+
+#mobile-menu {
+  display: none !important;
+}
+
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  margin-left: 5px;
+  color: #fff;
+  text-align: left;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip .tooltiptext {
+  width: 120px;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+.float {
+  display: inline-block;
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.infolink:before {
+  content: 'i';
+  display: inline-block;
+  font-family: "GDS Transport", Arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  width: 10px;
+  height: 10px;
+  line-height: 10px;
+  border-radius: 1.8ex;
+  margin-left: 4px;
+  padding: 2px;
+  border: 1px solid #1d70b8;
+  text-decoration: none;
+}
+
+.infolink:hover:before {
+  color: white;
+  background: #1d70b8;
+  border-color: #1d70b8;
+  text-decoration: none;
+}
+
+.location-mobile {
+  margin-bottom: 0px
+}
+
+.image_full {
+  display: block;
+}
+
+.image_mobile {
+  display: none;
+}
+
+#mobile-navi {
+  display: none;
+  background-color: #f8f8f8;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+.mobile-nav-items a {
+  text-decoration: none;
+  margin-bottom: 30px;
+}
+
+.mobile-nav-items li {
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .image_full {
+    display: none;
+  }
+
+  .image_mobile {
+    display: block;
+  }
+
+  html, body {
+    overflow-x: hidden;
+  }
+  body {
+    position: relative
+  }
+
+  .spacer {
+    margin-bottom: 0px;
+  }
+
+  .slides-wrapper {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .govuk-grid-column-dashboard {
+    width: 100%;
+  }
+
+  .panel-right {
+    margin-top: 15px;
+  }
+
+  .full-header {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .govuk-grid-column-one-half {
+    width: 100%;
+  }
+
+
+  .global-filters {
+    display: block;
+    text-align: left;
+    margin-left: 0px !important;
+    margin-top: 6px !important;
+  }
+
+  .govuk-grid-column-menu {
+    display: none;
+  }
+
+  .filters {
+    padding-top: 6px !important;
+  }
+
+  .container-map {
+    padding-bottom: 15px !important;
+  }
+
+  .mobile-menu-button {
+    display: inline-block;
+  }
+
+  .govuk-header__logo {
+    padding-right: 0px;
+  }
+
+  #mobile-menu2 {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    z-index: 6666px;
+  }
+
+  .sticky-header {
+    padding-top: 8px;
+  }
+
+  .location-mobile {
+    margin-bottom: 8px;
+  }
+
+  .dashboard-panel {
+    padding: 12px;
+  }
+
+  .leftpanel {
+    padding-right: 7px !important;
+  }
+
+  .rightpanel {
+    padding-left: 7px !important;
+  }
+
+  .title-mobile {
+    width: auto;
+  }
+
+  .filters {
+    text-align: left;
+  }
+
+  .moj-search--inline {
+    padding: 0px !important;
+  }
+
+  .mobile-metric {
+    padding-left: 10px;
+    margin-top: 20px;
+  }
+
+  .mobile-metric2 {
+    margin-top: 20px;
+  }
+
+  .mobile-hide {
+    display: none;
+  }
+
+  .desktop-hide {
+    display: block !important;
+  }
+
+}
+
+
+.desktop-hide {
+  display: none;
+}
+
+.half {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+  padding: 0 15px;
+}
+
+
+/* The Overlay (background) */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: #1d70b8; /* Black fallback color */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.2s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+  position: relative;
+  top: 25%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+/* The navigation links inside the overlay */
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 24px;
+  color: #ffffff !important;
+  display: block; /* Display block instead of inline */
+  transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+.mobile-navigation-active {
+  font-weight: bold;
+  border-bottom: 2px solid #ffffff;
+}
+
+/* When you mouse over the navigation links, change their color */
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+  .overlay a {
+    font-size: 20px
+  }
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+
+
+.dialog-overlay {
+  z-index: 8888;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.dialog {
+  z-index: 9999;
+  background-color: #fff;
+  padding: 30px;
+  text-align: left;
+  width: 90%;
+  max-width: 400px;
+  position: fixed;
+  border: 5px solid black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dialog-overlay[aria-hidden="true"],
+.dialog[aria-hidden="true"] {
+  display: none;
+}
+
+.dialog-overlay:not([aria-hidden="true"]),
+.dialog:not([aria-hidden="true"]) {
+  display: block;
+}
+
+.sr-only {
+  opacity: 0;
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.hide {
+  display: none;
+}
+
+.tertiary-menu a {
+  text-decoration: none;
+}
+
+.total-figure {
+  color: #6F777B;
+  font-weight: normal;
+}
+
+.grey {
+  color: #636A6D;
+}
+
+.total-figure2 {
+  font-weight: normal;
+}
+
+#deaths-more {
+  display: none;
+}
+
+#healthcare-more {
+  display: none;
+}
+
+#cases-more {
+  display: none;
+}
+
+#test-more {
+  display: none;
+}
+
+.child-checkbox {
+  border-left: 3px solid #BFC1C3;
+  margin-left: 10px;
+}
+
+.number-container {
+  display: block;
+  float: left;
+}
+
+.number-group {
+  position: relative;
+  display: block;
+  clear: both;
+}
+
+.data-metric {
+  width: 100%;
+  clear: both;
+  display: block;
+  float: left;
+}
+
+.data-metric2 {
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+.number {
+  display: block;
+  float: left;
+}
+
+.location-warning {
+  background-color: #E3F5FF;
+}
+
+.changelog {
+  background-color: #1d70b8;
+}
+
+.number-link {
+  text-decoration: none;
+  border-bottom: 1px dashed #000000;
+  color: #000000 !important;
+  cursor: help;
+}
+
+.number-link-bold {
+  text-decoration: none;
+  border-bottom: 1px dashed #000000;
+  color: #000000 !important;
+  font-weight: bold;
+}
+
+.number-link-green {
+  text-decoration: none;
+  border-bottom: 1px dashed #85994B;
+  color: #85994B !important;
+}
+
+.number-link-grey {
+  text-decoration: none;
+  border-bottom: 1px dashed #626A6E;
+  color: #626A6E !important;
+}
+
+.number-link-red {
+  text-decoration: none;
+  border-bottom: 1px dashed #D4351C;
+  color: #D4351C !important;
+}
+
+#region {
+  display: none;
+}
+
+#nation {
+  display: none;
+}
+
+#utla {
+  display: none;
+}
+
+#ltla {
+  display: none;
+}
+
+.right {
+  text-align: right;
+}
+
+.download {
+  text-decoration: none;
+}
+
+.rotate {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  padding-top: 2px;
+}
+
+#pointer-new {
+  display: inline-block;
+  color: #1D6FB8;
+  padding-left: 4px;
+  padding-right: 4px;
+
+}
+
+.loading {
+  text-align: center;
+}
+
+.green {
+  color: #00703c;
+}
+
+.red {
+  color: #D53880;
+}
+
+.center {
+  text-align: center;
+}
+
+.tip-link {
+  color: #000000 !important;
+  text-decoration: none;
+  border-bottom: 1px dashed #000000;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.hcia-location {
+  display: inline-block;
+  float: left;
+}
+
+.moj-search__button {
+  margin-left: 0 !important;
+  background-color: #000000 !important;
+}
+
+.gem-c-search__submit {
+
+  width: 40px;
+  background-image: url(/public/images/search-button.png);
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  text-indent: -5000px;
+  overflow: hidden;
+}
+
+#areanamediv {
+  display: none;
+}
+
+.status-green {
+  background-color: #85994B;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.status-green p {
+  color: #ffffff;
+}
+
+.reset {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.moj-primary-navigation__search {
+  display: block;
+  vertical-align: middle;
+}
+
+#imgClickAndChange {
+  cursor: pointer;
+}
+
+.scroll-table {
+  overflow-y: auto;
+  height: 500px;
+}
+
+.scroll-table2 {
+  overflow-y: auto;
+  height: 440px;
+}
+
+.govuk-select {
+  background-color: #F8F8F8;
+}
+
+.pin {
+  margin-right: 6px;
+}
+
+.govuk-tag--grey {
+  background: #EBE9E7;
+}
+
+.blue-panel {
+  background-color: #6B7276;
+  padding: 20px;
+
+}
+
+.white {
+  color: #ffffff !important;
+}
+
+.govuk-tag--yellow {
+  color: #206BC9;
+  background: #D7E9FF;
+}
