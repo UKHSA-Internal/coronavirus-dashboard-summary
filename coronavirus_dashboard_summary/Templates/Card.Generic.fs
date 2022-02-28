@@ -160,7 +160,10 @@ module Card =
                 {
                     isPostcode = isPostcode
                     caption    = this.caption
-                    metric     = this.metric
+                    metric     = match this.metric with
+                                 | "newCasesByPublishDate"        -> "newCasesBySpecimenDate"
+                                 | "newDeaths28DaysByPublishDate" -> "newDeaths28DaysByDeathDate"
+                                 | _                              -> this.metric                                   
                     metricData = metricData
                     date       = date
                 }
