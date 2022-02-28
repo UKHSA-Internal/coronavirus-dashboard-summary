@@ -52,7 +52,7 @@ type Payload with
                         |> _src
                         
                         $"Graph of 7-day rolling average of {this.caption.ToLower()} "
-                        + "over the last 3 months - click for more details"
+                        + "over the last 6 months - click for more details"
                         |> _alt
                         
                         attr "loading" "lazy"
