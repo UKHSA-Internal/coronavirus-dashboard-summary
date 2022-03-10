@@ -160,18 +160,15 @@ module Card =
                 {
                     isPostcode = isPostcode
                     caption    = this.caption
-                    metric     = match this.metric with
-                                 | "newCasesByPublishDate"        -> "newCasesBySpecimenDate"
-                                 | "newDeaths28DaysByPublishDate" -> "newDeaths28DaysByDeathDate"
-                                 | _                              -> this.metric                                   
+                    metric     = this.metric                                   
                     metricData = metricData
                     date       = date
                 }
                 
             let areaNameConnector =
                 match getter this.metric "trimmedAreaName" with
-                       | "" -> String.Empty
-                       | _ -> " in " 
+                | "" -> String.Empty
+                | _  -> " in " 
 
             li [ _class "mini-card"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
                 
