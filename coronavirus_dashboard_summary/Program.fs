@@ -62,7 +62,6 @@ let inline configureCors (builder : CorsPolicyBuilder) =
             $"https://{Generic.UrlLocation}"
         )
        .WithMethods("GET", "HEAD")
-      
        .AllowAnyHeader()
        |> ignore
 
