@@ -22,10 +22,10 @@ let private contentMetadata =
     [
         ("first", [
             {
-              metric      = "newPeopleVaccinatedFirstDoseByPublishDate"
+              metric      = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
               percentage  = null
               label       = "First dose"
-              periodLabel = "Daily"
+              periodLabel = "Last 7 days"
             }
             {
               metric      = "cumPeopleVaccinatedFirstDoseByPublishDate"
@@ -36,10 +36,10 @@ let private contentMetadata =
         ])
         ("second", [
             {
-              metric      = "newPeopleVaccinatedSecondDoseByPublishDate"
+              metric      = "newPeopleVaccinatedSecondDoseByPublishDateRollingSum"
               percentage  = null
               label       = "Second dose"
-              periodLabel = "Daily"
+              periodLabel = "Last 7 days"
             }
             {
               metric      = "cumPeopleVaccinatedSecondDoseByPublishDate"
@@ -50,10 +50,10 @@ let private contentMetadata =
         ])
         ("booster", [
             {
-              metric      = "newPeopleVaccinatedThirdInjectionByPublishDate"
+              metric      = "newPeopleVaccinatedThirdInjectionByPublishDateRollingSum"
               percentage  = null
               label       = "Booster or third dose"
-              periodLabel = "Daily"
+              periodLabel = "Last 7 days"
             }
             {
               metric      = "cumPeopleVaccinatedThirdInjectionByPublishDate"
@@ -200,7 +200,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
         with get() = release
     
     member this.Render (getter: string -> string -> string) =
-        let headingMetric = "newPeopleVaccinatedFirstDoseByPublishDate"
+        let headingMetric = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
         let areaType = getter headingMetric "area_type"
         let areaNameConnector =
                 match getter headingMetric "trimmedAreaName" with
@@ -254,7 +254,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             ]
             meta [
                 _itemprop "text"
-                "Vaccines are given in doses to people aged 12 and over. By the end of "
+                "Vaccines are given in doses to people aged 12 and over. In the 7 days to "
                 + getter (snd contentMetadata.[0]).[0].metric "formattedDate"
                 + ", "
                 + getter (snd contentMetadata.[0]).[0].metric "formattedValue"
