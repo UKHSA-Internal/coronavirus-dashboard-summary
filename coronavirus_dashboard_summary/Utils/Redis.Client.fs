@@ -88,21 +88,23 @@ type Client (telemetry: TelemetryClient) =
             let! cx = cxp.GetAsync() |> Async.AwaitTask
             
             try
-                return! op(cx.Connection.GetDatabase(RedisDatabase))
+                return! cx.Connection.GetDatabase(RedisDatabase)
+                        |> op
             with
-            | :? RedisConnectionException as ex
-                                when errCount.[cx.ConnectionIndex] + 1 < 3
-                                -> return! raise(ex)
-            | :? RedisException as ex
-                                -> return! raise (tracker.Failure ex)
-            | _                 -> 
-                errCount.[cx.ConnectionIndex] <- errCount.[cx.ConnectionIndex] + 1
+            | :? RedisConnectionException
+                    as ex when errCount.[cx.ConnectionIndex] + 1 < 3
+                        -> return! raise(ex)
+            | :? RedisException
+                    as ex
+                        -> return! raise (tracker.Failure ex)
+            | _         -> errCount.[cx.ConnectionIndex] <- errCount.[cx.ConnectionIndex] + 1
                     
-                cx.ReconnectAsync()
-                |> Async.AwaitTask
-                |> ignore
-                
-                return! op(cx.Connection.GetDatabase())
+                           cx.ReconnectAsync()
+                           |> Async.AwaitTask
+                           |> ignore
+                            
+                           return! cx.Connection.GetDatabase()
+                                   |> op
         }
             
     member this.SetAsync (key: string) (value: 'TO list) (expiry: Expiry): Async<string option> =
@@ -127,7 +129,8 @@ type Client (telemetry: TelemetryClient) =
             
             tracker.Success()
             
-            return Some(data.ToString())
+            return data.ToString()
+                   |> Some
         }
         
     member this.SetOverrideAsync (key: string) (value: 'TO list) (expiry: Expiry): Async<string option> =
@@ -152,7 +155,8 @@ type Client (telemetry: TelemetryClient) =
             
             tracker.Success()
             
-            return Some(data.ToString())
+            return data.ToString()
+                   |> Some
             
         }
         
@@ -162,14 +166,17 @@ type Client (telemetry: TelemetryClient) =
             let tracker = this.startTelemetry "GetAsync" "GET" key
 
             let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
-                db.StringGetAsync(RedisKey key)
+                RedisKey key
+                |> db.StringGetAsync
                 |> Async.AwaitTask)
             
             tracker.Success()
             
             return match result.IsNullOrEmpty with
-                   | false -> Some(result.ToString())
-                   | true  -> onMissing() |> Async.RunSynchronously
+                   | false -> result.ToString()
+                              |> Some
+                   | true  -> onMissing()
+                              |> Async.RunSynchronously
                         
         }
         
@@ -180,7 +187,7 @@ type Client (telemetry: TelemetryClient) =
 
             let! result = this.QueryRedisAsync tracker (fun (db: IDatabase) ->
                 keys
-                |> Array.map(RedisKey)
+                |> Array.map RedisKey
                 |> db.StringGetAsync
                 |> Async.AwaitTask
             )
@@ -192,7 +199,8 @@ type Client (telemetry: TelemetryClient) =
                 |> Array.map (
                         fun item ->
                             match item.IsNullOrEmpty with
-                            | false -> item.ToString().Trim('[', ']')
+                            | false -> item.ToString()
+                                           .Trim('[', ']')
                             | true  -> String.Empty
                         )
                 |> Array.filter (fun item -> String.IsNullOrEmpty item |> not)
@@ -215,8 +223,10 @@ type Client (telemetry: TelemetryClient) =
             tracker.Success()
             
             return match result.IsNullOrEmpty with
-                   | false -> Some(result.ToString())
-                   | true -> onMissing() |> Async.RunSynchronously
+                   | false -> result.ToString()
+                              |> Some
+                   | true  -> onMissing()
+                              |> Async.RunSynchronously
                         
         }
 
@@ -242,6 +252,7 @@ type Client (telemetry: TelemetryClient) =
             
             tracker.Success()
             
-            return Some(data.ToString())
+            return data.ToString()
+                   |> Some
             
         }
