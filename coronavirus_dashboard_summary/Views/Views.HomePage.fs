@@ -13,7 +13,8 @@ open coronavirus_dashboard_summary.Utils.TimeStamp
     
 let index (date: Release) (redis: Redis.Client) =    
     let dbResp =
-        redis.GetAllAsync [|$"area-{date.isoDate}-UK"|]
+        [|$"area-{date.isoDate}-UK"|]
+        |> redis.GetAllAsync 
         |> Async.RunSynchronously
         |> Json.deserialize<DB.Payload list>
         |> List.groupBy Filters.GroupByMetric
