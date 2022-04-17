@@ -45,7 +45,7 @@ type Client (telemetry: TelemetryClient) =
     let cxp = ConnectionMultiplexerPoolFactory
                   .Create(RedisPoolSize, RedisConfig, null, ConnectionSelectionStrategy.RoundRobin)
                   
-    member private this.startTelemetry (name: string) (cmd: string) (payload: string) =
+    member inline private this.startTelemetry (name: string) (cmd: string) (payload: string) =
         let startTime = DateTimeOffset.UtcNow
         let swFlush = Stopwatch.StartNew()
             
