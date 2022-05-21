@@ -57,6 +57,9 @@ module Generic =
     
     [<Literal>]
     let IsoDateStampFormat = "yyyy-MM-dd"
+    
+    [<Literal>]
+    let NotAvailableIndicator = "-999999"
 
     let UrlLocation =
         match IsDev with
