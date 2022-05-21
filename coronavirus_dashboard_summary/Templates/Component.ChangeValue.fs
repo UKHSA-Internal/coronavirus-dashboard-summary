@@ -23,9 +23,9 @@ type Payload with
          match this.caption with
          | "Testing" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
          | _         -> match this.change.Substring(0, 1) with
-                        | "" | "0" | "N/A" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
-                        | "-"              -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
-                        | _                -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
+                        | "" | "0" | "N/A" | "N" -> ("neutral", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-grey.png")
+                        | "-"                    -> ("good", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-green.png")
+                        | _                      -> ("bad", $"{Generic.UrlLocation}/public/assets/summary/images/arrow-up-red.png")
          
          
     member inline private this.directionText: string =
