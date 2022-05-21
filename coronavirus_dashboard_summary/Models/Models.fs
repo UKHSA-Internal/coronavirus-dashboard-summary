@@ -145,11 +145,15 @@ type Payload with
         | "area_type"          -> this.area_type
         | "area_name"          -> this.area_name
         | "value"              -> match this.value with
-                                  | Some v -> string v
-                                  | _      -> String.Empty
+                                  | Some value -> match string value with
+                                                  | Generic.NotAvailableIndicator -> Generic.NotAvailable
+                                                  | _                             -> string value
+                                  | _          -> String.Empty
         | "formattedValue"     -> match this.value with
-                                  | Some v -> String.Format(NumberFormat, v)
-                                  | _      -> Generic.NotAvailable
+                                  | Some value -> match string value with
+                                                  | Generic.NotAvailableIndicator -> Generic.NotAvailable
+                                                  | _                             -> String.Format(NumberFormat, value)
+                                  | _          -> Generic.NotAvailable
         | "trimmedAreaName"    -> match this.area_name with
                                   | "United Kingdom" -> String.Empty
                                   | v                -> Regex.Replace(v, "(.+?)(nhs.*)?", "$1", RegexOptions.IgnoreCase)
