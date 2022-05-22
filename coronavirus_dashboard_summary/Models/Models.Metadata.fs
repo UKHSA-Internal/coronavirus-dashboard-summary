@@ -35,7 +35,7 @@ let CardMetadata: ContentMetadata[] = [|
         description         = null
     }
     {
-        metric              = "newCasesByPublishDate"
+        metric              = "newCasesBySpecimenDate"
         rate                = "newCasesBySpecimenDateRollingRate"
         caption             = "Cases"
         heading             = "People tested positive"
@@ -46,7 +46,7 @@ let CardMetadata: ContentMetadata[] = [|
 
     }
     {
-        metric              = "newDeaths28DaysByPublishDate"
+        metric              = "newDeaths28DaysByDeathDate"
         rate                = "newDeaths28DaysByDeathDateRollingRate"
         caption             = "Deaths"
         heading             = "Deaths within 28 days of positive test"
