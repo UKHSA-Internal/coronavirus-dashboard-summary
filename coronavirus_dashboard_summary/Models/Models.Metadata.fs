@@ -5,6 +5,7 @@ type ContentMetadata =
     {
         metric:              string
         rate:                string
+        sum:                 string
         caption:             string
         heading:             string
         postcodeDestination: string
@@ -17,6 +18,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "newCasesBySpecimenDate"
         rate                = "newCasesBySpecimenDateRollingRate"
+        sum                 = "newCasesBySpecimenDateRollingSum"
         caption             = null
         heading             = null
         postcodeDestination = null
@@ -27,6 +29,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
         rate                = null
+        sum                 = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
         caption             = "Vaccinations"
         heading             = "People vaccinated"
         postcodeDestination = "ltla"
@@ -37,6 +40,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "newCasesBySpecimenDate"
         rate                = "newCasesBySpecimenDateRollingRate"
+        sum                = "newCasesBySpecimenDateRollingSum"
         caption             = "Cases"
         heading             = "People tested positive"
         postcodeDestination = "ltla"
@@ -48,6 +52,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "newDeaths28DaysByDeathDate"
         rate                = "newDeaths28DaysByDeathDateRollingRate"
+        sum                = "newDeaths28DaysByDeathDateRollingSum"
         caption             = "Deaths"
         heading             = "Deaths within 28 days of positive test"
         postcodeDestination = "ltla"
@@ -58,6 +63,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "newAdmissions"
         rate                = null
+        sum                 = "newAdmissionsRollingSum"
         caption             = "Healthcare"
         heading             = "Patients admitted"
         postcodeDestination = "nhsTrust"
@@ -68,6 +74,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "newVirusTestsByPublishDate"
         rate                = null
+        sum                 = "newVirusTestsByPublishDateRollingSum"
         caption             = "Testing"
         heading             = "Virus tests conducted"
         postcodeDestination = "nation"
@@ -78,6 +85,7 @@ let CardMetadata: ContentMetadata[] = [|
     {
         metric              = "transmissionRateMin"
         rate                = null
+        sum                 = null
         caption             = "Transmission"
         heading             = "R value"
         postcodeDestination = null
