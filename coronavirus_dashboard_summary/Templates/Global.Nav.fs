@@ -22,27 +22,27 @@ let private primaryNavItems =
         }
         {
             label   = "Testing" 
-            uri     = "/details/testing" 
+            uri     = "/details/testing?areaType=nation&areaName=England" 
             current = false
         }
         {
             label   = "Cases" 
-            uri     = "/details/cases" 
+            uri     = "/details/cases?areaType=nation&areaName=England" 
             current = false
         }
         {
             label   = "Healthcare" 
-            uri     = "/details/healthcare" 
+            uri     = "/details/healthcare?areaType=nation&areaName=England" 
             current = false
         }
         {
             label   = "Vaccinations" 
-            uri     = "/details/vaccinations" 
+            uri     = "/details/vaccinations?areaType=nation&areaName=England" 
             current = false
         }
         {
             label   = "Deaths" 
-            uri     = "/details/deaths" 
+            uri     = "/details/deaths?areaType=nation&areaName=England" 
             current = false
         }
     ]
