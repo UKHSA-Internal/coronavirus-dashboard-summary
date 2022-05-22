@@ -245,8 +245,8 @@ module Card =
                         "Latest data provided on "
                         |> encodedText
                         
-                        time [ _style "white-space: nowrap"; _datetime (getter this.metric "date")  ] [
-                            getter this.metric "formattedDate"
+                        time [ _style "white-space: nowrap"; _datetime (getter $"{this.metric}RollingSum" "date")  ] [
+                            getter $"{this.metric}RollingSum" "formattedDate"
                             |> encodedText
                         ]
                     ]
