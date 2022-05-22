@@ -66,10 +66,10 @@ module Card =
                             span [ _itemprop "observationDate" ] [
                                 meta [ _itemtype "https://schema.org/DateTime"
                                        _itemprop "startDate"
-                                       getter $"{this.metric}RollingSum" "7DaysAgo" |> _content ]
+                                       getter this.sum "7DaysAgo" |> _content ]
                                 meta [ _itemtype "https://schema.org/DateTime"
                                        _itemprop "endDate"
-                                       getter $"{this.metric}RollingSum" "date" |> _content ]
+                                       getter this.sum "date" |> _content ]
                             ]
                         ]
                         span [ _itemprop "measuredValue" ] [
@@ -93,13 +93,13 @@ module Card =
                                     _itemprop "QuantitativeValue"
                                     _itemtype "https://schema.org/QuantitativeValue"
                                 ] [
-                                    getter $"{this.metric}RollingSum" "formattedValue" |> encodedText
+                                    getter this.sum "formattedValue" |> encodedText
                                 ]
                                 span [ _class "tooltiptext govuk-!-font-size-16"; _itemprop "disambiguatingDescription" ] [
                                     $"Total number of {this.heading.ToLower()} reported in the last 7 days ("
-                                    + getter $"{this.metric}RollingSum" "6DaysAgoFormatted"
+                                    + getter this.sum "6DaysAgoFormatted"
                                     + " - "
-                                    + getter $"{this.metric}RollingSum" "formattedDate"
+                                    + getter this.sum "formattedDate"
                                     + ")"
                                     |> encodedText
                                 ]
@@ -143,10 +143,10 @@ module Card =
                       "test" + Formatter.pluralise (getter this.metric "value") "" "s" "s"
                       + " reported on "
                   | _ -> ""
-                + getter this.metric "formattedDate"
+                + getter this.sum "formattedDate"
                 + ", and "
-                + getter $"{this.metric}RollingSum" "formattedValue"
-                + Formatter.pluralise (getter $"{this.metric}RollingSum" "value") " person" " people" " people"
+                + getter this.sum "formattedValue"
+                + Formatter.pluralise (getter this.sum "value") " person" " people" " people"
                 + " in the last 7 days. This shows "
                 + Formatter.comparisonVerb (getter $"{this.metric}Change" "value") "an increase" "a decrease" "no change"
                 + " of " + (getter $"{this.metric}Change" "formattedValue").TrimStart('-')
@@ -245,8 +245,8 @@ module Card =
                         "Latest data provided on "
                         |> encodedText
                         
-                        time [ _style "white-space: nowrap"; _datetime (getter $"{this.metric}RollingSum" "date")  ] [
-                            getter $"{this.metric}RollingSum" "formattedDate"
+                        time [ _style "white-space: nowrap"; _datetime (getter this.sum "date")  ] [
+                            getter this.sum "formattedDate"
                             |> encodedText
                         ]
                     ]
