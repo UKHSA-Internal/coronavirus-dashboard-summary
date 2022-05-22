@@ -8,7 +8,7 @@ let Render =
             div [ _class "govuk-grid-row" ] [
                 div [ _class "govuk-grid-column-full" ] [
                     h1 [ _class "govuk-heading-l govuk-!-margin-bottom-2 govuk-!-margin-top-2"
-                         _data "nosnippet" "true" ] [ encodedText "Engand Summary" ]
+                         _data "nosnippet" "true" ] [ encodedText "England Summary" ]
                     p [ _class "govuk-body-m govuk-!-margin-bottom-1 govuk-!-margin-top-3" ] [
                         encodedText
                             "The official UK government website for data and insights on coronavirus (COVID-19)."
