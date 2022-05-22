@@ -13,7 +13,7 @@ open coronavirus_dashboard_summary.Utils.TimeStamp
     
 let index (date: Release) (redis: Redis.Client) =    
     let dbResp =
-        [|$"area-{date.isoDate}-UK"|]
+        [|$"area-{date.isoDate}-ENGLAND"|]
         |> redis.GetAllAsync 
         |> Async.RunSynchronously
         |> Json.deserialize<DB.Payload list>
@@ -41,7 +41,7 @@ let HomePageHandler =
                 {
                     date     = release
                     banners  = Banners.Render redis release telemetry
-                    title    = "UK Summary"
+                    title    = "England Summary"
                     postcode = null
                     error    = false
                 }
