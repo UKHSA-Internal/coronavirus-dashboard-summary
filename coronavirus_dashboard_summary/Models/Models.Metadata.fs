@@ -47,7 +47,6 @@ let CardMetadata: ContentMetadata[] = [|
         rateOffset          = true
         postCodeOnly        = false
         description         = "by date of specimen as of"
-
     }
     {
         metric              = "newDeaths28DaysByDeathDate"
