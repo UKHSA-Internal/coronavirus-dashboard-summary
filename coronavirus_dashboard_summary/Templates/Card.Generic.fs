@@ -96,7 +96,7 @@ module Card =
                                     getter this.sum "formattedValue" |> encodedText
                                 ]
                                 span [ _class "tooltiptext govuk-!-font-size-16"; _itemprop "disambiguatingDescription" ] [
-                                    $"Total number of {this.heading.ToLower()} in the last 7 days ("
+                                    $"Total number of {this.heading.ToLower()} reported in the last 7 days ("
                                     + getter this.sum "6DaysAgoFormatted"
                                     + " - "
                                     + getter this.sum "formattedDate"
