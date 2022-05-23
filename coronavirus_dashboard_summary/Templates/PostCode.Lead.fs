@@ -239,7 +239,26 @@ let Render postcode getter (release: TimeStamp.Release) =
                             ]
                         ]
                         li [ _class "figure" ] [ Comparison postcode getter release ]
-                    ] 
+                    ]
+                    ul [ _class "govuk-list govuk-!-margin-top-2" ] [
+                        li [] [
+                            // URL to details pages
+                            a [
+                                _class "govuk-link govuk-link--no-visited-state"
+                                
+                                "/details/cases"
+                                + "?areaType=" + (getter "newCasesByPublishDate" "area_type")
+                                + "&areaName=" + (getter "newCasesByPublishDate" "area_name")
+                                |> _href
+                            ] [
+                                strong [ _class "govuk-!-font-size-16" ] [
+                                    "All cases in "
+                                     + getter "newCasesByPublishDate" "area_name"
+                                     |> encodedText 
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
                 match getter "cumVaccinationFirstDoseUptakeByVaccinationDatePercentage" "area_type" with
                 | AreaTypes.MSOA -> Vaccination getter
