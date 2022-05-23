@@ -60,7 +60,7 @@ let inline private Vaccination getter =
                 getter baseMetric "area_type"
                 |> Components.areaTypeTag
                 span [ _class "govuk-!-margin-left-2" ] [
-                    "Reported on "
+                    "on "
                     + getter baseMetric "formattedDate"
                     |> encodedText
                 ]
