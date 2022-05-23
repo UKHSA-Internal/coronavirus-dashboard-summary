@@ -313,9 +313,12 @@ module Card =
             // to prevent the page from crashing. This will be noticed during the QA
             // and a decision would be made on how to proceed.
             try
-                match (emptyPostcode, this.postCodeOnly) with
+                match (emptyPostcode, this.postCodeOnly, this.landingOnly) with
+                // Valid postcode + landing only card
+                | false, _, true -> []
+                
                 // Postcode-specific cards (valid postcode + postcode-only card)
-                | false, true ->
+                | false, true, _ ->
                     match String.IsNullOrEmpty this.caption with
                     // Caption not empty - the only postcode-only card with caption is
                     // transmission. Note that this might have to be altered (likely 
@@ -326,15 +329,15 @@ module Card =
                     // Caption is empty - lead section of the postcode page does not
                     // have a caption, but is a postcode-only section.
                     | _     -> PostCodeLead.Render (postcode.ToUpper()) payload.GetValue release
-                
+                    
                 // Generic cards
-                | true, false      // Valid postcode + generic card
-                | false, false ->  // No postcode + generic card
-                   match this.caption with
-                   | "Vaccinations" ->  // Vaccinations card
-                       [ Vaccinations.Payload(this, release).Render payload.GetValue ]
-                   | _              ->  // Any other card
-                       [ this.normalCard release (not emptyPostcode) payload.GetValue ]
+                | true,  false, _   // Valid postcode + generic card
+                | false, false, _   ->  // No postcode + generic card
+                    match this.caption with
+                    | "Vaccinations" ->  // Vaccinations card
+                        [ Vaccinations.Payload(this, release).Render payload.GetValue ]
+                    | _              ->  // Any other card
+                        [ this.normalCard release (not emptyPostcode) payload.GetValue ]
                 
                 // Any other scenario
                 | _ -> []
