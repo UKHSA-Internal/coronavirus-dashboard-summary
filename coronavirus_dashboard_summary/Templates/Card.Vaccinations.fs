@@ -1,6 +1,7 @@
 module coronavirus_dashboard_summary.Templates.Vaccinations
 
 open System
+open System.Collections
 open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Utils
@@ -116,8 +117,12 @@ type private NumberItem with
                                     match this.periodLabel with
                                     | "Total" -> "Total number "
                                     | _ -> "Number "
-                                    + $"of people vaccinated ({this.label.ToLower()}) reported on "
-                                    + getter this.metric "formattedDate"
+                                    + $"of people vaccinated ({this.label.ToLower()}) reported in the last 7 days ("
+                                    + getter this.sum "6DaysAgoFormatted"
+                                    + " - "
+                                    + getter this.sum "formattedDate"
+                                    + ")"
+                                    |> encodedText
                                 ]
                             ]
                         ]
