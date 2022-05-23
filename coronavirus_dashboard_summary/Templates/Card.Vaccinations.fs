@@ -114,9 +114,8 @@ type private NumberItem with
                                     _itemprop "disambiguatingDescription"
                                 ] [
                                     match this.periodLabel with
-                                    | "Total" -> "Total number "
-                                    | _ -> "Number "
-                                    + $"of people vaccinated ({this.label.ToLower()}) reported on "
+                                    | "Total" -> $"Total number of people vaccinated ({this.label.ToLower()}) reported on "
+                                    | _       -> $"Number of people vaccinated ({this.label.ToLower()}) in the 7 days to "
                                     + getter this.metric "formattedDate"
                                     |> encodedText
                                 ]
