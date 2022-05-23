@@ -1,6 +1,7 @@
 module coronavirus_dashboard_summary.Templates.Vaccinations
 
 open System
+open System.Collections
 open System.Runtime.CompilerServices
 open Giraffe.ViewEngine
 open coronavirus_dashboard_summary.Utils
