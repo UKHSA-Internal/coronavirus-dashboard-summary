@@ -11,6 +11,7 @@ type ContentMetadata =
         postcodeDestination: string
         rateOffset:          bool
         postCodeOnly:        bool
+        landingOnly:         bool
         description:         string
     }
 
@@ -24,6 +25,7 @@ let CardMetadata: ContentMetadata[] = [|
         postcodeDestination = null
         rateOffset          = true
         postCodeOnly        = true
+        landingOnly         = false
         description         = null
     }
     {
@@ -35,28 +37,31 @@ let CardMetadata: ContentMetadata[] = [|
         postcodeDestination = "ltla"
         rateOffset          = true
         postCodeOnly        = false
+        landingOnly         = false
         description         = null
     }
     {
         metric              = "newCasesBySpecimenDate"
         rate                = "newCasesBySpecimenDateRollingRate"
-        sum                = "newCasesBySpecimenDateRollingSum"
+        sum                 = "newCasesBySpecimenDateRollingSum"
         caption             = "Cases"
         heading             = "People tested positive"
         postcodeDestination = "ltla"
         rateOffset          = true
         postCodeOnly        = false
+        landingOnly         = true
         description         = "by date of specimen as of"
     }
     {
         metric              = "newDeaths28DaysByDeathDate"
         rate                = "newDeaths28DaysByDeathDateRollingRate"
-        sum                = "newDeaths28DaysByDeathDateRollingSum"
+        sum                 = "newDeaths28DaysByDeathDateRollingSum"
         caption             = "Deaths"
         heading             = "Deaths within 28 days of positive test"
         postcodeDestination = "ltla"
         rateOffset          = true
         postCodeOnly        = false
+        landingOnly         = false
         description         = "by date of death as of"
     }
     {
@@ -68,6 +73,7 @@ let CardMetadata: ContentMetadata[] = [|
         postcodeDestination = "nhsTrust"
         rateOffset          = false
         postCodeOnly        = false
+        landingOnly         = false
         description         = null
     }
     {
@@ -79,6 +85,7 @@ let CardMetadata: ContentMetadata[] = [|
         postcodeDestination = "nation"
         rateOffset          = false
         postCodeOnly        = false
+        landingOnly         = false
         description         = null
     }
     {
@@ -90,6 +97,7 @@ let CardMetadata: ContentMetadata[] = [|
         postcodeDestination = null
         rateOffset          = false
         postCodeOnly        = true
+        landingOnly         = false
         description         = null
     }
 |]
