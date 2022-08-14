@@ -45,12 +45,12 @@ let MainFooter =
                             ]
                             encodedText "For feedback email "
                             a [
-                                _href "mailto:coronavirus-tracker@phe.gov.uk?Subject=Dashboard%20feedback"
+                                _href "mailto:coronavirus-tracker@ukhsa.gov.uk?Subject=Dashboard%20feedback"
                                 _class "govuk-footer__link"
                                 _rel "noopener noreferrer"
                                 _target "blank"
                                 _itemprop "email"
-                            ] [ encodedText "coronavirus-tracker@phe.gov.uk" ]
+                            ] [ encodedText "coronavirus-tracker@ukhsa.gov.uk" ]
                         ]
                         p [ _class "govuk-footer__meta-custom" ] [
                             encodedText "Developed by "
