@@ -71,6 +71,16 @@
         color: #fff !important;
         width: fit-content;
         justify-self: left;
+
+        & a {
+          @extend .govuk-link;
+          @extend .govuk-\!-font-weight-regular;
+          color: #fff !important;
+          
+          &:active, &:focus {
+            color: #000 !important;
+          }
+        }
       }
     }
   }
