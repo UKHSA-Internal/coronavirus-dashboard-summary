@@ -225,6 +225,15 @@ module Base =
                                 p [ _class "govuk-body" ] [
                                     "21 April 1926 to 8 September 2022" |> rawText
                                 ]
+                                
+                                p [ _class "govuk-body" ] [
+                                    a [
+                                        _class "govuk-body"
+                                        _href "https://www.gov.uk/government/topical-events/her-majesty-queen-elizabeth-ii"
+                                    ] [
+                                        "Read about the arrangements following The Queen's death" |> rawText
+                                    ]
+                                ]
                             ]
                         ]
                     ]
