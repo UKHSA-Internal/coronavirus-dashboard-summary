@@ -216,28 +216,6 @@ module Base =
                     
                     Navigation.RenderMobile
                     
-                    div [ _class "banner emergency" ] [
-                        div [ _class "content" ] [
-                            div [ _class "body" ] [
-                                h2 [ _class "govuk-heading-m govuk-!-margin-bottom-1" ] [
-                                    "Her Majesty Queen Elizabeth II" |> rawText
-                                ]
-                                p [ _class "govuk-body" ] [
-                                    "21 April 1926 to 8 September 2022" |> rawText
-                                ]
-                                
-                                p [ _class "govuk-body" ] [
-                                    a [
-                                        _class "govuk-body"
-                                        _href "https://www.gov.uk/government/topical-events/her-majesty-queen-elizabeth-ii"
-                                    ] [
-                                        "Read about the arrangements following The Queen's death" |> rawText
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                    
                     match this.banners.changeLogs with
                     | None   -> String.Empty |> rawText
                     | Some v -> v
