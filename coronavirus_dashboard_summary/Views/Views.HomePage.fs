@@ -20,12 +20,20 @@ let index (date: Release) (redis: Redis.Client) =
         |> List.groupBy Filters.GroupByMetric
         |> List.map Filters.GroupByPriorityAttribute
         |> Metrics.GeneralPayload
+
+    let dbData =
+        if dbResp.Count = 0 then HomePageModel.Data date Metrics.PostCodeMetrics redis
+                                 |> Async.RunSynchronously
+                                 |> List.groupBy Filters.GroupByMetric
+                                 |> List.map Filters.GroupByPriorityAttribute
+                                 |> Metrics.GeneralPayload
+        else dbResp
         
     [
         yield! HomeHeading.Render
                     
         MetaData.CardMetadata
-        |> Array.Parallel.map (fun metadata -> metadata.Card date dbResp null)
+        |> Array.Parallel.map (fun metadata -> metadata.Card date dbData null)
         |> List.concat
         |> Body.Render
     ]
