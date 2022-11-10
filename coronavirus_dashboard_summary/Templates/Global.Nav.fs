@@ -21,6 +21,11 @@ let private primaryNavItems =
             current = true
         }
         {
+            label   = "Vaccinations" 
+            uri     = "/details/vaccinations?areaType=nation&areaName=England" 
+            current = false
+        }
+        {
             label   = "Testing" 
             uri     = "/details/testing?areaType=nation&areaName=England" 
             current = false
@@ -33,11 +38,6 @@ let private primaryNavItems =
         {
             label   = "Healthcare" 
             uri     = "/details/healthcare?areaType=nation&areaName=England" 
-            current = false
-        }
-        {
-            label   = "Vaccinations" 
-            uri     = "/details/vaccinations?areaType=nation&areaName=England" 
             current = false
         }
         {
