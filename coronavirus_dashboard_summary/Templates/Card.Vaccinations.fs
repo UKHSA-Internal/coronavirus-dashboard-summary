@@ -206,7 +206,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                        | "" -> ""
                        | _  -> " in "
                        
-        li [ _class "vaccinations"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
+        li [ _class "mini-card"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
             meta [ _itemprop "datePosted"; _content this.release.isoTimestamp ]
             meta [ _itemprop "category"; _content "https://www.wikidata.org/wiki/Q81068910" ]
             meta [
