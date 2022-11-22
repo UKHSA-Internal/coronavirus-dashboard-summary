@@ -16,6 +16,8 @@ jobs:
 
 ## declares credentials for Azure Container Registry
   steps:
+  - uses: actions/checkout@v2
+
   - name: Login to Azure Container Registry
     uses: azure/docker-login@v1
     with:
@@ -24,8 +26,8 @@ jobs:
       password: ${{ secrets.REGISTRY_PASSWORD }}
     
   - run: |
-        docker build . -t c19dashacrprod.azurecr.io/landingpage-server:sandbox
-        docker push c19dashacrprod.azurecr.io/landingpage-server:sandbox   
+        docker build . -t c19dashacrprod.azurecr.io/landingpage-server:${{ github.sha }}
+        docker push c19dashacrprod.azurecr.io/landingpage-server:${{ github.sha }}    
 
    
   - name: Deploy Container to Azure App Services
@@ -33,6 +35,6 @@ jobs:
     with:
       app-name: 'c19dashsbuksfe01landingpage01'
       publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-      images: 'c19dashacrprod.azurecr.io/landingpage-server:sandbox'
+      images: 'c19dashacrprod.azurecr.io/landingpage-server:${{ github.sha }}'
     
       
