@@ -139,11 +139,11 @@ module Base =
                     
                     meta [
                         _property "og:image"
-                        _content $"{Generic.UrlLocation}/downloads/og-images/og-summary_{this.date.dateInt}.png?{DateTime.UtcNow}"
+                        _content $"{Generic.UrlLocation}/public/assets/summary/images/opengraph-image.png"
                     ]
                     meta [
                         _property "twitter:image"
-                        _content $"{Generic.UrlLocation}/downloads/og-images/og-summary_{this.date.dateInt}.png?{DateTime.UtcNow}"
+                        _content $"{Generic.UrlLocation}/public/assets/summary/images/opengraph-image.png"
                     ]
                     meta [
                         _itemprop "copyrightNotice"
