@@ -35,6 +35,7 @@ jobs:
     with:
       app-name: 'c19dashsbuksfe01landingpage01'
       publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-      images: 'c19dashacrprod.azurecr.io/landingpage-server:${{ github.sha }}-sandbox'
+      
+      images: 'c19dashacrprod.azurecr.io/landingpage-server:c8ad5fa75aab6b9f611fcf95341fb03242ca6c60-sandbox'
     
       
