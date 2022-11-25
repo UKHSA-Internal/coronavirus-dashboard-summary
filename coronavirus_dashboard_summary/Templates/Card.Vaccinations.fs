@@ -20,18 +20,46 @@ type private NumberItem =
     
 let private contentMetadata =
     [
-        ("booster", [
+        ("first", [
+            {
+              metric      = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
+              percentage  = null
+              label       = "First dose"
+              periodLabel = "Last 7 days"
+            }
+            {
+              metric      = "cumPeopleVaccinatedFirstDoseByPublishDate"
+              percentage  = "cumVaccinationFirstDoseUptakeByPublishDatePercentage"
+              label       = "First dose"
+              periodLabel = "Total"
+            }
+        ])
+        ("second", [
             {
               metric      = "newPeopleVaccinatedSecondDoseByPublishDateRollingSum"
               percentage  = null
-              label       = "Booster"
-              periodLabel = "Autumn 22"
+              label       = "Second dose"
+              periodLabel = "Last 7 days"
             }
             {
               metric      = "cumPeopleVaccinatedSecondDoseByPublishDate"
               percentage  = "cumVaccinationSecondDoseUptakeByPublishDatePercentage"
-              label       = "Booster %"
-              periodLabel = "Autumn 22"
+              label       = "Second dose"
+              periodLabel = "Total"
+            }
+        ])
+        ("booster", [
+            {
+              metric      = "newPeopleVaccinatedThirdInjectionByPublishDateRollingSum"
+              percentage  = null
+              label       = "Booster or third dose"
+              periodLabel = "Last 7 days"
+            }
+            {
+              metric      = "cumPeopleVaccinatedThirdInjectionByPublishDate"
+              percentage  = "cumVaccinationThirdInjectionUptakeByPublishDatePercentage"
+              label       = "Booster or third dose"
+              periodLabel = "Total"
             }
         ])
     ] 
@@ -178,7 +206,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                        | "" -> ""
                        | _  -> " in "
                        
-        li [ _class "mini-card"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
+        li [ _class "vaccinations"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
             meta [ _itemprop "datePosted"; _content this.release.isoTimestamp ]
             meta [ _itemprop "category"; _content "https://www.wikidata.org/wiki/Q81068910" ]
             meta [
@@ -220,7 +248,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 _itemprop "thumbnailUrl"
                 $"{ Generic.UrlLocation }/downloads/homepage/{ release.isoDate }/vaccinations/{ areaType.ToLower() }/"
                 + getter this.metadata.metric "area_code"
-                + "_50_plus_thumbnail.svg"
+                + "_thumbnail.svg"
                 |> _content
             ]
             meta [
@@ -230,56 +258,91 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 + ", "
                 + getter (snd contentMetadata.[0]).[0].metric "formattedValue"
                 + " people aged 12+ had been given a first dose, "
+                + getter (snd contentMetadata.[1]).[0].metric "formattedValue"
+                + " "
+                + "a second dose, and "
+                + getter (snd contentMetadata.[2]).[0].metric "formattedValue"
+                + " a booster or a third dose. In total, as of "
+                + getter (snd contentMetadata.[0]).[1].metric "formattedDate"
+                + ", "
+                + getter (snd contentMetadata.[0]).[1].metric "formattedValue"
+                + " ("
+                + getter (snd contentMetadata.[0]).[1].percentage "formattedValue"
+                + "%) of people aged 12+ have received a first dose, "
+                + getter (snd contentMetadata.[1]).[1].metric "formattedValue"
+                + " ("
+                + getter (snd contentMetadata.[1]).[1].percentage "formattedValue"
+                + "%) a second dose, and "
+                + getter (snd contentMetadata.[2]).[1].metric "formattedValue"
+                + " ("
+                + getter (snd contentMetadata.[2]).[1].percentage "formattedValue"
+                + "%) a booster or a third dose of a vaccine."
                 |> _content
             ]
-
-            strong [
-                _class "govuk-caption-m govuk-!-font-weight-regular"
-                _itemprop "name"
-            ] [ encodedText this.metadata.caption ]
-
-            h4 [ _class "govuk-heading-m title-mobile govuk-!-margin-bottom-1" ] [
-                $"{ this.metadata.heading } { areaNameConnector } " + getter headingMetric "trimmedAreaName"
-                |> encodedText
-            ]
-            p [ _class "grey govuk-!-font-size-14 govuk-!-margin-bottom-0 govuk-!-margin-top-0" ] [
-                getter headingMetric "area_type"
-                |> Components.areaTypeTag
-                span [ _class "card-timestamp" ] [
-                    encodedText $"""Up to and including { getter this.metadata.metric "formattedDate" }"""
+            div [ _class "topic" ] [
+                strong [ _itemprop "name"; _class "govuk-caption-m govuk-!-font-weight-regular" ] [
+                    encodedText this.metadata.caption
                 ]
-            ]
-
-            strong [ _class "govuk-body-s float govuk-!-margin-top-3 govuk-!-margin-bottom-0" ] [
-                "Number of people over 50 with autumn booster" |> encodedText
-            ]
-            div [ _class "number-group" ] [
-                div [ _class "number-container govuk-!-padding-top-0" ] [
-                    div [
-                        _class "float govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2"
-                    ] [
-                        span [ _class "govuk-link--no-visited-state number-link" ] [
-                            "10866622"
-                            |> encodedText
+                h4 [ _class "govuk-heading-m title-mobile govuk-!-margin-bottom-0" ] [
+                    $"{ this.metadata.heading } { areaNameConnector } " + getter headingMetric "trimmedAreaName"
+                    |> encodedText
+                ]
+                p [ _class "grey govuk-!-font-size-14 govuk-!-margin-bottom-0 govuk-!-margin-top-1" ] [
+                    getter headingMetric "area_type"
+                    |> Components.areaTypeTag
+                    span [ _class "card-timestamp" ] [
+                        encodedText $"""Up to and including { getter this.metadata.metric "formattedDate" }"""
+                    ]
+                ]
+                div [ _class "additional-info bottom-aligned" ] [
+                    p [ _class "govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-font-size-16" ] [
+                        meta [
+                            _itemprop "url"
+                            
+                            $"/details/{ this.metadata.caption.ToLower() }"
+                            + "?areaType=" + (getter headingMetric "area_type")
+                            + "&areaName=" + (getter headingMetric "area_name")
+                            |> _content 
+                        ]
+                        a [
+                            $"/details/{ this.metadata.caption.ToLower() }"
+                            + "?areaType=" + (getter headingMetric "area_type")
+                            + "&areaName=" + (getter headingMetric "area_name")
+                            |> _href
+                            
+                            _class "govuk-link govuk-link--no-visited-state bottom-aligned govuk-!-margin-top-2 ext-link"
+                        ] [
+                            strong [] [
+                                $"All { this.metadata.caption.ToLower() } data { areaNameConnector }"
+                                + getter headingMetric "trimmedAreaName"
+                                |> encodedText
+                            ]
                         ]
                     ]
                 ]
             ]
             
+            yield!
+                contentMetadata
+                |> List.map (fun pair ->
+                                ul [ fst pair |> _class ] [
+                                    yield!
+                                        snd pair
+                                        |> List.map (fun cnt -> cnt.Number areaType getter)
+                                ])
+            
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
+                div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
+                    encodedText "Percentage of population aged 12+"
+                ]
                 figcaption [] [
-                    strong [ _class "govuk-body-s float govuk-!-margin-top-1 govuk-!-margin-bottom-0" ] [
-                        "Percentage of population over 50 vaccinated" |> encodedText
-                    ]
-                    div [ _class "govuk-!-padding-right-0" ] [
-                        div [
-                            _class "float govuk-heading-m govuk-!-margin-bottom-0 govuk-!-padding-top-0 total-figure2"
-                        ] [
-                            span [ _class "govuk-link--no-visited-state govuk-!-margin-left-2 number-link" ] [
-                                "47%"
-                                |> encodedText
-                            ]
-                        ]
+                    ul [] [
+                        yield!
+                            contentMetadata
+                            |> List.map (fun pair ->
+                                            snd pair
+                                            |> List.find (fun cnt -> String.IsNullOrEmpty cnt.percentage |> not)
+                                            |> (fun cnt -> cnt.Percentage areaType getter))
                     ]
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
@@ -295,41 +358,18 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             $"{Generic.UrlLocation}/downloads/homepage/{ release.isoDate }/vaccinations/"
                             + getter this.metadata.metric "area_type"
                             + "/" + getter this.metadata.metric "area_code"
-                            + "_50_plus_thumbnail.svg"
+                            + "_thumbnail.svg"
                             |> _src
+                            
+                            "Chart displaying the percentage of population aged 12+ vaccinated in "
+                            + getter this.metadata.metric "area_name"
+                            |> _alt
                         ]
                     ]
                 ]
             ]
-            hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned" ]
-            div [ _class "additional-info bottom-aligned" ] [
-                p [ _class "govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-font-size-16" ] [
-                    meta [
-                        _itemprop "url"
-                        
-                        $"/details/{ this.metadata.caption.ToLower() }"
-                        + "?areaType=" + (getter headingMetric "area_type")
-                        + "&areaName=" + (getter headingMetric "area_name")
-                        |> _content 
-                    ]
-                    a [
-                        $"/details/{ this.metadata.caption.ToLower() }"
-                        + "?areaType=" + (getter headingMetric "area_type")
-                        + "&areaName=" + (getter headingMetric "area_name")
-                        |> _href
-                        
-                        _class "govuk-link govuk-link--no-visited-state bottom-aligned govuk-!-margin-top-0 ext-link"
-                    ] [
-                        strong [] [
-                            $"All { this.metadata.caption.ToLower() } data { areaNameConnector }"
-                            + getter headingMetric "trimmedAreaName"
-                            |> encodedText
-                        ]
-                    ]
-                ]
-            ]
-            div [ _class "mob-link additional-info bottom-aligned" ] [
-                hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned" ]
+            div [ _class "mob-link additional-info" ] [
+                hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
                 p [ _class "bottom-aligned govuk-!-margin-top-2 govuk-!-font-size-16 govuk-!-margin-bottom-0" ] [
                     meta [
                         _itemprop "url"
