@@ -331,7 +331,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                                         |> List.map (fun cnt -> cnt.Number areaType getter)
                                 ])
             
-            figure [ _class "visualisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
+            figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
                     encodedText "Percentage of population aged 12+"
                 ]
