@@ -357,7 +357,7 @@ main {
 
     &:not(.vaccinations) {
       @extend .mini-card;
-      flex: 4 1 20%;
+      flex: 4 1 30%;
       min-width: 250px;
 
       @media only screen and (max-width: 1452px) {
