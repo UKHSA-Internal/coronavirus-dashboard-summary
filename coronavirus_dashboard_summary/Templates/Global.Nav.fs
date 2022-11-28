@@ -16,7 +16,7 @@ type private NavigationItem = {
 let private primaryNavItems =
     [
         {
-            label   = "Daily update"
+            label   = "Summary"
             uri     = "/"
             current = true
         }
