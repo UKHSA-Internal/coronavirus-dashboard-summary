@@ -145,25 +145,25 @@ type private PostCodeView(postcode, redis, telemetry) =
             printfn "%s" "Present"
         else
             printfn "%s" "Not Present"
-            let parentMetric = [|"vaccinationsAgeDemographics"|]
-            
-            let keyDate = dbArray.[0]
-            printfn ("%s") keyDate
-            
-            let results = readMetrics DBConnection date parentMetric 997
-            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
-            let output = String.concat ", " nestedMetricJsonStrings
-            
-            let newHead = dbRespString.Replace("]", "")
-            let newBody = newHead + ", " + output + "]"
-            
-            printfn ("%s") newBody
-            
-            let conStr = Environment.GetEnvironmentVariable "REDIS"
-            let cm = ConnectionMultiplexer.Connect conStr
-            let redisDb = cm.GetDatabase(2)
-            let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
-            printfn "%A" keyExpiry
+            // let parentMetric = [|"vaccinationsAgeDemographics"|]
+            //
+            // let keyDate = dbArray.[0]
+            // printfn ("%s") keyDate
+            //
+            // let results = readMetrics DBConnection date parentMetric 997
+            // let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
+            // let output = String.concat ", " nestedMetricJsonStrings
+            //
+            // let newHead = dbRespString.Replace("]", "")
+            // let newBody = newHead + ", " + output + "]"
+            //
+            // printfn ("%s") newBody
+            //
+            // let conStr = Environment.GetEnvironmentVariable "REDIS"
+            // let cm = ConnectionMultiplexer.Connect conStr
+            // let redisDb = cm.GetDatabase(2)
+            // let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
+            // printfn "%A" keyExpiry
             // redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
             
         [
