@@ -295,7 +295,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
-                    encodedText "People aged 50+"
+                    encodedText "Percentage of people aged 50+"
                 ]
                 figcaption [] [
                     
