@@ -24,12 +24,12 @@ let private nestedMetricsQuery (date: TimeStamp.Release) = $"\
         PARTITION BY (metric)
         ORDER BY date DESC
         ) AS rank
-    FROM covid19.time_series_p2022_11_17_other
-             JOIN covid19.area_reference AS ar ON ar.id = time_series_p2022_11_17_other.area_id
+    FROM covid19.time_series_p{date.partitionDate}_other
+             JOIN covid19.area_reference AS ar ON ar.id = time_series_p{date.partitionDate}_other.area_id
              JOIN covid19.metric_reference AS mr ON mr.id = metric_id
              JOIN covid19.release_reference AS rr ON rr.id = release_id
     WHERE area_name = 'England'
-      AND date > (DATE('2022-11-17') - INTERVAL '30 days')
+      AND date > (DATE(@date) - INTERVAL '30 days')
       AND metric = 'vaccinationsAgeDemographics'
       AND payload IS NOT NULL
     ORDER BY rank LIMIT 1;
@@ -59,7 +59,7 @@ let private DBConnection =
     |> Sql.formatConnectionString
     |> (+) "Pooling=false;"
 
-let readUsers (connectionString: string) (releaseDate: Release) (metrics: string[]): Payload list =
+let readMetrics (connectionString: string) (releaseDate: Release) (metrics: string[]): Payload list =
     connectionString
     |> Sql.connect
     |> Sql.query (nestedMetricsQuery releaseDate)
@@ -139,7 +139,7 @@ let index (date: Release) (redis: Redis.Client) =
     else
         printfn "%s" "Not Present"
         let parentMetric = [|"vaccinationsAgeDemographics"|]
-        let results = readUsers DBConnection date parentMetric        
+        let results = readMetrics DBConnection date parentMetric        
         let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0])]
         let output = String.concat ", " nestedMetricJsonStrings
         
