@@ -168,8 +168,7 @@ type PostCodeDataPayload with
             | _              -> GeneralData(redis, date, this, telemetry) :> PostCodeData
             
         async {
-            let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<Payload>).fetchFromDB
-                            
+            let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<Payload>).fetchFromDB   
             return match result with
                    | Some res -> Json.deserialize<Payload list>(res)
                    | _        -> []

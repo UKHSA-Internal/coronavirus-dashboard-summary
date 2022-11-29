@@ -20,48 +20,21 @@ type private NumberItem =
     
 let private contentMetadata =
     [
-        ("first", [
-            {
-              metric      = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
-              percentage  = null
-              label       = "First dose"
-              periodLabel = "Last 7 days"
-            }
-            {
-              metric      = "cumPeopleVaccinatedFirstDoseByPublishDate"
-              percentage  = "cumVaccinationFirstDoseUptakeByPublishDatePercentage"
-              label       = "First dose"
-              periodLabel = "Total"
-            }
-        ])
         ("second", [
             {
-              metric      = "newPeopleVaccinatedSecondDoseByPublishDateRollingSum"
+              metric      = "PeopleVaccinatedAutumn22ByVaccinationDate"
               percentage  = null
-              label       = "Second dose"
-              periodLabel = "Last 7 days"
-            }
-            {
-              metric      = "cumPeopleVaccinatedSecondDoseByPublishDate"
-              percentage  = "cumVaccinationSecondDoseUptakeByPublishDatePercentage"
-              label       = "Second dose"
+              label       = "autumn booster (aged 50+)"
               periodLabel = "Total"
             }
-        ])
-        ("booster", [
             {
-              metric      = "newPeopleVaccinatedThirdInjectionByPublishDateRollingSum"
-              percentage  = null
-              label       = "Booster or third dose"
-              periodLabel = "Last 7 days"
-            }
-            {
-              metric      = "cumPeopleVaccinatedThirdInjectionByPublishDate"
-              percentage  = "cumVaccinationThirdInjectionUptakeByPublishDatePercentage"
-              label       = "Booster or third dose"
-              periodLabel = "Total"
+              metric      = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
+              percentage  = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
+              label       = "Autumn booster"
+              periodLabel = "Percentage"
             }
         ])
+        
     ] 
 
 let inline private Observation content =
@@ -164,7 +137,7 @@ type private NumberItem with
                                 ] []
                                 
                                 span [ _class "tooltiptext govuk-!-font-size-16"; _itemprop "disambiguatingDescription"] [
-                                    $"Percentage of population aged 12+ vaccinated ({ this.label.ToLower() }) reported on "
+                                    $"Percentage of people aged 50+ ({ this.label.ToLower() }) reported on "
                                     + getter this.percentage "formattedDate"
                                     |> encodedText   
                                 ]
@@ -248,7 +221,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 _itemprop "thumbnailUrl"
                 $"{ Generic.UrlLocation }/downloads/homepage/{ release.isoDate }/vaccinations/{ areaType.ToLower() }/"
                 + getter this.metadata.metric "area_code"
-                + "_thumbnail.svg"
+                + "_50_plus_thumbnail.svg"
                 |> _content
             ]
             meta [
@@ -258,25 +231,14 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 + ", "
                 + getter (snd contentMetadata.[0]).[0].metric "formattedValue"
                 + " people aged 12+ had been given a first dose, "
-                + getter (snd contentMetadata.[1]).[0].metric "formattedValue"
-                + " "
-                + "a second dose, and "
-                + getter (snd contentMetadata.[2]).[0].metric "formattedValue"
-                + " a booster or a third dose. In total, as of "
+               
                 + getter (snd contentMetadata.[0]).[1].metric "formattedDate"
                 + ", "
                 + getter (snd contentMetadata.[0]).[1].metric "formattedValue"
                 + " ("
                 + getter (snd contentMetadata.[0]).[1].percentage "formattedValue"
                 + "%) of people aged 12+ have received a first dose, "
-                + getter (snd contentMetadata.[1]).[1].metric "formattedValue"
-                + " ("
-                + getter (snd contentMetadata.[1]).[1].percentage "formattedValue"
-                + "%) a second dose, and "
-                + getter (snd contentMetadata.[2]).[1].metric "formattedValue"
-                + " ("
-                + getter (snd contentMetadata.[2]).[1].percentage "formattedValue"
-                + "%) a booster or a third dose of a vaccine."
+              
                 |> _content
             ]
             div [ _class "topic" ] [
@@ -333,17 +295,10 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
-                    encodedText "Percentage of population aged 12+"
+                    encodedText "Percentage of people aged 50+"
                 ]
                 figcaption [] [
-                    ul [] [
-                        yield!
-                            contentMetadata
-                            |> List.map (fun pair ->
-                                            snd pair
-                                            |> List.find (fun cnt -> String.IsNullOrEmpty cnt.percentage |> not)
-                                            |> (fun cnt -> cnt.Percentage areaType getter))
-                    ]
+                    
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
                     a [
@@ -358,10 +313,10 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             $"{Generic.UrlLocation}/downloads/homepage/{ release.isoDate }/vaccinations/"
                             + getter this.metadata.metric "area_type"
                             + "/" + getter this.metadata.metric "area_code"
-                            + "_thumbnail.svg"
+                            + "_50_plus_thumbnail.svg"
                             |> _src
                             
-                            "Chart displaying the percentage of population aged 12+ vaccinated in "
+                            "Chart displaying the percentage of population aged 50+ given an autumn booster in "
                             + getter this.metadata.metric "area_name"
                             |> _alt
                         ]
@@ -369,7 +324,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 ]
             ]
             div [ _class "mob-link additional-info" ] [
-                hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
+                // hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
                 p [ _class "bottom-aligned govuk-!-margin-top-2 govuk-!-font-size-16 govuk-!-margin-bottom-0" ] [
                     meta [
                         _itemprop "url"
