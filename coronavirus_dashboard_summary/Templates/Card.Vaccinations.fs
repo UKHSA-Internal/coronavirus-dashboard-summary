@@ -221,7 +221,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 _itemprop "thumbnailUrl"
                 $"{ Generic.UrlLocation }/downloads/homepage/{ release.isoDate }/vaccinations/{ areaType.ToLower() }/"
                 + getter this.metadata.metric "area_code"
-                + "_thumbnail.svg"
+                + "_50_plus_thumbnail.svg"
                 |> _content
             ]
             meta [
