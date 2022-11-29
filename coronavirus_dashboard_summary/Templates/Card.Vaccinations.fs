@@ -24,7 +24,7 @@ let private contentMetadata =
             {
               metric      = "PeopleVaccinatedAutumn22ByVaccinationDate"
               percentage  = null
-              label       = "booster (over 50s)"
+              label       = "autumn booster (aged 50+)"
               periodLabel = "Total"
             }
             {
@@ -137,7 +137,7 @@ type private NumberItem with
                                 ] []
                                 
                                 span [ _class "tooltiptext govuk-!-font-size-16"; _itemprop "disambiguatingDescription"] [
-                                    $"Percentage of population aged 50+ given a booster vaccination ({ this.label.ToLower() }) reported on "
+                                    $"Percentage of people aged 50+ ({ this.label.ToLower() }) reported on "
                                     + getter this.percentage "formattedDate"
                                     |> encodedText   
                                 ]
@@ -295,7 +295,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
-                    encodedText "Percentage of population aged 50+"
+                    encodedText "Percentage of people aged 50+"
                 ]
                 figcaption [] [
                     ul [] [

@@ -151,7 +151,7 @@ type private PostCodeView(postcode, redis, telemetry) =
             printfn ("%s") keyDate
             
             let results = readMetrics DBConnection date parentMetric 997
-            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0])]
+            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
             let output = String.concat ", " nestedMetricJsonStrings
             
             let newHead = dbRespString.Replace("]", "")
