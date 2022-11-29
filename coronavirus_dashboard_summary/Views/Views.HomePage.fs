@@ -98,7 +98,8 @@ let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload, entryDate: S
     let dateVal = entryDate
     let dateStr = $"\"date\": \"%s{dateVal}\""
     let valueVal = actualNestedMetric
-    let valueStr = $"\"value\": %s{valueVal}"
+    let valueValRounded = Math.Round(float valueVal, 1)
+    let valueStr = $"\"value\": %s{string valueValRounded}"
     let metricVal = nestedMetric
     let metricStr = $"\"metric\": \"%s{metricVal}\""
     let priorityVal = 5
