@@ -30,7 +30,7 @@ let private contentMetadata =
             {
               metric      = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
               percentage  = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
-              label       = "autumn boosters given (over 50s)"
+              label       = "Autumn booster"
               periodLabel = "Percentage"
             }
         ])
@@ -295,17 +295,10 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
-                    encodedText "Percentage of people aged 50+"
+                    encodedText "People aged 50+"
                 ]
                 figcaption [] [
-                    ul [] [
-                        yield!
-                            contentMetadata
-                            |> List.map (fun pair ->
-                                            snd pair
-                                            |> List.find (fun cnt -> String.IsNullOrEmpty cnt.percentage |> not)
-                                            |> (fun cnt -> cnt.Percentage areaType getter))
-                    ]
+                    
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
                     a [
@@ -331,7 +324,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 ]
             ]
             div [ _class "mob-link additional-info" ] [
-                hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
+                // hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
                 p [ _class "bottom-aligned govuk-!-margin-top-2 govuk-!-font-size-16 govuk-!-margin-bottom-0" ] [
                     meta [
                         _itemprop "url"
