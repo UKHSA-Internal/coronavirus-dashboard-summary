@@ -295,17 +295,10 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
-                    encodedText "Percentage of people aged 50+"
+                    encodedText "People aged 50+"
                 ]
                 figcaption [] [
-                    ul [] [
-                        yield!
-                            contentMetadata
-                            |> List.map (fun pair ->
-                                            snd pair
-                                            |> List.find (fun cnt -> String.IsNullOrEmpty cnt.percentage |> not)
-                                            |> (fun cnt -> cnt.Percentage areaType getter))
-                    ]
+                    
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
                     a [
