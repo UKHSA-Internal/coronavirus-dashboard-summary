@@ -320,7 +320,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             $"{Generic.UrlLocation}/downloads/homepage/{ release.isoDate }/vaccinations/"
                             + getter this.metadata.metric "area_type"
                             + "/" + getter this.metadata.metric "area_code"
-                            + "_thumbnail.svg"
+                            + "_50_plus_thumbnail.svg"
                             |> _src
                             
                             "Chart displaying the percentage of population aged 50+ given an autumn booster in "
