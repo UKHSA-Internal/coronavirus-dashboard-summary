@@ -79,7 +79,7 @@ let readMetrics (connectionString: string) (releaseDate: Release) (metrics: stri
             priority = read.int "priority"
         })
 
-let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload) =
+let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload, entryDate: String) =
         
     let getData data : string = match data with
                                             | None -> ""
@@ -95,7 +95,7 @@ let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload) =
     let actualNestedMetric = stringNestedMetric.[startNestedMetric+2..endNestedMetric-1] 
     
     // Serialize new entry
-    let dateVal = "2022-11-12"
+    let dateVal = entryDate
     let dateStr = $"\"date\": \"%s{dateVal}\""
     let valueVal = actualNestedMetric
     let valueStr = $"\"value\": %s{valueVal}"
@@ -140,7 +140,7 @@ let index (date: Release) (redis: Redis.Client) =
         printfn "%s" "Not Present"
         let parentMetric = [|"vaccinationsAgeDemographics"|]
         let results = readMetrics DBConnection date parentMetric        
-        let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0])]
+        let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
         let output = String.concat ", " nestedMetricJsonStrings
         
         let newHead = dbRespString.Replace("]", "")
