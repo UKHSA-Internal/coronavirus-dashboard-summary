@@ -30,7 +30,7 @@ let private contentMetadata =
             {
               metric      = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
               percentage  = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
-              label       = "autumn boosters given (over 50s)"
+              label       = "Autumn booster"
               periodLabel = "Percentage"
             }
         ])
@@ -331,7 +331,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 ]
             ]
             div [ _class "mob-link additional-info" ] [
-                hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
+                // hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned"; _style "margin: 0 -20px;" ]
                 p [ _class "bottom-aligned govuk-!-margin-top-2 govuk-!-font-size-16 govuk-!-margin-bottom-0" ] [
                     meta [
                         _itemprop "url"
