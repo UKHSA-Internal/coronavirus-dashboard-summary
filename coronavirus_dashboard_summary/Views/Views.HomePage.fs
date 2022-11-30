@@ -140,8 +140,7 @@ let index (date: Release) (redis: Redis.Client) =
     else
         printfn "%s" "Not Present"
         let oldBodyLength = String.length dbRespString
-        if oldBodyLength > 300 then do
-        
+        if oldBodyLength > 300 then
             let parentMetric = [|"vaccinationsAgeDemographics"|]
             let results = readMetrics DBConnection date parentMetric        
             let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
@@ -158,7 +157,8 @@ let index (date: Release) (redis: Redis.Client) =
             let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
         
             redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
-        
+        else
+            printfn("!!!!! Response from Redis too short. Not saving additional data.")
     [
         yield! HomeHeading.Render
                     
