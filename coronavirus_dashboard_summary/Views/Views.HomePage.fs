@@ -139,22 +139,25 @@ let index (date: Release) (redis: Redis.Client) =
         printfn "%s" "Present"
     else
         printfn "%s" "Not Present"
-        let parentMetric = [|"vaccinationsAgeDemographics"|]
-        let results = readMetrics DBConnection date parentMetric        
-        let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
-        let output = String.concat ", " nestedMetricJsonStrings
+        let oldBodyLength = String.length dbRespString
+        if oldBodyLength > 300 then do
         
-        let newHead = dbRespString.Replace("]", "")
-        let newBody = newHead + ", " + output + "]"
+            let parentMetric = [|"vaccinationsAgeDemographics"|]
+            let results = readMetrics DBConnection date parentMetric        
+            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
+            let output = String.concat ", " nestedMetricJsonStrings
+            
+            let newHead = dbRespString.Replace("]", "")
+            let newBody = newHead + ", " + output + "]"
 
-        let keyDate = $"area-{date.isoDate}-ENGLAND"
-        printfn ("%s") keyDate
+            let keyDate = $"area-{date.isoDate}-ENGLAND"
+            
+            let conStr = Environment.GetEnvironmentVariable "REDIS"
+            let cm = ConnectionMultiplexer.Connect conStr
+            let redisDb = cm.GetDatabase(2)
+            let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
         
-        let conStr = Environment.GetEnvironmentVariable "REDIS"
-        let cm = ConnectionMultiplexer.Connect conStr
-        let redisDb = cm.GetDatabase(2)
-        let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
-        redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
+            redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
         
     [
         yield! HomeHeading.Render

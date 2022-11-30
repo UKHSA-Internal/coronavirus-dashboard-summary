@@ -116,7 +116,7 @@ type private PostCodeView(postcode, redis, telemetry) =
             |> List.map (fun item -> item.Key release redis telemetry)
             |> List.toArray
             
-        printfn ("%A") dbArray   
+        // printfn ("%A") dbArray   
             
         let dbRespString =
             dbArray
@@ -135,7 +135,7 @@ type private PostCodeView(postcode, redis, telemetry) =
         let keyList = [for x in dbResp.Keys -> x]  // Create a list of the keys retrieved from Redis
         let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage"; "PeopleVaccinatedAutumn22ByVaccinationDate"|]    
         
-        printfn ("%A") keyList
+        // printfn ("%A") keyList
         
         // Now check to see if our nested metrics are in the retrieved metrics
         if 
@@ -189,7 +189,7 @@ type private PostCodeView(postcode, redis, telemetry) =
                         error    = false
                     }
                 
-                printfn "%A" postcodeData
+                // printfn "%A" postcodeData
                 
                 match postcodeData.IsEmpty with
                 | true  -> index release redis
