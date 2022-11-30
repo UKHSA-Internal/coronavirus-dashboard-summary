@@ -149,7 +149,7 @@ let index (date: Release) (redis: Redis.Client) =
             
             let newHead = dbRespString.Replace("]", "")
             let newBody = newHead + ", " + output + "]"
-
+            
             let keyDate = $"area-{date.isoDate}-ENGLAND"
             
             let conStr = Environment.GetEnvironmentVariable "REDIS"
@@ -158,8 +158,12 @@ let index (date: Release) (redis: Redis.Client) =
             let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
             let result =
                 try
-                    JObject.Parse(newBody) |> ignore
-                    redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
+                    JArray.Parse(newBody) |> ignore
+                    let newBodyLength = String.length newBody
+                    if newBodyLength > 300 then
+                        redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
+                    else
+                        printfn("New JSON body is too short. Not saving.")
                 with
                     | :? Newtonsoft.Json.JsonReaderException -> printfn "Badly formed JSON. Not saving"; 
             result |> ignore
