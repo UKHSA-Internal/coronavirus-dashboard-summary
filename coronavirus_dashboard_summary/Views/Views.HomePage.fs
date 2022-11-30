@@ -9,6 +9,7 @@ open System
 open System.Runtime.CompilerServices
 open StackExchange.Redis
 open Npgsql.FSharp
+open Newtonsoft.Json.Linq
 
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Templates.Base
@@ -155,8 +156,14 @@ let index (date: Release) (redis: Redis.Client) =
             let cm = ConnectionMultiplexer.Connect conStr
             let redisDb = cm.GetDatabase(2)
             let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
-        
-            redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
+            let result =
+                try
+                    JObject.Parse(newBody) |> ignore
+                    redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
+                with
+                    | :? Newtonsoft.Json.JsonReaderException -> printfn "Badly formed JSON. Not saving"; 
+            result |> ignore
+            
         else
             printfn("!!!!! Response from Redis too short. Not saving additional data.")
     [
