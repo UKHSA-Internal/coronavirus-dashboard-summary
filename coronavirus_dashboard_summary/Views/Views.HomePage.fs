@@ -143,8 +143,9 @@ let index (date: Release) (redis: Redis.Client) =
         let oldBodyLength = String.length dbRespString
         if oldBodyLength > 300 then
             let parentMetric = [|"vaccinationsAgeDemographics"|]
-            let results = readMetrics DBConnection date parentMetric        
-            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
+            let results = readMetrics DBConnection date parentMetric
+            let previousDay = date.AddDays -1
+            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], (previousDay.ToString "yyyy-MM-dd"))]
             let output = String.concat ", " nestedMetricJsonStrings
             
             let newHead = dbRespString.Replace("]", "")
