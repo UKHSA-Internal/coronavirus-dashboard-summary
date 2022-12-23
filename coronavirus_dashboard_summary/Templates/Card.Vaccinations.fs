@@ -45,7 +45,7 @@ let inline private Observation content =
 type private NumberItem with
     member inline this.Number areaType getter =
         let metricAreaType = getter this.metric "area_type"
-        
+        let metricDate = (System.DateTime.Parse (getter this.metric "date")).AddDays -1.0
         [
             meta [ _itemprop "name"; _content $"{ this.periodLabel } vaccinations - { this.label.ToLower() }" ]
             meta [
@@ -87,9 +87,9 @@ type private NumberItem with
                                     _itemprop "disambiguatingDescription"
                                 ] [
                                     match this.periodLabel with
-                                    | "Total" -> $"Total number of people vaccinated ({this.label.ToLower()}) reported on "
-                                    | _       -> $"Number of people vaccinated ({this.label.ToLower()}) in the 7 days to "
-                                    + getter this.metric "formattedDate"
+                                    | "Total" -> $"Total number of people vaccinated ({this.label.ToLower()}) up to and including "
+                                    | _       -> $"Percentage of people vaccinated ({this.label.ToLower()}) up to and including "
+                                    + metricDate.ToString("dd") + " " +  metricDate.ToString("MMMM") + " " + metricDate.ToString("yyyy") 
                                     |> encodedText
                                 ]
                             ]
@@ -253,7 +253,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                     getter headingMetric "area_type"
                     |> Components.areaTypeTag
                     span [ _class "card-timestamp" ] [
-                        encodedText $"""Up to and including { getter this.metadata.metric "formattedDate" }"""
+                        encodedText $"""Up to and including {(this.release.AddDays -1).Day} {(this.release.AddDays -1).ToString("MMMM")} {(this.release.AddDays -1).Year}"""
                     ]
                 ]
                 div [ _class "additional-info bottom-aligned" ] [

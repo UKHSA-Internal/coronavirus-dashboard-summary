@@ -9,6 +9,7 @@ open System
 open System.Runtime.CompilerServices
 open StackExchange.Redis
 open Npgsql.FSharp
+open Newtonsoft.Json.Linq
 
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Templates.Base
@@ -139,23 +140,37 @@ let index (date: Release) (redis: Redis.Client) =
         printfn "%s" "Present"
     else
         printfn "%s" "Not Present"
-        let parentMetric = [|"vaccinationsAgeDemographics"|]
-        let results = readMetrics DBConnection date parentMetric        
-        let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
-        let output = String.concat ", " nestedMetricJsonStrings
-        
-        let newHead = dbRespString.Replace("]", "")
-        let newBody = newHead + ", " + output + "]"
-
-        let keyDate = $"area-{date.isoDate}-ENGLAND"
-        printfn ("%s") keyDate
-        
-        let conStr = Environment.GetEnvironmentVariable "REDIS"
-        let cm = ConnectionMultiplexer.Connect conStr
-        let redisDb = cm.GetDatabase(2)
-        let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
-        redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
-        
+        let oldBodyLength = String.length dbRespString
+        if oldBodyLength > 300 then
+            let parentMetric = [|"vaccinationsAgeDemographics"|]
+            let results = readMetrics DBConnection date parentMetric
+            let previousDay = date.AddDays -1
+            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], (previousDay.ToString "yyyy-MM-dd"))]
+            let output = String.concat ", " nestedMetricJsonStrings
+            
+            let newHead = dbRespString.Replace("]", "")
+            let newBody = newHead + ", " + output + "]"
+            
+            let keyDate = $"area-{date.isoDate}-ENGLAND"
+            
+            let conStr = Environment.GetEnvironmentVariable "REDIS"
+            let cm = ConnectionMultiplexer.Connect conStr
+            let redisDb = cm.GetDatabase(2)
+            let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
+            let result =
+                try
+                    JArray.Parse(newBody) |> ignore
+                    let newBodyLength = String.length newBody
+                    if newBodyLength > 300 then
+                        redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
+                    else
+                        printfn("New JSON body is too short. Not saving.")
+                with
+                    | :? Newtonsoft.Json.JsonReaderException -> printfn "Badly formed JSON. Not saving"; 
+            result |> ignore
+            
+        else
+            printfn("!!!!! Response from Redis too short. Not saving additional data.")
     [
         yield! HomeHeading.Render
                     

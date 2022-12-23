@@ -116,7 +116,7 @@ type private PostCodeView(postcode, redis, telemetry) =
             |> List.map (fun item -> item.Key release redis telemetry)
             |> List.toArray
             
-        printfn ("%A") dbArray   
+        // printfn ("%A") dbArray   
             
         let dbRespString =
             dbArray
@@ -135,7 +135,7 @@ type private PostCodeView(postcode, redis, telemetry) =
         let keyList = [for x in dbResp.Keys -> x]  // Create a list of the keys retrieved from Redis
         let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage"; "PeopleVaccinatedAutumn22ByVaccinationDate"|]    
         
-        printfn ("%A") keyList
+        // printfn ("%A") keyList
         
         // Now check to see if our nested metrics are in the retrieved metrics
         if 
@@ -145,25 +145,25 @@ type private PostCodeView(postcode, redis, telemetry) =
             printfn "%s" "Present"
         else
             printfn "%s" "Not Present"
-            let parentMetric = [|"vaccinationsAgeDemographics"|]
-            
-            let keyDate = dbArray.[0]
-            printfn ("%s") keyDate
-            
-            let results = readMetrics DBConnection date parentMetric 997
-            let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
-            let output = String.concat ", " nestedMetricJsonStrings
-            
-            let newHead = dbRespString.Replace("]", "")
-            let newBody = newHead + ", " + output + "]"
-            
-            printfn ("%s") newBody
-            
-            let conStr = Environment.GetEnvironmentVariable "REDIS"
-            let cm = ConnectionMultiplexer.Connect conStr
-            let redisDb = cm.GetDatabase(2)
-            let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
-            printfn "%A" keyExpiry
+            // let parentMetric = [|"vaccinationsAgeDemographics"|]
+            //
+            // let keyDate = dbArray.[0]
+            // printfn ("%s") keyDate
+            //
+            // let results = readMetrics DBConnection date parentMetric 997
+            // let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], date.isoDate)]
+            // let output = String.concat ", " nestedMetricJsonStrings
+            //
+            // let newHead = dbRespString.Replace("]", "")
+            // let newBody = newHead + ", " + output + "]"
+            //
+            // printfn ("%s") newBody
+            //
+            // let conStr = Environment.GetEnvironmentVariable "REDIS"
+            // let cm = ConnectionMultiplexer.Connect conStr
+            // let redisDb = cm.GetDatabase(2)
+            // let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
+            // printfn "%A" keyExpiry
             // redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
             
         [
@@ -189,7 +189,7 @@ type private PostCodeView(postcode, redis, telemetry) =
                         error    = false
                     }
                 
-                printfn "%A" postcodeData
+                // printfn "%A" postcodeData
                 
                 match postcodeData.IsEmpty with
                 | true  -> index release redis
