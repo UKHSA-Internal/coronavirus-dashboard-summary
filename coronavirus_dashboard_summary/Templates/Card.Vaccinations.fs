@@ -45,7 +45,12 @@ let inline private Observation content =
 type private NumberItem with
     member inline this.Number areaType getter =
         let metricAreaType = getter this.metric "area_type"
-        let metricDate = (System.DateTime.Parse (getter this.metric "date")).AddDays -1.0
+        
+        let newDateLabel =
+            match (getter this.metric "date") with
+            | "N/A" -> "N/A"
+            | _ -> ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("dd") + " " + ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("MMMM") + " " + ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("yyyy") 
+                
         [
             meta [ _itemprop "name"; _content $"{ this.periodLabel } vaccinations - { this.label.ToLower() }" ]
             meta [
@@ -89,7 +94,7 @@ type private NumberItem with
                                     match this.periodLabel with
                                     | "Total" -> $"Total number of people vaccinated ({this.label.ToLower()}) up to and including "
                                     | _       -> $"Percentage of people vaccinated ({this.label.ToLower()}) up to and including "
-                                    + metricDate.ToString("dd") + " " +  metricDate.ToString("MMMM") + " " + metricDate.ToString("yyyy") 
+                                    + newDateLabel
                                     |> encodedText
                                 ]
                             ]
