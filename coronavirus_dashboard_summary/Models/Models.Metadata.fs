@@ -53,11 +53,11 @@ let CardMetadata: ContentMetadata[] = [|
         description         = "by date of specimen as of"
     }
     {
-        metric              = "newDeaths28DaysByDeathDate"
-        rate                = "newDeaths28DaysByDeathDateRollingRate"
-        sum                 = "newDeaths28DaysByDeathDateRollingSum"
+        metric              = "newDailyNsoDeathsByDeathDate"
+        rate                = null
+        sum                 = "newDailyNsoDeathsByDeathDateRollingSum"
         caption             = "Deaths"
-        heading             = "Deaths within 28 days of positive test"
+        heading             = "Deaths with COVID-19 on the death certificate"
         postcodeDestination = "ltla"
         rateOffset          = true
         postCodeOnly        = false
