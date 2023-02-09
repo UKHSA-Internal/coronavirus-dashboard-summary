@@ -30,7 +30,7 @@ FROM covid19.time_series_p{date.partitionDate}_msoa
          JOIN covid19.metric_reference AS mr ON mr.id = metric_id
          JOIN covid19.release_reference AS rr ON rr.id = release_id
  WHERE area_id = @areaid
-  AND date > (DATE(@date) - INTERVAL '30 days')
+  AND date > (DATE(@date) - INTERVAL '40 days')
   AND metric = 'vaccinationsAgeDemographics'
   AND payload IS NOT NULL)
     UNION
@@ -44,7 +44,7 @@ FROM covid19.time_series_p{date.partitionDate}_ltla
          JOIN covid19.metric_reference AS mr ON mr.id = metric_id
          JOIN covid19.release_reference AS rr ON rr.id = release_id
  WHERE area_id = @areaid
-  AND date > (DATE(@date) - INTERVAL '30 days')
+  AND date > (DATE(@date) - INTERVAL '40 days')
   AND metric = 'vaccinationsAgeDemographics'
   AND payload IS NOT NULL)
     UNION
@@ -58,7 +58,7 @@ FROM covid19.time_series_p{date.partitionDate}_utla
          JOIN covid19.metric_reference AS mr ON mr.id = metric_id
          JOIN covid19.release_reference AS rr ON rr.id = release_id
 WHERE area_id = @areaid
-  AND date > (DATE(@date) - INTERVAL '30 days')
+  AND date > (DATE(@date) - INTERVAL '40 days')
   AND metric = 'vaccinationsAgeDemographics'
   AND payload IS NOT NULL)
 ORDER BY rank LIMIT 1;

@@ -30,7 +30,7 @@ let private nestedMetricsQuery (date: TimeStamp.Release) = $"\
              JOIN covid19.metric_reference AS mr ON mr.id = metric_id
              JOIN covid19.release_reference AS rr ON rr.id = release_id
     WHERE area_name = 'England'
-      AND date > (DATE(@date) - INTERVAL '30 days')
+      AND date > (DATE(@date) - INTERVAL '40 days')
       AND metric = 'vaccinationsAgeDemographics'
       AND payload IS NOT NULL
     ORDER BY rank LIMIT 1;
