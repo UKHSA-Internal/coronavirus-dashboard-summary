@@ -98,31 +98,31 @@ let readMetrics (connectionString: string) (releaseDate: Release) (metrics: stri
 
 type private PostCodeView(postcode, redis, telemetry) =
     let release = ReleaseTimestamp()
-      
+
     // Get local areas associated with the postcode
     let postcodeAreas =
         PostCode.Model(redis, release, Validators.ValidatePostcode postcode, telemetry).PostCodeAreas
         |> Async.RunSynchronously
-        
+
     member _.postCodeFound
         with get() = List.isEmpty postcodeAreas
                      |> not
-        
+
     member private _.getContent (postcodeData: DB.PostCodeDataPayload list) =
         let date = ReleaseTimestamp()
-        
-        let dbArray = 
+
+        let dbArray =
             postcodeData
             |> List.map (fun item -> item.Key release redis telemetry)
             |> List.toArray
-            
-        // printfn ("%A") dbArray   
-            
+
+        // printfn ("%A") dbArray
+
         let dbRespString =
             dbArray
             |> redis.GetAllAsync
             |> Async.RunSynchronously
-        
+
         let dbResp =
             dbRespString
             |> Json.deserialize<DB.Payload List>
@@ -131,16 +131,16 @@ type private PostCodeView(postcode, redis, telemetry) =
             |> Metrics.GeneralPayload
 
         //printfn ("%A") dbResp
-        
+
         let keyList = [for x in dbResp.Keys -> x]  // Create a list of the keys retrieved from Redis
-        let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage"; "PeopleVaccinatedAutumn22ByVaccinationDate"|]    
-        
+        let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"; "cumPeopleVaccinatedAutumn22ByVaccinationDate50+"|]
+
         // printfn ("%A") keyList
-        
+
         // Now check to see if our nested metrics are in the retrieved metrics
-        if 
-            (List.contains "cumVaccinationAutumn22UptakeByVaccinationDatePercentage" keyList) ||
-            (List.contains "PeopleVaccinatedAutumn22ByVaccinationDate" keyList)
+        if
+            (List.contains "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+" keyList) ||
+            (List.contains "cumPeopleVaccinatedAutumn22ByVaccinationDate50+" keyList)
         then
             printfn "%s" "Present"
         else
@@ -165,17 +165,17 @@ type private PostCodeView(postcode, redis, telemetry) =
             // let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
             // printfn "%A" keyExpiry
             // redisDb.StringSet(RedisKey.op_Implicit keyDate, RedisValue.op_Implicit newBody, keyExpiry) |> ignore
-            
+
         [
             PostCodeHeading.Render postcode
-            
+
             CardMetadata
             |> Array.Parallel.map (fun metadata -> metadata.Card release dbResp postcode)
             |> List.concat
             |> Body.Render
         ]
-        
-    member this.postcodeData =        
+
+    member this.postcodeData =
         postcodeAreas
         |> (fun postcodeData ->
                 let layout: LayoutPayload =
@@ -188,9 +188,9 @@ type private PostCodeView(postcode, redis, telemetry) =
                                    | _ -> null
                         error    = false
                     }
-                
+
                 // printfn "%A" postcodeData
-                
+
                 match postcodeData.IsEmpty with
                 | true  -> index release redis
                 | false -> postcodeData |> this.getContent
@@ -205,17 +205,17 @@ let PostCodePageHandler: HttpHandler =
             match responseCachingFeature with
             | null -> null |> ignore
             | _    -> responseCachingFeature.VaryByQueryKeys <- [| "postcode" |]
-            
+
             let postcode =
                 ctx.TryGetQueryStringValue "postcode"
                 |> Option.defaultValue String.Empty
-                
+
             let redis     = ctx.GetService<Redis.Client>()
             let telemetry = ctx.GetService<TelemetryClient>()
             let view      = PostCodeView(postcode.ToUpper(), redis, telemetry)
-            
+
             if not view.postCodeFound
                 then ctx.SetStatusCode 404
-            
+
             return! ctx.WriteHtmlViewAsync view.postcodeData
         }

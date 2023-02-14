@@ -1,4 +1,4 @@
-module coronavirus_dashboard_summary.Views.HomePageView 
+module coronavirus_dashboard_summary.Views.HomePageView
 
 open Giraffe
 open Microsoft.ApplicationInsights
@@ -14,7 +14,7 @@ open Newtonsoft.Json.Linq
 open coronavirus_dashboard_summary.Models
 open coronavirus_dashboard_summary.Templates.Base
 open coronavirus_dashboard_summary.Templates
-open coronavirus_dashboard_summary.Utils    
+open coronavirus_dashboard_summary.Utils
 open coronavirus_dashboard_summary.Utils.TimeStamp
 open coronavirus_dashboard_summary.Utils.Constants
 
@@ -81,11 +81,11 @@ let readMetrics (connectionString: string) (releaseDate: Release) (metrics: stri
         })
 
 let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload, entryDate: String) =
-        
+
     let getData data : string = match data with
                                             | None -> ""
                                             | Some data -> data
-    
+
     let jsonInput = getData (dbResult.value)  // String is no longer optional
     let position50plus = jsonInput.IndexOf "\"age\": \"50+\""
     let string50plus = jsonInput.[position50plus..position50plus+2000]
@@ -93,8 +93,8 @@ let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload, entryDate: S
     let stringNestedMetric = string50plus.[positionNestedMetric..positionNestedMetric+100]
     let startNestedMetric = stringNestedMetric.IndexOf ": "
     let endNestedMetric = stringNestedMetric.IndexOf ","
-    let actualNestedMetric = stringNestedMetric.[startNestedMetric+2..endNestedMetric-1] 
-    
+    let actualNestedMetric = stringNestedMetric.[startNestedMetric+2..endNestedMetric-1]
+
     // Serialize new entry
     let dateVal = entryDate
     let dateStr = $"\"date\": \"%s{dateVal}\""
@@ -111,31 +111,30 @@ let jsonCacheString50Plus (nestedMetric: string, dbResult: Payload, entryDate: S
     let areanameStr = $"\"area_name\": \"%s{areanameVal}\""
     let areatypeVal = "nation"
     let areatypeStr = $"\"area_type\": \"%s{areatypeVal}\""
-    
-    "{" + $"%s{dateStr}, %s{valueStr}, %s{metricStr}, %s{priorityStr}, %s{areacodeStr}, %s{areanameStr}, %s{areatypeStr}" + "}"
-            
 
-let index (date: Release) (redis: Redis.Client) =    
- 
+    "{" + $"%s{dateStr}, %s{valueStr}, %s{metricStr}, %s{priorityStr}, %s{areacodeStr}, %s{areanameStr}, %s{areatypeStr}" + "}"
+
+let index (date: Release) (redis: Redis.Client) =
+
     let dbRespString =
         [|$"area-{date.isoDate}-ENGLAND"|]
-        |> redis.GetAllAsync 
+        |> redis.GetAllAsync
         |> Async.RunSynchronously
-        
+
     let dbResp =
         dbRespString
         |> Json.deserialize<DB.Payload list>
         |> List.groupBy Filters.GroupByMetric
         |> List.map Filters.GroupByPriorityAttribute
         |> Metrics.GeneralPayload
-      
+
     let keyList = [for x in dbResp.Keys -> x]  // Create a list of the keys retrieved from Redis
-    let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage"; "PeopleVaccinatedAutumn22ByVaccinationDate"|]    
-    
+    let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"; "cumPeopleVaccinatedAutumn22ByVaccinationDate50+"|]
+
     // Now check to see if our nested metrics are in the retrieved metrics
-    if 
-        (List.contains "cumVaccinationAutumn22UptakeByVaccinationDatePercentage" keyList) ||
-        (List.contains "PeopleVaccinatedAutumn22ByVaccinationDate" keyList)
+    if
+        (List.contains "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+" keyList) ||
+        (List.contains "cumPeopleVaccinatedAutumn22ByVaccinationDate50+" keyList)
     then
         printfn "%s" "Present"
     else
@@ -147,12 +146,12 @@ let index (date: Release) (redis: Redis.Client) =
             let previousDay = date.AddDays -1
             let nestedMetricJsonStrings = [for nestedMetric in nestedMetrics do jsonCacheString50Plus(nestedMetric, results.[0], (previousDay.ToString "yyyy-MM-dd"))]
             let output = String.concat ", " nestedMetricJsonStrings
-            
+
             let newHead = dbRespString.Replace("]", "")
             let newBody = newHead + ", " + output + "]"
-            
+
             let keyDate = $"area-{date.isoDate}-ENGLAND"
-            
+
             let conStr = Environment.GetEnvironmentVariable "REDIS"
             let cm = ConnectionMultiplexer.Connect conStr
             let redisDb = cm.GetDatabase(2)
@@ -166,14 +165,14 @@ let index (date: Release) (redis: Redis.Client) =
                     else
                         printfn("New JSON body is too short. Not saving.")
                 with
-                    | :? Newtonsoft.Json.JsonReaderException -> printfn "Badly formed JSON. Not saving"; 
+                    | :? Newtonsoft.Json.JsonReaderException -> printfn "Badly formed JSON. Not saving";
             result |> ignore
-            
+
         else
             printfn("!!!!! Response from Redis too short. Not saving additional data.")
     [
         yield! HomeHeading.Render
-                    
+
         MetaData.CardMetadata
         |> Array.Parallel.map (fun metadata -> metadata.Card date dbResp null)
         |> List.concat
