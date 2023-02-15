@@ -63,6 +63,18 @@ WHERE area_id = @areaid
   AND payload IS NOT NULL)
 ORDER BY rank LIMIT 1;
 "
+
+type Payload =
+    {
+        date:      string
+        area_code: string
+        area_type: string
+        area_name: string
+        metric:    string
+        value:     string option
+        priority:  int
+    }
+
 let private DBConnection =
     Sql.host (Environment.GetEnvironmentVariable "POSTGRES_HOST")
     |> Sql.database (Environment.GetEnvironmentVariable "POSTGRES_DATABASE")
