@@ -156,7 +156,7 @@ let index (date: Release) (redis: Redis.Client) =
             let conStr = Environment.GetEnvironmentVariable "REDIS"
             let cm = ConnectionMultiplexer.Connect conStr
             let redisDb = cm.GetDatabase(2)
-            let keyExpiry = TimeSpan(Random().Next(3, 12), Random().Next(0, 60), Random().Next(0, 60))
+            let keyExpiry = TimeSpan(Random().Next(670, 700), Random().Next(0, 60), Random().Next(0, 60))
             let result =
                 try
                     JArray.Parse(newBody) |> ignore
