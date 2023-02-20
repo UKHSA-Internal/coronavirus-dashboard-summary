@@ -17,40 +17,40 @@ type private NumberItem =
         label:       string
         periodLabel: string
     }
-    
+
 let private contentMetadata =
     [
         ("second", [
             {
-              metric      = "PeopleVaccinatedAutumn22ByVaccinationDate"
+              metric      = "cumPeopleVaccinatedAutumn22ByVaccinationDate50+"
               percentage  = null
               label       = "autumn booster (aged 50+)"
               periodLabel = "Total"
             }
             {
-              metric      = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
-              percentage  = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage"
+              metric      = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"
+              percentage  = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"
               label       = "Autumn booster"
               periodLabel = "Percentage"
             }
         ])
-        
-    ] 
+
+    ]
 
 let inline private Observation content =
     li [ _itemprop "Observation"; _itemtype "https://schema.org/Observation"; _itemscope ]
-        [ yield! content ]  
+        [ yield! content ]
 
 
 type private NumberItem with
     member inline this.Number areaType getter =
         let metricAreaType = getter this.metric "area_type"
-        
+
         let newDateLabel =
             match (getter this.metric "date") with
             | "N/A" -> "N/A"
-            | _ -> ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("dd") + " " + ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("MMMM") + " " + ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("yyyy") 
-                
+            | _ -> ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("dd") + " " + ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("MMMM") + " " + ((System.DateTime.Parse (getter this.metric "date")).AddDays -1.0).ToString("yyyy")
+
         [
             meta [ _itemprop "name"; _content $"{ this.periodLabel } vaccinations - { this.label.ToLower() }" ]
             meta [
@@ -86,7 +86,7 @@ type private NumberItem with
                                 | true -> getter this.metric "formattedValue"
                                 | _ -> Generic.NotAvailable
                                 |> encodedText
-                                
+
                                 span [
                                     _class "tooltiptext govuk-!-font-size-16"
                                     _itemprop "disambiguatingDescription"
@@ -103,10 +103,10 @@ type private NumberItem with
                 ]
             ]
         ] |> Observation
-        
+
     member inline this.Percentage areaType getter =
         let metricAreaType = getter this.percentage "area_type"
-        
+
         [
             meta [ _itemprop "name"; _content $"{this.periodLabel} vaccinations - {this.label.ToLower()}" ]
             meta [
@@ -140,11 +140,11 @@ type private NumberItem with
                                     _class "tooltiptext govuk-!-font-size-16"
                                     _itemprop "disambiguatingDescription"
                                 ] []
-                                
+
                                 span [ _class "tooltiptext govuk-!-font-size-16"; _itemprop "disambiguatingDescription"] [
                                     $"Percentage of people aged 50+ ({ this.label.ToLower() }) reported on "
                                     + getter this.percentage "formattedDate"
-                                    |> encodedText   
+                                    |> encodedText
                                 ]
                             ]
                         ]
@@ -169,13 +169,13 @@ type private NumberItem with
 
 
 type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
-    
+
     member this.metadata
         with get() = metadata
-        
+
     member this.release
         with get() = release
-    
+
     member this.Render (getter: string -> string -> string) =
         let headingMetric = "newPeopleVaccinatedFirstDoseByPublishDateRollingSum"
         let areaType = getter headingMetric "area_type"
@@ -183,7 +183,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 match getter headingMetric "trimmedAreaName" with
                        | "" -> ""
                        | _  -> " in "
-                       
+
         li [ _class "vaccinations"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
             meta [ _itemprop "datePosted"; _content this.release.isoTimestamp ]
             meta [ _itemprop "category"; _content "https://www.wikidata.org/wiki/Q81068910" ]
@@ -197,17 +197,17 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 _style "grid-column: -1; display: none"
                 _itemscope
                 _itemprop "spatialCoverage"
-                
+
                 "http://schema.org/"
                 + match getter headingMetric "area_name" with
                   | "United Kingdom" -> "Country"
                   | _                -> "AdministrativeArea"
-                |> _itemtype 
+                |> _itemtype
             ] [
                 meta [ _itemprop "name"; getter headingMetric "area_name" |> _content ]
                 meta [
                     _itemprop "sameAs"
-                    
+
                     "https://en.wikipedia.org/wiki/"
                     + getter headingMetric "area_name"
                     |> _content
@@ -215,7 +215,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
             ]
             meta [
                 _itemprop "mainEntityOfPage"
-                
+
                 $"{ Generic.UrlLocation }/details/{ this.metadata.caption.ToLower() }"
                 + match areaType with
                   | AreaTypes.Overview -> ""
@@ -236,14 +236,14 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 + ", "
                 + getter (snd contentMetadata.[0]).[0].metric "formattedValue"
                 + " people aged 12+ had been given a first dose, "
-               
+
                 + getter (snd contentMetadata.[0]).[1].metric "formattedDate"
                 + ", "
                 + getter (snd contentMetadata.[0]).[1].metric "formattedValue"
                 + " ("
                 + getter (snd contentMetadata.[0]).[1].percentage "formattedValue"
                 + "%) of people aged 12+ have received a first dose, "
-              
+
                 |> _content
             ]
             div [ _class "topic" ] [
@@ -265,18 +265,18 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                     p [ _class "govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-font-size-16" ] [
                         meta [
                             _itemprop "url"
-                            
+
                             $"/details/{ this.metadata.caption.ToLower() }"
                             + "?areaType=" + (getter headingMetric "area_type")
                             + "&areaName=" + (getter headingMetric "area_name")
-                            |> _content 
+                            |> _content
                         ]
                         a [
                             $"/details/{ this.metadata.caption.ToLower() }"
                             + "?areaType=" + (getter headingMetric "area_type")
                             + "&areaName=" + (getter headingMetric "area_name")
                             |> _href
-                            
+
                             _class "govuk-link govuk-link--no-visited-state bottom-aligned govuk-!-margin-top-2 ext-link"
                         ] [
                             strong [] [
@@ -288,7 +288,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                     ]
                 ]
             ]
-            
+
             yield!
                 contentMetadata
                 |> List.map (fun pair ->
@@ -297,13 +297,13 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                                         snd pair
                                         |> List.map (fun cnt -> cnt.Number areaType getter)
                                 ])
-            
+
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
                     encodedText "Percentage of people aged 50+"
                 ]
                 figcaption [] [
-                    
+
                 ]
                 div [ _class "graph"; _ariaHidden "true" ] [
                     a [
@@ -311,7 +311,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                         + $"?areaType={ areaType.ToLower() }"
                         + "&areaName=" + (getter headingMetric "area_name")
                         |> _href
-                        
+
                         _class "govuk-link govuk-link--no-visited-state bottom-aligned"
                     ] [
                         img [
@@ -320,7 +320,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             + "/" + getter this.metadata.metric "area_code"
                             + "_50_plus_thumbnail.svg"
                             |> _src
-                            
+
                             "Chart displaying the percentage of population aged 50+ given an autumn booster in "
                             + getter this.metadata.metric "area_name"
                             |> _alt
@@ -333,18 +333,18 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 p [ _class "bottom-aligned govuk-!-margin-top-2 govuk-!-font-size-16 govuk-!-margin-bottom-0" ] [
                     meta [
                         _itemprop "url"
-                        
+
                         $"/details/{ this.metadata.caption.ToLower() }"
                         + "?areaType=" + (getter headingMetric "area_type")
                         + "&areaName=" + (getter headingMetric "area_name")
-                        |> _content 
+                        |> _content
                     ]
                     a [
                         $"/details/{ this.metadata.caption.ToLower() }"
                         + "?areaType=" + (getter headingMetric "area_type")
                         + "&areaName=" + (getter headingMetric "area_name")
                         |> _href
-                        
+
                         _class "govuk-link govuk-link--no-visited-state bottom-aligned govuk-!-margin-top-2"
                     ] [
                         strong [] [
