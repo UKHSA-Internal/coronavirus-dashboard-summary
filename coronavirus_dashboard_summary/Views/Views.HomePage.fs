@@ -179,7 +179,7 @@ let HomePageHandler =
                 {
                     date     = release
                     banners  = Banners.Render redis release telemetry
-                    title    = "England: Summary"
+                    title    = "England Summary"
                     postcode = null
                     error    = false
                 }
