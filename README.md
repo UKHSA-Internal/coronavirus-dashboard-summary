@@ -2,7 +2,7 @@
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/publichealthengland/coronavirus-dashboard-summary)
 
-This is the source code for the [Coronavirus Dashboard](https://coronavirus.data.gov.uk) serving the home page and postcode page.
+This is the source code for the [Coronavirus Dashboard](https://coronavirus.data.gov.uk) serving the home page and postcode page. 
 
 ## Other services
 
@@ -87,3 +87,5 @@ additional information.
 
 ## Credits
 This service is developed and maintained by [UK Health Security Agency](https://www.gov.uk/government/organisations/uk-health-security-agency).
+
+

@@ -33,7 +33,7 @@ FROM (
     JOIN covid19.area_reference    AS ar ON ar.id = main.area_id
     WHERE
           area_type = 'overview'
-      AND date > ( DATE(@date) - INTERVAL '30 days' )
+      AND date > ( DATE(@date) - INTERVAL '40 days' )
       AND metric = ANY( @metrics::VARCHAR[] )
     GROUP BY area_type, area_code, date, metric
 ) AS result
@@ -80,7 +80,7 @@ let private fetch (redis: Redis.Client) (date: TimeStamp.Release) (metrics: stri
                     $"area-{date.isoDate}-ENGLAND"
                     result
                     {
-                        hours   = Random().Next(3, 12)
+                        hours   = 5000
                         minutes = Random().Next(0, 60)
                         seconds = Random().Next(0, 60)
                     } 
