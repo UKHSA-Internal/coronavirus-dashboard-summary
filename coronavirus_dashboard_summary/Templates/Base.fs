@@ -12,7 +12,7 @@ open coronavirus_dashboard_summary.Templates.Footer
 open coronavirus_dashboard_summary.Templates.Header
 
 module Base =
-    
+
     [<IsReadOnly>]
     type LayoutPayload =
         {
@@ -22,15 +22,15 @@ module Base =
             postcode: string
             error:    bool
         }
-            
+
     let private ApiEnv = Environment.GetEnvironmentVariable "API_ENV"
-    
+
     let private localZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/London")
-        
+
     [<Literal>]
     let private PageDescription =
         "Official Coronavirus (COVID-19) disease situation dashboard with latest data in the UK."
-        
+
     let private envMetaTags =
         match ApiEnv with
         | "PRODUCTION" ->
@@ -46,7 +46,7 @@ module Base =
                 meta [ _name "googlebot-news"; _content "noindex,nosnippet,nofollow" ]
                 meta [ _name "AdsBot-Google"; _content "noindex,nofollow" ]
             ]
-    
+
     let inline private TailCards ( content: XmlNode ): XmlNode =
         article [] [
             header [] [
@@ -56,7 +56,7 @@ module Base =
             ]
             div [ _class "card-container double-row" ] [
                 content
-                
+
                 section [
                     _class "mini-card map-view"
                     _itemtype "https://schema.org/WebContent"
@@ -96,7 +96,7 @@ module Base =
                             ]
                             a [ _href "/details/interactive-map/cases"; _class "govuk-button"; _rel "nofollow" ] [
                                 encodedText "View maps"
-                            ]  
+                            ]
                         ]
                     ]
                     div [ _style "text-align: center"; _ariaHidden "true"; _itemprop "thumbnailUrl" ] [
@@ -114,14 +114,14 @@ module Base =
                 ]
             ]
         ]
-        
+
     type LayoutPayload with
 
         member this.Render (content: XmlNode list): XmlNode =
             // Windows only:
             // let localZone = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time")
             let localDate = TimeZoneInfo.ConvertTime(this.date.timestamp, TimeZoneInfo.Utc, localZone)
-            
+
             html [_lang "en"; _itemtype "https://schema.org/WebSite"; _itemscope] [
                 head [] [
                     meta [_charset "utf-8"]
@@ -134,9 +134,9 @@ module Base =
                     meta [ _property "og:locale"; _content "en_GB" ]
                     meta [ _name "instrumentation_key"; _content Generic.InstrumentationKey ]
                     baseTag [ _href Generic.UrlLocation ]
-                    
+
                     yield! envMetaTags
-                    
+
                     meta [
                         _property "og:image"
                         _content $"{Generic.UrlLocation}/public/assets/summary/images/opengraph-image.png"
@@ -149,24 +149,24 @@ module Base =
                         _itemprop "copyrightNotice"
                         _content "All content is available under the Open Government Licence v3.0; except where otherwise stated."
                     ]
-                    
+
                     meta [ _name "description"; _itemprop "abstract"; _content PageDescription ]
                     meta [ _name "og:description"; _content PageDescription ]
                     meta [ _name "twitter:description"; _content PageDescription ]
-                    
+
                     meta [ _name "logo"; _content $"{Generic.UrlLocation}/public/assets/summary/icon/favicon.png" ]
-                    
+
                     link [ _rel "apple-touch-icon"; _href $"{Generic.UrlLocation}/public/assets/summary/icon/favicon.png" ]
                     link [ _rel "icon"; _href $"{Generic.UrlLocation}/public/assets/summary/icon/favicon.ico" ]
                     link [ _rel "manifest"; _href $"{Generic.UrlLocation}/manifest.json" ]
-                    
+
                     meta [ _property "url"; _itemprop "url"; _content Generic.UrlLocation ]
                     meta [ _property "og:url"; _content Generic.UrlLocation ]
 
                     title [ _itemprop "name" ] [ encodedText $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
                     meta [ _property "og:title"; _content $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
                     meta [ _name "twitter:title"; _content $"{ this.title } | Coronavirus (COVID-19) in the UK" ]
-                    
+
                     link [
                         _rel "preload"
                         _as "font"
@@ -188,22 +188,23 @@ module Base =
                         _crossorigin
                         _href $"{Generic.UrlLocation}/public/assets/summary/css/application.css"
                     ]
-                                                          
+
                     link [
                         _rel  "stylesheet"
                         _type "text/css"
-                        
+
                         match Generic.IsDev with
                         | false -> $"{Generic.UrlLocation}/public/assets/summary/css/application.css"
-                        | true  -> "css/application.css"
-                        |> _href 
+                        // | true  -> "css/application.css"
+                        | true -> "https://coronavirus.data.gov.uk/public/assets/summary/css/application.css"
+                        |> _href
                     ]
-                    
+
                     script [ _type "application/javascript"; _async; _src "https://www.google-analytics.com/analytics.js"] []
                     script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/mscl.js"] []
                     script [ _type "application/javascript"; _src $"{Generic.UrlLocation}/public/assets/summary/js/gat.js"] []
                     script [ _type "application/javascript"; _async; _src $"{Generic.UrlLocation}/public/assets/summary/js/cookies.js"] []
-                    
+
                     style [ _type "text/css" ] [
                         match this.banners.changeLogs with
                         | None   -> String.Empty
@@ -213,15 +214,15 @@ module Base =
                 ]
                 body [ _class "govuk-template__body" ] [
                     yield! GovUKHeader
-                    
+
                     Navigation.RenderMobile
-                    
+
                     match this.banners.changeLogs with
                     | None   -> String.Empty |> rawText
                     | Some v -> v
-                    
+
                     this.banners.announcements
-                    
+
                     div [ _class "govuk-width-container" ] [
                         div [ _class "govuk-!-margin-top-5 govuk-!-margin-bottom-5"; attr "role" "region"; _ariaLabelledBy "last-update"] [
                             p [ _class "govuk-body-s"; _id "last-update" ] [
@@ -243,7 +244,7 @@ module Base =
                                 Navigation.RenderDesktop
                                 main [ _class "main"; _id "main-content" ] [
                                     yield! content
-                                    
+
                                     match this.error with
                                     | false -> PostCodeSearch.Render this.postcode |> TailCards
                                     | true  -> rawText String.Empty
@@ -255,4 +256,4 @@ module Base =
                     script [ _type "application/javascript"; _defer; _src $"{Generic.UrlLocation}/public/assets/summary/js/msai.js"] []
                     script [ _type "application/javascript"; _defer; _src $"{Generic.UrlLocation}/public/assets/summary/js/mobile_menu.js"] []
                 ]
-            ]        
+            ]
