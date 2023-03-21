@@ -89,18 +89,6 @@ let CardMetadata: ContentMetadata[] = [|
         description         = null
     }
     {
-        metric              = "transmissionRateMin"
-        rate                = null
-        sum                 = null
-        caption             = "Transmission"
-        heading             = "R value"
-        postcodeDestination = null
-        rateOffset          = false
-        postCodeOnly        = true
-        landingOnly         = false
-        description         = null
-    }
-    {
         metric              = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"
         rate                = null
         sum                 = null
