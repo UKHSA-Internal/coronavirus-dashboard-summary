@@ -318,6 +318,8 @@ module Card =
                 | false, _, true -> []
                 
                 // Postcode-specific cards (valid postcode + postcode-only card)
+                // TODO: check if only Transmission card (now removed) uses this scenario
+                //       and eventually remove/modify it
                 | false, true, _ ->
                     match String.IsNullOrEmpty this.caption with
                     // Caption not empty - the only postcode-only card with caption is
