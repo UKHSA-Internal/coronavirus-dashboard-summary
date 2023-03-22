@@ -46,7 +46,7 @@ module Card =
                     ]
                 ]
             ]
-            
+
         member inline private this.last7Days getter =
             let changePayload: WeeklyChange.Payload =
                 {
@@ -54,7 +54,7 @@ module Card =
                     heading = this.heading
                     caption = this.caption
                 }
-                
+
             li [ _class "data-metric2" ] [
                 strong [ _class "govuk-body-s float govuk-!-margin-top-3 govuk-!-margin-bottom-0" ] [
                     encodedText "Last 7 days"
@@ -107,14 +107,14 @@ module Card =
                         ]
                     ]
                 ]
-                
+
                 changePayload.Render getter
             ]
-            
+
         member inline private this.CardMetaText (getter: string -> string -> string) =
             meta [
                 _itemprop "text"
-                
+
                 match this.caption with
                 | "Cases" ->
                     "A confirmed case is someone who has tested positive for coronavirus. There were "
@@ -160,23 +160,23 @@ module Card =
                 {
                     isPostcode = isPostcode
                     caption    = this.caption
-                    metric     = this.metric                                   
+                    metric     = this.metric
                     metricData = metricData
                     date       = date
                 }
-                
+
             let areaNameConnector =
                 match getter this.metric "trimmedAreaName" with
                 | "" -> String.Empty
-                | _  -> " in " 
+                | _  -> " in "
 
             li [ _class "mini-card"; _itemtype "https://schema.org/SpecialAnnouncement"; _itemprop "SpecialAnnouncement"; _itemscope ] [
-                
-                // Card micro data 
+
+                // Card micro data
                 // ---------------
                 // Date of update
                 meta [ _itemprop "datePosted"; _content date.isoTimestamp ]
-                
+
                 // Expiry date
                 meta [
                     _itemprop "expires"
@@ -184,106 +184,106 @@ module Card =
                     |> Formatter.toIsoString
                     |> _content
                 ]
-                
+
                 // Content category
                 meta [ _itemprop "category"; _content "https://www.wikidata.org/wiki/Q81068910" ]
-                
+
                 // Entity
                 meta [
                     _itemprop "mainEntityOfPage"
-                    
+
                     $"{ Generic.UrlLocation }/details/{ this.caption.ToLower() }"
                     + match metricData "area_name" with
                       | AreaTypes.Overview -> ""
                       | _ -> "?areaType=" + metricData "area_type" + "&areaName=" + metricData "area_name"
                     |> _content
                 ]
-                
+
                 // Description
                 this.CardMetaText getter
-                
+
                 // Geographical coverage
                 span [
                     _style "grid-column: -1; display: none"
                     _itemscope
                     _itemprop "spatialCoverage"
-                    
+
                     "http://schema.org/"
                     + match metricData "area_name" with
                       | "United Kingdom" -> "Country"
                       | _ -> "AdministrativeArea"
-                    |> _itemtype 
+                    |> _itemtype
                 ] [
                     meta [ _itemprop "name"; metricData "area_name" |> _content ]
                     meta [
                         _itemprop "sameAs"
-                        
+
                         "https://en.wikipedia.org/wiki/"
                         + metricData "area_name"
                         |> _content
                     ]
                 ]
-                
+
                 // Caption
                 strong [
                     _class "govuk-caption-m govuk-!-font-weight-regular"
                     _itemprop "name"
                 ] [ encodedText this.caption ]
-                
+
                 // Area name
                 h4 [ _class "govuk-heading-m title-mobile govuk-!-margin-bottom-0" ] [
                     $"{ this.heading } { areaNameConnector } " + metricData "trimmedAreaName"
                     |> encodedText
                 ]
-                
+
                 // Area type
                 p [ _class "grey govuk-!-font-size-14 govuk-!-margin-bottom-0 govuk-!-margin-top-0" ] [
                     getter this.metric "area_type"
                     |> Components.areaTypeTag
-                    
+
                     span [ _class "card-timestamp" ] [
                         "Up to and including "
                         |> encodedText
-                        
+
                         time [ _style "white-space: nowrap"; _datetime (getter this.sum "date")  ] [
                             getter this.sum "formattedDate"
                             |> encodedText
                         ]
                     ]
                 ]
-                
+
                 // Numeric values
                 div [ _class "govuk-grid-row bottom-aligned" ] [
                     ul [ _class "govuk-grid-column-full" ] [
                         // Uncomment next line to show daily values:
                         // this.dailySection getter
-                        
+
                         // Last 7 days
                         this.last7Days getter
                     ]
                 ]
-                
+
                 RateDetail.Render this getter
                 thumbnail.Render
 
                 hr [ _class "govuk-section-break govuk-section-break--visible bottom-aligned" ]
                 div [ _class "additional-info bottom-aligned" ] [
                     p [ _class "govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-font-size-16" ] [
-                        
+
                         // Micro data URL to details pages.
                         meta [
                             _itemprop "url"
-                            
+
                             $"/details/{this.caption.ToLower()}"
                             + "?areaType=" + (metricData "area_type")
                             + "&areaName=" + (metricData "area_name")
-                            |> _content 
+                            |> _content
                         ]
-                        
+
                         // URL to details pages
                         a [
                             _class "govuk-link govuk-link--no-visited-state"
-                            
+
                             $"/details/{this.caption.ToLower()}"
                             + "?areaType=" + (metricData "area_type")
                             + "&areaName=" + (metricData "area_name")
@@ -292,13 +292,13 @@ module Card =
                             strong [] [
                                 $"All { this.caption.ToLower() } data { areaNameConnector } "
                                 + metricData "trimmedAreaName"
-                                |> encodedText 
+                                |> encodedText
                             ]
                         ]
                     ]
                 ]
             ]
-              
+
         /// <summary>
         /// Renders cards based on the attributes present in the struct.
         /// </summary>
@@ -308,7 +308,7 @@ module Card =
         member this.Card (release: TimeStamp.Release) (payload: Metrics.GeneralPayload) (postcode: string): XmlNode list =
             // let getter = Metrics.Processor
             let emptyPostcode = String.IsNullOrEmpty postcode
-            
+
             // If there is an error in processing a card, the card should be removed
             // to prevent the page from crashing. This will be noticed during the QA
             // and a decision would be made on how to proceed.
@@ -316,20 +316,22 @@ module Card =
                 match (emptyPostcode, this.postCodeOnly, this.landingOnly) with
                 // Valid postcode + landing only card
                 | false, _, true -> []
-                
+
                 // Postcode-specific cards (valid postcode + postcode-only card)
+                // TODO: Check if only Transmission card (now removed) uses this scenario
+                //       and eventually remove/modify it.
                 | false, true, _ ->
                     match String.IsNullOrEmpty this.caption with
                     // Caption not empty - the only postcode-only card with caption is
-                    // transmission. Note that this might have to be altered (likely 
+                    // transmission. Note that this might have to be altered (likely
                     // with separate boolean flag added to the struct) if we add
-                    // another postcode-specific card. 
+                    // another postcode-specific card.
                     | false -> [ Transmission.Card this payload.GetValue ]
-                        
+
                     // Caption is empty - lead section of the postcode page does not
                     // have a caption, but is a postcode-only section.
                     | _     -> PostCodeLead.Render (postcode.ToUpper()) payload.GetValue release
-                    
+
                 // Generic cards
                 | true,  false, _   // Valid postcode + generic card
                 | false, false, _   ->  // No postcode + generic card
@@ -338,13 +340,13 @@ module Card =
                         [ Vaccinations.Payload(this, release).Render payload.GetValue ]
                     | _              ->  // Any other card
                         [ this.normalCard release (not emptyPostcode) payload.GetValue ]
-                
+
                 // Any other scenario
                 | _ -> []
             with
                 // Failure to aggregated means that the
                 // metric is likely missing from the payload.
                 | :? AggregateException -> []  // ToDo: Log the exception
-                
+
                 // Any other exception.
                 | _ -> []
