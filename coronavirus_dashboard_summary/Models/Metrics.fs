@@ -37,6 +37,4 @@ let PostCodeMetrics =
         "newVirusTestsChangePercentage"
         "newVirusTestsRollingSum"
         "newVirusTestsDirection"
-        "transmissionRateMin"
-        "transmissionRateMax"
     |]
