@@ -38,5 +38,19 @@ jobs:
       
       images: 'c19dashacrprod.azurecr.io/landingpage-server:${{ github.sha }}-sandbox'
 
-    
+ test:
+  runs-on: ubuntu-latest
+  name: Automated Regression Tests of COVID19 Dashboard Website
+  environment: sandbox
+  needs: deploy
+
+  ## calls the AIQ-Automation-Covid-Dashboard workflow to run the automated tests
+  steps:
+  - name: Calls the AIQ-Automation-Covid-Dashboard workflow to run the automated tests
+    uses: UKHSA-Internal/AIQ-Automation-Covid-Dashboard/.github/workflows/CovidDashboard_CI.yml@Functional-Tests
+    with:
+        DExecution_Env: Sandbox
+        DScenarioNameTest: SmokeTests_Scenario
+        
+
       
