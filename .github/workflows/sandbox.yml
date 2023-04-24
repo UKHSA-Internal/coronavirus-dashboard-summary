@@ -1,4 +1,4 @@
-name: Deploy Landing Page to Sandbox Environment...
+name: Deploy Landing Page to Sandbox Environment
 
 on:
  push:
@@ -50,9 +50,11 @@ jobs:
         
  test:
   runs-on: ubuntu-latest
+  name: Automated Regression Tests of COVID19 Dashboard Website
+  needs: deploy
   steps:
    # ## calls the AIQ-Automation-Covid-Dashboard workflow to run the automated tests
-  - name: Test
+  - name: Calls AIQ-Automation-Covid-Dashboard workflow to run the automated tests
     run: |
             curl -L \
             -X POST \
