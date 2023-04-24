@@ -1,4 +1,4 @@
-name: Deploy Landing Page to Sandbox Environment
+name: Deploy Landing Page to Sandbox Environment.
 
 on:
  push:
