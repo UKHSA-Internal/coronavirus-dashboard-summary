@@ -56,7 +56,7 @@ let private secondaryNavItems =
         }
         {
             label   = "Metrics documentation"
-            uri     = "/metrics/category"
+            uri     = "/metrics"
             current = false
         }
         {
