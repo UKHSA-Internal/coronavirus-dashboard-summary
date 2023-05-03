@@ -21,28 +21,28 @@ let private primaryNavItems =
             current = true
         }
         {
-            label   = "Testing" 
-            uri     = "/details/testing?areaType=nation&areaName=England" 
+            label   = "Testing"
+            uri     = "/details/testing?areaType=nation&areaName=England"
             current = false
         }
         {
-            label   = "Cases" 
-            uri     = "/details/cases?areaType=nation&areaName=England" 
+            label   = "Cases"
+            uri     = "/details/cases?areaType=nation&areaName=England"
             current = false
         }
         {
-            label   = "Healthcare" 
-            uri     = "/details/healthcare?areaType=nation&areaName=England" 
+            label   = "Healthcare"
+            uri     = "/details/healthcare?areaType=nation&areaName=England"
             current = false
         }
         {
-            label   = "Vaccinations" 
-            uri     = "/details/vaccinations?areaType=nation&areaName=England" 
+            label   = "Vaccinations"
+            uri     = "/details/vaccinations?areaType=nation&areaName=England"
             current = false
         }
         {
-            label   = "Deaths" 
-            uri     = "/details/deaths?areaType=nation&areaName=England" 
+            label   = "Deaths"
+            uri     = "/details/deaths?areaType=nation&areaName=England"
             current = false
         }
     ]
@@ -79,26 +79,26 @@ let private secondaryNavItems =
             uri     = "/about"
             current = false
         }
-    ]        
+    ]
 
 type private NavigationItem with
     member inline private this.content parent =
         [
             a [
-               _href $"{Generic.UrlLocation}{this.uri}" 
+               _href $"{Generic.UrlLocation}{this.uri}"
                match this.current with
                | true -> _ariaCurrent "page"; _class "govuk-link govuk-link--no-visited-state"
                | _    ->  _class "govuk-link govuk-link--no-visited-state"
             ] [ encodedText this.label ]
         ] |> parent
-        
+
     member inline this.PrimaryNavItem =
         li [ match this.current with
              | true  -> "moj-side-navigation__item moj-side-navigation__item--active"
              | false -> "moj-side-navigation__item"
              |> _class
         ] |> this.content
-        
+
     member inline this.SecondaryNavItem (mobile: bool) =
         match mobile with
         | false -> li [ _class "govuk-!-padding-bottom-1" ]
@@ -120,7 +120,7 @@ let RenderMobile =
                 secondaryNavItems
                 |> List.map (fun item -> item.SecondaryNavItem true)
         ]
-        hr [ _class "govuk-section-break govuk-section-break--l govuk-!-margin-top-3 govuk-!-margin-bottom-3 govuk-section-break--visible"]        
+        hr [ _class "govuk-section-break govuk-section-break--l govuk-!-margin-top-3 govuk-!-margin-bottom-3 govuk-section-break--visible"]
     ]
 
 let RenderDesktop =
@@ -137,7 +137,7 @@ let RenderDesktop =
             ]
             hr [ _class "govuk-section-break govuk-section-break--m govuk-!-margin-top-3 govuk-!-margin-bottom-3 govuk-section-break--visible"]
         ]
-        div [ _class "tertiary-menu govuk-!-margin-left-3" ] [  
+        div [ _class "tertiary-menu govuk-!-margin-left-3" ] [
             ul [ _class "govuk-list govuk-!-font-size-14" ] [
                 yield!
                     secondaryNavItems
