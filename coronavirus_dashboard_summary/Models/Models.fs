@@ -16,7 +16,7 @@ let NumberFormat = "{0:#,##0.##}"
 
 [<Literal>]
 let GeneralQuery = "
-SELECT area_code, area_type, area_name, date::TEXT AS date, metric, value, priority 
+SELECT area_code, area_type, area_name, date::TEXT AS date, metric, value, priority
 FROM (
   SELECT metric, priority, area_code, ref.area_type, area_name, date,
          (
@@ -30,7 +30,7 @@ FROM (
            END
          ) AS value,
          RANK() OVER ( PARTITION BY (metric) ORDER BY priority, date DESC ) AS rank
-  FROM covid19.time_series_p{0}_{1} AS ts 
+  FROM covid19.time_series_p{0}_{1} AS ts
     JOIN covid19.release_reference AS rr  ON rr.id = release_id
     JOIN covid19.metric_reference  AS mr  ON mr.id = metric_id
     JOIN covid19.area_reference    AS ref ON ref.id = area_id
@@ -82,10 +82,10 @@ AND ts.rank = 1;"
 [<AbstractClass>]
 type PostCodeData(redis, date, payload: PostCodeDataPayload, metrics, telemetry) =
     inherit DataBase<Payload>(redis, date, telemetry)
-    
+
     override this.keyPrefix = "area"
     override this.keySuffix = $"{payload.id}"
-           
+
     member this.metrics
         with get() = metrics
 
@@ -97,20 +97,20 @@ type PostCodeData(redis, date, payload: PostCodeDataPayload, metrics, telemetry)
             | AreaTypes.Region
             | AreaTypes.NHSRegion -> "other"
             | _ -> payload.area_type.ToLower()
-            
-    override this.cacheDuration = 
+
+    override this.cacheDuration =
         {
             hours = 36
             minutes = Random().Next(0, 10)
             seconds = Random().Next(0, 60)
         }
-        
+
     override this.queryParams () =
         [
             "@area", Sql.int payload.id
             "@metrics", Sql.stringArray this.metrics
         ]
-    
+
 
 type MSOAData(redis, date, payload, telemetry) =
     inherit PostCodeData(redis, date, payload, PostCodeMetrics, telemetry)
@@ -127,7 +127,7 @@ type Payload with
         | :? DateTime as s -> unbox<DateTime> s
         | :? string   as s -> DateTime.Parse s
         | _                -> raise (ArgumentException())
-        
+
     member inline this.getter (attribute: string) =
         match attribute with
         | "metric"             -> this.metric
@@ -160,24 +160,25 @@ type Payload with
         | _                    -> String.Empty
 
 
-type PostCodeDataPayload with        
+type PostCodeDataPayload with
     member inline this.Data date metrics redis telemetry: Async<Payload List> =
         let fetcher =
             match this.area_type with
             | AreaTypes.MSOA -> MSOAData(redis, date, this, telemetry) :> PostCodeData
             | _              -> GeneralData(redis, date, this, telemetry) :> PostCodeData
-            
+
         async {
-            let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<Payload>).fetchFromDB   
+            let! result = redis.GetAsync fetcher.key (fetcher :> IDatabase<Payload>).fetchFromDB
+
             return match result with
                    | Some res -> Json.deserialize<Payload list>(res)
                    | _        -> []
         }
-        
+
     member inline this.Key date redis telemetry: string =
         let fetcher =
             match this.area_type with
             | AreaTypes.MSOA -> MSOAData(redis, date, this, telemetry) :> PostCodeData
             | _              -> GeneralData(redis, date, this, telemetry) :> PostCodeData
-            
+
         fetcher.key
