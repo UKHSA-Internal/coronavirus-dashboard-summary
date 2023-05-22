@@ -22,15 +22,15 @@ let private contentMetadata =
     [
         ("second", [
             {
-              metric      = "cumPeopleVaccinatedAutumn22ByVaccinationDate50+"
+              metric      = "cumPeopleVaccinatedSpring23ByVaccinationDate75plus"
               percentage  = null
-              label       = "autumn booster (aged 50+)"
+              label       = "spring booster (aged 75+)"
               periodLabel = "Total"
             }
             {
-              metric      = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"
-              percentage  = "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"
-              label       = "Autumn booster (aged 50+)"
+              metric      = "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"
+              percentage  = "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"
+              label       = "Spring booster (aged 75+)"
               periodLabel = "Percentage"
             }
         ])
@@ -142,7 +142,7 @@ type private NumberItem with
                                 ] []
 
                                 span [ _class "tooltiptext govuk-!-font-size-16"; _itemprop "disambiguatingDescription"] [
-                                    $"Percentage of people aged 50+ ({ this.label.ToLower() }) reported on "
+                                    $"Percentage of people aged 75+ ({ this.label.ToLower() }) reported on "
                                     + getter this.percentage "formattedDate"
                                     |> encodedText
                                 ]
@@ -226,7 +226,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 _itemprop "thumbnailUrl"
                 $"{ Generic.UrlLocation }/downloads/homepage/{ release.isoDate }/vaccinations/{ areaType.ToLower() }/"
                 + getter this.metadata.metric "area_code"
-                + "_50_plus_thumbnail.svg"
+                + "_75_plus_thumbnail.svg"
                 |> _content
             ]
             meta [
@@ -300,7 +300,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
 
             figure [ _class "visaulisation"; _ariaLabelledBy "vaccination-vis-lab" ] [
                 div [ _class "bottom-aligned main-caption govuk-!-font-size-16"; _id "vaccination-vis-lab" ] [
-                    encodedText "Percentage of people aged 50+"
+                    encodedText "Percentage of people aged 75+"
                 ]
                 figcaption [] [
 
@@ -318,10 +318,10 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             $"{Generic.UrlLocation}/downloads/homepage/{ release.isoDate }/vaccinations/"
                             + getter this.metadata.metric "area_type"
                             + "/" + getter this.metadata.metric "area_code"
-                            + "_50_plus_thumbnail.svg"
+                            + "_75_plus_thumbnail.svg"
                             |> _src
 
-                            "Chart displaying the percentage of population aged 50+ given an autumn booster in "
+                            "Chart displaying the percentage of population aged 75+ given a spring booster in "
                             + getter this.metadata.metric "area_name"
                             |> _alt
                         ]
