@@ -32,7 +32,7 @@ let private selectedNestedMetricsQuery (date: TimeStamp.Release) = $"\
         JOIN covid19.release_reference AS rr ON rr.id = release_id
     WHERE area_name = 'England'
       AND date > (DATE(@date) - INTERVAL '40 days')
-      AND metric IN ('cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+', 'cumPeopleVaccinatedAutumn22ByVaccinationDate50+')
+      AND metric IN ('cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus', 'cumPeopleVaccinatedSpring23ByVaccinationDate75plus')
       AND payload IS NOT NULL
     ORDER BY rank LIMIT 2;
 "
@@ -120,12 +120,12 @@ let index (date: Release) (redis: Redis.Client) =
         |> Metrics.GeneralPayload
 
     let keyList = [for x in dbResp.Keys -> x]  // Create a list of the keys retrieved from Redis
-    let nestedMetrics = [|"cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+"; "cumPeopleVaccinatedAutumn22ByVaccinationDate50+"|]
+    let nestedMetrics = [|"cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"; "cumPeopleVaccinatedSpring23ByVaccinationDate75plus"|]
 
     // Now check to see if our nested metrics are in the retrieved metrics
     if
-        (List.contains "cumVaccinationAutumn22UptakeByVaccinationDatePercentage50+" keyList) ||
-        (List.contains "cumPeopleVaccinatedAutumn22ByVaccinationDate50+" keyList)
+        (List.contains "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus" keyList) ||
+        (List.contains "cumPeopleVaccinatedSpring23ByVaccinationDate75plus" keyList)
     then
         printfn "%s" "Present"
     else
