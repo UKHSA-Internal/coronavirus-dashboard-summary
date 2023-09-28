@@ -76,18 +76,18 @@ let CardMetadata: ContentMetadata[] = [|
         landingOnly         = false
         description         = null
     }
-    // {
-    //     metric              = "newVirusTestsByPublishDate"
-    //     rate                = null
-    //     sum                 = "newVirusTestsByPublishDateRollingSum"
-    //     caption             = "Testing"
-    //     heading             = "Virus tests conducted"
-    //     postcodeDestination = "nation"
-    //     rateOffset          = false
-    //     postCodeOnly        = false
-    //     landingOnly         = false
-    //     description         = null
-    // }
+    {
+        metric              = "newVirusTestsBySpecimenDate"
+        rate                = null
+        sum                 = "newVirusTestsBySpecimenDateRollingSum"
+        caption             = "Testing"
+        heading             = "Virus tests conducted"
+        postcodeDestination = "nation"
+        rateOffset          = false
+        postCodeOnly        = false
+        landingOnly         = false
+        description         = null
+    }
     {
         metric              = "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"
         rate                = null
