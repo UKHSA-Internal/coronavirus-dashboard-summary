@@ -145,14 +145,14 @@ type private PostCodeView(postcode, redis, telemetry) =
         //printfn ("%A") dbResp
 
         let keyList = [for x in dbResp.Keys -> x]  // Create a list of the keys retrieved from Redis
-        let nestedMetrics = [|"cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"; "cumPeopleVaccinatedSpring23ByVaccinationDate75plus"|]
+        let nestedMetrics = [|"cumPeopleVaccinatedAutumn23UptakeByVaccinationDatePercentage65plus"; "cumPeopleVaccinatedAutumn23ByVaccinationDate65plus"|]
 
         // printfn ("%A") keyList
 
         // Now check to see if our nested metrics are in the retrieved metrics
         if
-            (List.contains "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus" keyList) ||
-            (List.contains "cumPeopleVaccinatedSpring23ByVaccinationDate75plus" keyList)
+            (List.contains "cumPeopleVaccinatedAutumn23UptakeByVaccinationDatePercentage65plus" keyList) ||
+            (List.contains "cumPeopleVaccinatedAutumn23ByVaccinationDate65plus" keyList)
         then
             printfn "%s" "Present"
         else

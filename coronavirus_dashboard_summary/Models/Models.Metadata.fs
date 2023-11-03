@@ -89,7 +89,7 @@ let CardMetadata: ContentMetadata[] = [|
         description         = null
     }
     {
-        metric              = "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"
+        metric              = "cumPeopleVaccinatedAutumn23UptakeByVaccinationDatePercentage65plus"
         rate                = null
         sum                 = null
         caption             = "Boosters"
@@ -101,7 +101,7 @@ let CardMetadata: ContentMetadata[] = [|
         description         = null
     }
     {
-        metric              = "cumPeopleVaccinatedSpring23ByVaccinationDate75plus"
+        metric              = "cumPeopleVaccinatedAutumn23ByVaccinationDate65plus"
         rate                = null
         sum                 = null
         caption             = "Boosters"
