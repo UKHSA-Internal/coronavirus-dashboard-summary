@@ -19,7 +19,7 @@ let PostCodeMetrics =
         // "cumPeopleVaccinatedSpring23ByVaccinationDate75plus"
         // "cumVaccinationSpring23UptakeByVaccinationDatePercentage75plus"
         "cumPeopleVaccinatedAutumn23ByVaccinationDate65plus"
-        "cumPeopleVaccinatedAutumn23UptakeByVaccinationDatePercentage65plus"
+        "cumVaccinationAutumn23UptakeByVaccinationDatePercentage65plus"
         "newDeaths28DaysByDeathDate"
         "newDeaths28DaysByDeathDateChange"
         "newDeaths28DaysByDeathDateChangePercentage"
