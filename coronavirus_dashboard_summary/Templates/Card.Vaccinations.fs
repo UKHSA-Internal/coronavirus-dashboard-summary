@@ -226,7 +226,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                 _itemprop "thumbnailUrl"
                 $"{ Generic.UrlLocation }/downloads/homepage/{ release.isoDate }/vaccinations/{ areaType.ToLower() }/"
                 + getter this.metadata.metric "area_code"
-                + "_75_plus_thumbnail.svg"
+                + "_65_plus_thumbnail.svg"
                 |> _content
             ]
             meta [
@@ -318,7 +318,7 @@ type Payload (metadata: MetaData.ContentMetadata, release: TimeStamp.Release) =
                             $"{Generic.UrlLocation}/downloads/homepage/{ release.isoDate }/vaccinations/"
                             + getter this.metadata.metric "area_type"
                             + "/" + getter this.metadata.metric "area_code"
-                            + "_75_plus_thumbnail.svg"
+                            + "_65_plus_thumbnail.svg"
                             |> _src
 
                             "Chart displaying the percentage of population aged 65+ given a spring booster in "
