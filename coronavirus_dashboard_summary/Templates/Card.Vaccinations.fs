@@ -24,13 +24,13 @@ let private contentMetadata =
             {
               metric      = "cumPeopleVaccinatedAutumn23ByVaccinationDate65plus"
               percentage  = null
-              label       = "spring booster (aged 65+)"
+              label       = "autumn vaccinations (aged 65+)"
               periodLabel = "Total"
             }
             {
               metric      = "cumVaccinationAutumn23UptakeByVaccinationDatePercentage65plus"
               percentage  = "cumVaccinationAutumn23UptakeByVaccinationDatePercentage65plus"
-              label       = "Spring booster (aged 65+)"
+              label       = "Autumn vaccinations (aged 65+)"
               periodLabel = "Percentage"
             }
         ])
